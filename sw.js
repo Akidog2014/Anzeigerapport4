@@ -1,25 +1,40 @@
 "use strict";
 
+
 /*
  * =========================================================
- * PERSONENERFASSUNG 7.0
+ * PERSONENERFASSUNG V8
  * SERVICE WORKER
+ * =========================================================
+ *
+ * WICHTIG:
+ *
+ * Der Service Worker verarbeitet KEINE Personendaten.
+ *
+ * Personendaten befinden sich ausschließlich:
+ *
+ * 1. kurzfristig im Arbeitsspeicher der Anwendung
+ *
+ * 2. verschlüsselt in IndexedDB
+ *
+ * Der Service Worker cached ausschließlich
+ * statische Dateien der Anwendung.
+ *
  * =========================================================
  */
 
 
 const CACHE_NAME =
-    "personenerfassung-v7-0";
+    "personenerfassung-v8-0";
 
 
 const APP_FILES = [
 
     "./",
     "./index.html",
-    "./app.js",
-    "./crypto.js",
-    "./storage.js",
-    "./manifest.json"
+    "./manifest.json",
+    "./icon-192.png",
+    "./icon-512.png"
 
 ];
 
@@ -35,9 +50,7 @@ self.addEventListener(
         event.waitUntil(
 
             caches
-                .open(
-                    CACHE_NAME
-                )
+                .open(CACHE_NAME)
                 .then(
                     cache => {
 
@@ -50,6 +63,11 @@ self.addEventListener(
 
         );
 
+
+        /*
+         * Neue Version darf sofort
+         * aktiviert werden.
+         */
 
         self.skipWaiting();
 
@@ -132,12 +150,12 @@ self.addEventListener(
 
 
         /*
-         * Keine fremden Ursprünge behandeln.
+         * Nur HTTP/HTTPS behandeln.
          */
 
         if (
-            url.origin !==
-            self.location.origin
+            url.protocol !== "http:" &&
+            url.protocol !== "https:"
         ) {
 
             return;
@@ -146,27 +164,15 @@ self.addEventListener(
 
 
         /*
-         * Nur bekannte App-Dateien aus dem
-         * Cache bedienen.
+         * Nur eigene Origin behandeln.
+         *
+         * Dadurch werden externe Ressourcen
+         * nicht in den App-Cache übernommen.
          */
 
-        const erlaubteDateien =
-            new Set(
-                [
-                    "/",
-                    "/index.html",
-                    "/app.js",
-                    "/crypto.js",
-                    "/storage.js",
-                    "/manifest.json"
-                ]
-            );
-
-
         if (
-            !erlaubteDateien.has(
-                url.pathname
-            )
+            url.origin !==
+            self.location.origin
         ) {
 
             return;
@@ -194,6 +200,61 @@ self.addEventListener(
 
                         return fetch(
                             event.request
+                        )
+                        .then(
+                            networkResponse => {
+
+                                if (
+                                    networkResponse &&
+                                    networkResponse.ok
+                                ) {
+
+                                    const copy =
+                                        networkResponse.clone();
+
+
+                                    caches
+                                        .open(
+                                            CACHE_NAME
+                                        )
+                                        .then(
+                                            cache => {
+
+                                                cache.put(
+                                                    event.request,
+                                                    copy
+                                                );
+
+                                            }
+                                        );
+
+                                }
+
+
+                                return networkResponse;
+
+                            }
+                        )
+                        .catch(
+                            () => {
+
+                                return new Response(
+
+                                    "Offline – diese Ressource " +
+                                    "ist nicht verfügbar.",
+
+                                    {
+                                        status: 503,
+
+                                        headers: {
+                                            "Content-Type":
+                                                "text/plain; charset=utf-8"
+                                        }
+                                    }
+
+                                );
+
+                            }
                         );
 
                     }
