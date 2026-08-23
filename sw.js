@@ -2,29 +2,28 @@
 
 /*
  * =========================================================
- * PERSONENERFASSUNG V10
+ * PERSONENERFASSUNG V11
  * SERVICE WORKER
  * =========================================================
  *
- * SICHERHEITSPRINZIP:
- *
  * Der Service Worker speichert ausschließlich
- * statische Anwendungsdateien.
+ * die Programmdateien.
  *
  * PERSONENDATEN WERDEN NICHT GECACHT.
  *
- * Die verschlüsselten Personendaten befinden sich
- * ausschließlich im localStorage der Anwendung.
+ * Die eigentlichen Personendaten befinden sich:
  *
- * Der Service Worker liest weder localStorage
- * noch entschlüsselte Personendaten.
+ * 1. während der Bearbeitung im Arbeitsspeicher
+ * 2. verschlüsselt in localStorage
+ *
+ * Der Geräteschlüssel liegt getrennt davon
+ * in IndexedDB.
  *
  * =========================================================
  */
 
-
 const CACHE_NAME =
-    "personenerfassung-v10-0";
+    "personenerfassung-v11-0";
 
 
 const APP_FILES = [
@@ -59,12 +58,6 @@ self.addEventListener(
                 )
 
         );
-
-
-        /*
-         * Neue Version darf sofort
-         * übernommen werden.
-         */
 
         self.skipWaiting();
 
@@ -115,7 +108,6 @@ self.addEventListener(
 
         );
 
-
         self.clients.claim();
 
     }
@@ -130,10 +122,6 @@ self.addEventListener(
     "fetch",
     event => {
 
-        /*
-         * Nur GET behandeln.
-         */
-
         if (
             event.request.method !== "GET"
         ) {
@@ -142,17 +130,11 @@ self.addEventListener(
 
         }
 
-
         const url =
             new URL(
                 event.request.url
             );
 
-
-        /*
-         * Keine Behandlung von nicht-http(s)
-         * Ressourcen.
-         */
 
         if (
             url.protocol !== "http:" &&
@@ -165,11 +147,7 @@ self.addEventListener(
 
 
         /*
-         * NUR dieselbe Origin.
-         *
-         * Dadurch werden keine fremden
-         * Ressourcen durch diesen Service
-         * Worker gecacht.
+         * Nur eigene Anwendung.
          */
 
         if (
@@ -182,19 +160,12 @@ self.addEventListener(
         }
 
 
-        /*
-         * Niemals dynamische personenbezogene
-         * Daten oder API-Antworten speichern.
-         *
-         * Der Service Worker kennt keine
-         * localStorage-Daten.
-         */
-
-
         event.respondWith(
 
             caches
-                .match(event.request)
+                .match(
+                    event.request
+                )
                 .then(
                     cachedResponse => {
 
@@ -211,73 +182,34 @@ self.addEventListener(
                             event.request
                         )
                         .then(
-                            networkResponse => {
-
-                                /*
-                                 * Nur erfolgreiche
-                                 * grundlegende Antworten
-                                 * speichern.
-                                 */
+                            response => {
 
                                 if (
-                                    networkResponse &&
-                                    networkResponse.ok &&
-                                    networkResponse.type ===
-                                        "basic"
+                                    response &&
+                                    response.ok
                                 ) {
 
                                     const copy =
-                                        networkResponse.clone();
-
+                                        response.clone();
 
                                     caches
-                                        .open(CACHE_NAME)
+                                        .open(
+                                            CACHE_NAME
+                                        )
                                         .then(
                                             cache => {
 
-                                                /*
-                                                 * Nur die
-                                                 * explizit
-                                                 * vorgesehenen
-                                                 * App-Dateien
-                                                 * werden dauerhaft
-                                                 * gecacht.
-                                                 */
-
-                                                const path =
-                                                    url.pathname;
-
-
-                                                const erlaubt =
-                                                    path.endsWith(
-                                                        "/"
-                                                    ) ||
-                                                    path.endsWith(
-                                                        "/index.html"
-                                                    ) ||
-                                                    path.endsWith(
-                                                        "/manifest.json"
-                                                    );
-
-
-                                                if (
-                                                    erlaubt
-                                                ) {
-
-                                                    cache.put(
-                                                        event.request,
-                                                        copy
-                                                    );
-
-                                                }
+                                                cache.put(
+                                                    event.request,
+                                                    copy
+                                                );
 
                                             }
                                         );
 
                                 }
 
-
-                                return networkResponse;
+                                return response;
 
                             }
                         )
@@ -286,8 +218,9 @@ self.addEventListener(
 
                                 return new Response(
 
-                                    "Offline – diese Ressource " +
-                                    "ist nicht verfügbar.",
+                                    "Offline – diese " +
+                                    "Ressource ist nicht " +
+                                    "verfügbar.",
 
                                     {
                                         status: 503,
@@ -295,10 +228,7 @@ self.addEventListener(
                                         headers: {
                                             "Content-Type":
                                                 "text/plain; " +
-                                                "charset=utf-8",
-
-                                            "Cache-Control":
-                                                "no-store"
+                                                "charset=utf-8"
                                         }
                                     }
 
