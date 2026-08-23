@@ -1,14 +1,26 @@
 {
-  "name": "Personenerfassung",
+  "name": "Personenerfassung V8",
   "short_name": "Personenerfassung",
-  "description": "Offline-PWA zur geschützten Erfassung von Personendaten",
+  "description": "Offline-PWA zur geschützten Erfassung und verschlüsselten lokalen Speicherung von Personendaten",
   "lang": "de-CH",
+
   "start_url": "./index.html",
+
   "scope": "./",
+
   "display": "standalone",
+
   "orientation": "portrait",
+
   "background_color": "#f4f6f8",
+
   "theme_color": "#007bff",
+
+  "categories": [
+    "productivity",
+    "business",
+    "utilities"
+  ],
 
   "icons": [
     {
