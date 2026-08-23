@@ -1,0 +1,3376 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width,
+               initial-scale=1.0,
+               viewport-fit=cover">
+
+<meta name="theme-color"
+      content="#007bff">
+
+<meta name="apple-mobile-web-app-capable"
+      content="yes">
+
+<meta name="apple-mobile-web-app-status-bar-style"
+      content="default">
+
+<meta name="apple-mobile-web-app-title"
+      content="Personenerfassung">
+
+<meta name="referrer"
+      content="no-referrer">
+
+<link rel="manifest"
+      href="./manifest.json">
+
+<title>Personenerfassung</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
+
+    margin: 0;
+    padding: 20px;
+    padding-bottom: 50px;
+
+    background: #f4f6f8;
+    color: #222;
+}
+
+h1 {
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 25px;
+}
+
+h3 {
+    text-align: center;
+}
+
+h4 {
+    margin-top: 5px;
+}
+
+.person-form,
+.zusatz-maske,
+.sicherheits-box {
+
+    background: white;
+
+    border: 1px solid #d5d5d5;
+
+    border-radius: 10px;
+
+    padding: 16px;
+
+    margin: 0 auto 20px auto;
+
+    max-width: 650px;
+
+    box-shadow:
+        0 2px 8px rgba(0,0,0,0.05);
+}
+
+label {
+    display: block;
+
+    margin-top: 12px;
+
+    font-size: 16px;
+}
+
+input,
+textarea,
+select {
+
+    width: 100%;
+
+    padding: 11px;
+
+    font-size: 16px;
+
+    margin-top: 5px;
+
+    border: 1px solid #bbb;
+
+    border-radius: 6px;
+
+    background: white;
+
+    color: #222;
+}
+
+textarea {
+    resize: vertical;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+
+    outline: 2px solid #80bdff;
+    outline-offset: 1px;
+}
+
+button {
+
+    width: 100%;
+
+    padding: 13px;
+
+    margin-top: 15px;
+
+    border: none;
+
+    border-radius: 7px;
+
+    background: #007bff;
+
+    color: white;
+
+    font-size: 16px;
+
+    cursor: pointer;
+}
+
+button:active {
+    transform: scale(0.99);
+}
+
+button:hover {
+    background: #0056b3;
+}
+
+button:focus-visible {
+
+    outline: 3px solid #222;
+
+    outline-offset: 2px;
+}
+
+.btn-gruen {
+    background: #198754;
+}
+
+.btn-gruen:hover {
+    background: #146c43;
+}
+
+.btn-orange {
+    background: #fd7e14;
+}
+
+.btn-orange:hover {
+    background: #dc6502;
+}
+
+.btn-rot {
+    background: #dc3545;
+}
+
+.btn-rot:hover {
+    background: #bb2d3b;
+}
+
+.btn-grau {
+    background: #6c757d;
+}
+
+.btn-grau:hover {
+    background: #565e64;
+}
+
+.zusatzfelder,
+.aussagenfelder,
+.aussage-hinweis,
+.finanzfelder {
+
+    margin-top: 12px;
+
+    padding: 12px;
+
+    border-radius: 7px;
+
+    display: none;
+}
+
+.zusatzfelder {
+
+    border-left: 4px solid #007bff;
+
+    background: #f1f8ff;
+}
+
+.aussagenfelder {
+
+    border-left: 4px solid #6f42c1;
+
+    background: #f7f2ff;
+}
+
+.aussage-hinweis {
+
+    background: #fff3cd;
+
+    border-left: 4px solid #ffc107;
+}
+
+.finanzfelder {
+
+    border-left: 4px solid #198754;
+
+    background: #e8f5e9;
+}
+
+.finanz-option {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    margin-top: 12px;
+}
+
+.finanz-option input[type="checkbox"] {
+
+    width: auto;
+
+    margin: 0;
+
+    transform: scale(1.2);
+}
+
+.finanz-detail {
+
+    display: none;
+
+    margin-left: 20px;
+
+    padding-left: 10px;
+
+    border-left: 2px solid #aaa;
+}
+
+.status {
+
+    max-width: 650px;
+
+    margin: 0 auto 20px auto;
+
+    padding: 12px;
+
+    border-radius: 7px;
+
+    background: #e9ecef;
+
+    text-align: center;
+
+    font-size: 14px;
+}
+
+.status.ok {
+
+    background: #d1e7dd;
+
+    color: #0f5132;
+}
+
+.status.warn {
+
+    background: #fff3cd;
+
+    color: #664d03;
+}
+
+.status.error {
+
+    background: #f8d7da;
+
+    color: #842029;
+}
+
+.info-box {
+
+    background: #eef5ff;
+
+    padding: 12px;
+
+    border-radius: 7px;
+
+    margin-top: 10px;
+
+    font-size: 14px;
+}
+
+.small {
+
+    font-size: 13px;
+
+    color: #666;
+}
+
+.hidden {
+    display: none !important;
+}
+
+hr {
+
+    border: 0;
+
+    border-top: 1px solid #ddd;
+
+    margin: 20px 0;
+}
+
+.sicherheits-box {
+
+    border-left: 4px solid #198754;
+
+    font-size: 14px;
+}
+
+.checkbox-zeile {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    margin-top: 12px;
+}
+
+.checkbox-zeile input {
+
+    width: auto;
+
+    margin: 0;
+
+    transform: scale(1.2);
+}
+
+@media (min-width: 600px) {
+
+    body {
+        padding-top: 30px;
+    }
+
+    button {
+
+        max-width: 650px;
+
+        margin-left: auto;
+
+        margin-right: auto;
+    }
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>📋 Personalienblatt</h1>
+
+<div id="status"
+     class="status">
+
+    App wird gestartet …
+
+</div>
+
+
+<div class="sicherheits-box">
+
+    <strong>🔐 Datenschutz</strong>
+
+    <p>
+        Die eingegebenen Personendaten werden
+        automatisch verschlüsselt auf diesem Gerät
+        gespeichert.
+    </p>
+
+    <p class="small">
+        Änderungen werden automatisch gespeichert.
+        Beim nächsten Start werden vorhandene Daten
+        nach Eingabe des Passworts automatisch
+        wiederhergestellt.
+    </p>
+
+    <p class="small">
+        Das Passwort wird nicht auf dem Gerät
+        gespeichert.
+    </p>
+
+    <p class="small">
+        Die E-Mail-Funktion verwendet weiterhin
+        mailto:. Dabei werden die Daten an die
+        installierte Mail-App übergeben und sind
+        dort nicht durch diese lokale Verschlüsselung
+        geschützt.
+    </p>
+
+</div>
+
+
+<div id="formContainer"></div>
+
+
+<button id="btnNeuePerson"
+        class="btn-gruen"
+        type="button">
+
+    ➕ Neue Person hinzufügen
+
+</button>
+
+
+<button id="btnMail"
+        type="button">
+
+    📤 Abschicken / E-Mail erstellen
+
+</button>
+
+
+<button id="btnLoeschen"
+        class="btn-rot"
+        type="button">
+
+    🗑️ Alle Daten löschen
+
+</button>
+
+
+<!-- =====================================================
+     ZUSATZMASKE
+===================================================== -->
+
+<div id="zusatzMaske"
+     class="zusatz-maske hidden">
+
+    <h3>📤 Zusätzliche Informationen</h3>
+
+    <label>
+
+        Aktuelles Datum:
+
+        <input type="text"
+               id="datum"
+               readonly>
+
+    </label>
+
+    <label>
+
+        Zeit:
+
+        <input type="time"
+               id="zeit">
+
+    </label>
+
+    <label>
+
+        Ereignis:
+
+        <input type="text"
+               id="ereignis"
+               maxlength="200">
+
+    </label>
+
+    <div class="info-box">
+
+        <strong>Hinweis:</strong>
+
+        <p>
+            Beim Erstellen der E-Mail werden die
+            eingegebenen Personendaten an die
+            Mail-App übergeben.
+        </p>
+
+    </div>
+
+    <button id="btnEmailErstellen"
+            class="btn-gruen"
+            type="button">
+
+        ✅ E-Mail erstellen
+
+    </button>
+
+    <button id="btnZusatzZurueck"
+            class="btn-grau"
+            type="button">
+
+        Zurück
+
+    </button>
+
+</div>
+
+
+<script>
+
+"use strict";
+
+
+/* =========================================================
+   KONFIGURATION
+   ========================================================= */
+
+const STORAGE_KEY =
+    "personenerfassung_secure_v7";
+
+const APP_VERSION =
+    "7.0";
+
+const PBKDF2_ITERATIONS =
+    600000;
+
+const MAIL_EMPFAENGER =
+    "marco.wueest@lu.ch";
+
+
+let formIndex = 0;
+
+let alleDaten = [];
+
+
+/*
+ * Passwort wird nur während der laufenden
+ * Sitzung im Arbeitsspeicher gehalten.
+ *
+ * Es wird NICHT gespeichert.
+ */
+let sitzungsPasswort = null;
+
+
+/*
+ * Timer für automatisches Speichern.
+ */
+let autoSpeicherTimer = null;
+
+
+/*
+ * Verhindert Speichern während der
+ * Wiederherstellung.
+ */
+let wiederherstellungLaeuft = false;
+
+
+/*
+ * Verhindert parallele Verschlüsselungsvorgänge.
+ */
+let speicherungLaeuft = false;
+
+
+/*
+ * Gibt an, ob ein weiterer Speichervorgang
+ * nach einem laufenden Vorgang notwendig ist.
+ */
+let speicherungErneutNoetig = false;
+
+
+/* =========================================================
+   HILFSFUNKTIONEN
+   ========================================================= */
+
+function $(selector, parent = document) {
+
+    return parent.querySelector(selector);
+
+}
+
+
+function status(text, typ = "") {
+
+    const el =
+        document.getElementById("status");
+
+    el.textContent = text;
+
+    el.className = "status";
+
+    if (typ) {
+
+        el.classList.add(typ);
+
+    }
+
+}
+
+
+/* =========================================================
+   DATUM
+   ========================================================= */
+
+function formatDate(event) {
+
+    let value =
+        event.target.value
+            .replace(/[^\d]/g, "");
+
+
+    if (value.length > 2) {
+
+        value =
+            value.slice(0, 2)
+            + "."
+            + value.slice(2);
+
+    }
+
+
+    if (value.length > 5) {
+
+        value =
+            value.slice(0, 5)
+            + "."
+            + value.slice(5);
+
+    }
+
+
+    event.target.value =
+        value.slice(0, 10);
+
+}
+
+
+/* =========================================================
+   FORMULAR ERSTELLEN
+   ========================================================= */
+
+function neuesFormular() {
+
+    const container =
+        document.getElementById(
+            "formContainer"
+        );
+
+
+    const div =
+        document.createElement("div");
+
+
+    div.className =
+        "person-form";
+
+
+    div.innerHTML = `
+
+        <h3>Person ${formIndex + 1}</h3>
+
+        <label>
+            Ort:
+            <input
+                type="text"
+                name="ort_person"
+                maxlength="150"
+                autocomplete="address-level2">
+        </label>
+
+        <label>
+            Nachname:
+            <input
+                type="text"
+                name="nachname"
+                maxlength="100"
+                autocomplete="family-name"
+                required>
+        </label>
+
+        <label>
+            Vorname:
+            <input
+                type="text"
+                name="vorname"
+                maxlength="100"
+                autocomplete="given-name"
+                required>
+        </label>
+
+        <label>
+            Geburtsdatum:
+            <input
+                type="text"
+                name="geburtsdatum"
+                placeholder="DD.MM.JJJJ"
+                inputmode="numeric"
+                maxlength="10"
+                autocomplete="bday"
+                required>
+        </label>
+
+        <label>
+            Telefonnummer:
+            <input
+                type="tel"
+                name="telefonnummer"
+                maxlength="50"
+                autocomplete="tel">
+        </label>
+
+
+        <button
+            type="button"
+            class="btn-zusatz">
+
+            ➕ Noch nicht erfasst im myAbi
+
+        </button>
+
+
+        <div class="zusatzfelder">
+
+            <label>
+                Strasse:
+                <input
+                    type="text"
+                    name="strasse"
+                    maxlength="150"
+                    autocomplete="street-address">
+            </label>
+
+            <label>
+                PLZ:
+                <input
+                    type="text"
+                    name="plz"
+                    maxlength="20">
+            </label>
+
+            <label>
+                Ort:
+                <input
+                    type="text"
+                    name="ort"
+                    maxlength="150">
+            </label>
+
+            <label>
+                Vorname Vater:
+                <input
+                    type="text"
+                    name="vater_vorname"
+                    maxlength="100">
+            </label>
+
+            <label>
+                Nachname Vater:
+                <input
+                    type="text"
+                    name="vater_nachname"
+                    maxlength="100">
+            </label>
+
+            <label>
+                Vorname Mutter:
+                <input
+                    type="text"
+                    name="mutter_vorname"
+                    maxlength="100">
+            </label>
+
+            <label>
+                Nachname Mutter:
+                <input
+                    type="text"
+                    name="mutter_nachname"
+                    maxlength="100">
+            </label>
+
+            <label>
+                Geburtsort:
+                <input
+                    type="text"
+                    name="geburtsort"
+                    maxlength="150">
+            </label>
+
+            <label>
+                Heimatort:
+                <input
+                    type="text"
+                    name="heimatort"
+                    maxlength="150">
+            </label>
+
+            <label>
+                Beruf:
+                <input
+                    type="text"
+                    name="beruf"
+                    maxlength="150">
+            </label>
+
+        </div>
+
+
+        <label>
+
+            Notizen:
+
+            <textarea
+                name="notizen"
+                rows="4"
+                maxlength="5000"></textarea>
+
+        </label>
+
+
+        <!-- AUSSAGEN -->
+
+        <button
+            type="button"
+            class="btn-aussage">
+
+            🗣️ Aussagen erfassen
+
+        </button>
+
+
+        <div class="aussage-hinweis">
+
+            <strong>
+                Hinweis zur Aussage:
+            </strong>
+
+            <p>
+                Gegen Sie ist ein Vorverfahren wegen
+                …..... eingeleitet worden.
+            </p>
+
+            <ul>
+
+                <li>
+                    Sie können Aussage und Mitwirkung
+                    verweigern. Ihre Aussagen können als
+                    Beweismittel verwendet werden.
+                </li>
+
+                <li>
+                    Sie können jederzeit eine Verteidigung
+                    nach freier Wahl und auf Ihre Kosten
+                    beiziehen oder eine amtliche Verteidigung
+                    beantragen.
+                </li>
+
+                <li>
+                    Sie haben das Recht mit Ihrer Verteidigung
+                    frei zu verkehren.
+                </li>
+
+                <li>
+                    Sie haben das Recht, einen Übersetzer
+                    zu verlangen.
+                </li>
+
+            </ul>
+
+        </div>
+
+
+        <div class="aussagenfelder">
+
+            <label>
+                Datum Aussage:
+                <input
+                    type="text"
+                    name="aussage_datum"
+                    readonly>
+            </label>
+
+            <label>
+                Zeit Aussage:
+                <input
+                    type="time"
+                    name="aussage_zeit">
+            </label>
+
+            <label>
+                Aussage:
+
+                <textarea
+                    name="aussage_text"
+                    rows="5"
+                    maxlength="10000"
+                    placeholder="Aussage hier einfügen"></textarea>
+
+            </label>
+
+        </div>
+
+
+        <!-- FINANZEN -->
+
+        <button
+            type="button"
+            class="btn-finanz">
+
+            💰 Finanzielle Verhältnisse
+
+        </button>
+
+
+        <div class="finanzfelder">
+
+            <h4>
+                Finanzielle Verhältnisse
+            </h4>
+
+
+            <div class="checkbox-zeile">
+
+                <input
+                    type="checkbox"
+                    name="selbstaendig">
+
+                <span>
+                    Selbstständig
+                </span>
+
+            </div>
+
+
+            <div class="checkbox-zeile">
+
+                <input
+                    type="checkbox"
+                    name="angestellt">
+
+                <span>
+                    Angestellt
+                </span>
+
+            </div>
+
+
+            <div class="checkbox-zeile">
+
+                <input
+                    type="checkbox"
+                    name="anderes_einkommen">
+
+                <span>
+                    Anderes Einkommen
+                </span>
+
+            </div>
+
+
+            <input
+                type="text"
+                name="anderes_einkommen_text"
+                maxlength="300"
+                placeholder="Bitte spezifizieren"
+                style="display:none;">
+
+
+            <label>
+
+                Netto-Einkünfte pro Monat:
+
+                <input
+                    type="text"
+                    name="netto_einkommen"
+                    maxlength="100">
+
+            </label>
+
+
+            <label>
+
+                Netto-Einkünfte Lebenspartner
+                pro Monat:
+
+                <input
+                    type="text"
+                    name="netto_partner"
+                    maxlength="100">
+
+            </label>
+
+
+            <hr>
+
+
+            <!-- LIEGENSCHAFT -->
+
+            <div class="checkbox-zeile">
+
+                <input
+                    type="checkbox"
+                    name="liegenschaft_check">
+
+                <span>
+
+                    Liegenschaft:
+                    <strong
+                        class="ja-nein-liegenschaft">
+                        Nein
+                    </strong>
+
+                </span>
+
+            </div>
+
+
+            <div
+                class="liegenschaft_details finanz-detail">
+
+                <label>
+
+                    Ort:
+
+                    <input
+                        type="text"
+                        name="liegenschaft_ort"
+                        maxlength="150">
+
+                </label>
+
+                <label>
+
+                    Steuerwert:
+
+                    <input
+                        type="text"
+                        name="steuerwert"
+                        maxlength="100">
+
+                </label>
+
+                <label>
+
+                    Hypothekarschulden:
+
+                    <input
+                        type="text"
+                        name="hypothek"
+                        maxlength="100">
+
+                </label>
+
+            </div>
+
+
+            <!-- VERMÖGEN -->
+
+            <div class="checkbox-zeile">
+
+                <input
+                    type="checkbox"
+                    name="anderes_vermoegen_check">
+
+                <span>
+
+                    Vermögen:
+                    <strong
+                        class="ja-nein-vermoegen">
+                        Nein
+                    </strong>
+
+                </span>
+
+            </div>
+
+
+            <div
+                class="anderes_vermoegen_details finanz-detail">
+
+                <label>
+
+                    Welches:
+
+                    <input
+                        type="text"
+                        name="anderes_vermoegen_what"
+                        maxlength="300">
+
+                </label>
+
+                <label>
+
+                    CHF:
+
+                    <input
+                        type="text"
+                        name="anderes_vermoegen_chf"
+                        maxlength="100">
+
+                </label>
+
+            </div>
+
+
+            <!-- UNTERHALT -->
+
+            <div class="checkbox-zeile">
+
+                <input
+                    type="checkbox"
+                    name="unterhaltsbeitrag_check">
+
+                <span>
+
+                    Zu leistende
+                    Unterhaltsbeiträge:
+
+                    <strong
+                        class="ja-nein-unterhalt">
+                        Nein
+                    </strong>
+
+                </span>
+
+            </div>
+
+
+            <div
+                class="unterhaltsbeitrag_details finanz-detail">
+
+                <label>
+
+                    Total pro Monat:
+
+                    <input
+                        type="text"
+                        name="unterhalt_total"
+                        maxlength="100">
+
+                </label>
+
+                <label>
+
+                    An:
+
+                    <input
+                        type="text"
+                        name="unterhalt_an"
+                        maxlength="200">
+
+                </label>
+
+            </div>
+
+
+            <!-- KINDER -->
+
+            <div class="checkbox-zeile">
+
+                <input
+                    type="checkbox"
+                    name="kinder_check">
+
+                <span>
+
+                    Kinder:
+                    <strong
+                        class="ja-nein-kinder">
+                        Nein
+                    </strong>
+
+                </span>
+
+            </div>
+
+
+            <div
+                class="kinder_details finanz-detail">
+
+                <label>
+
+                    Anzahl Kinder:
+
+                    <input
+                        type="number"
+                        name="kinder_anzahl"
+                        min="0"
+                        max="50"
+                        inputmode="numeric">
+
+                </label>
+
+                <label>
+
+                    Jahrgang Kinder:
+
+                    <input
+                        type="text"
+                        name="kinder_jahrgang"
+                        maxlength="300"
+                        placeholder="z.B. 2010, 2013, 2017">
+
+                </label>
+
+            </div>
+
+        </div>
+    `;
+
+
+    container.appendChild(div);
+
+    formIndex++;
+
+    aktiviereFormular(div);
+
+}
+
+
+/* =========================================================
+   ANDERES EINKOMMEN
+   ========================================================= */
+
+function zeigeAnderesText(
+    checkbox,
+    form
+) {
+
+    const feld =
+        $('input[name="anderes_einkommen_text"]', form);
+
+
+    if (!feld) {
+        return;
+    }
+
+
+    feld.style.display =
+        checkbox.checked
+            ? "block"
+            : "none";
+
+
+    if (!checkbox.checked) {
+
+        feld.value = "";
+
+    }
+
+}
+
+
+/* =========================================================
+   FORMULAR-EVENTS
+   ========================================================= */
+
+function aktiviereFormular(form) {
+
+    const dateInput =
+        $('input[name="geburtsdatum"]', form);
+
+
+    dateInput.addEventListener(
+        "input",
+        formatDate
+    );
+
+
+    const zusatzButton =
+        $(".btn-zusatz", form);
+
+
+    zusatzButton.addEventListener(
+        "click",
+        () => {
+
+            $(".zusatzfelder", form)
+                .style.display = "block";
+
+            zusatzButton.style.display =
+                "none";
+
+            automatischesSpeichernPlanen();
+
+        }
+    );
+
+
+    const aussageButton =
+        $(".btn-aussage", form);
+
+
+    aussageButton.addEventListener(
+        "click",
+        () => {
+
+            $(".aussage-hinweis", form)
+                .style.display = "block";
+
+            $(".aussagenfelder", form)
+                .style.display = "block";
+
+
+            const jetzt =
+                new Date();
+
+
+            $('input[name="aussage_datum"]', form)
+                .value =
+                jetzt.toLocaleDateString("de-CH");
+
+
+            $('input[name="aussage_zeit"]', form)
+                .value =
+                jetzt.toLocaleTimeString(
+                    "de-CH",
+                    {
+                        hour: "2-digit",
+                        minute: "2-digit"
+                    }
+                );
+
+
+            aussageButton.style.display =
+                "none";
+
+
+            automatischesSpeichernPlanen();
+
+        }
+    );
+
+
+    const finanzButton =
+        $(".btn-finanz", form);
+
+
+    finanzButton.addEventListener(
+        "click",
+        () => {
+
+            $(".finanzfelder", form)
+                .style.display = "block";
+
+            finanzButton.style.display =
+                "none";
+
+            automatischesSpeichernPlanen();
+
+        }
+    );
+
+
+    const selbstaendig =
+        $('input[name="selbstaendig"]', form);
+
+
+    const angestellt =
+        $('input[name="angestellt"]', form);
+
+
+    const anderes =
+        $('input[name="anderes_einkommen"]', form);
+
+
+    selbstaendig.addEventListener(
+        "change",
+        () => {
+
+            if (selbstaendig.checked) {
+
+                angestellt.checked = false;
+                anderes.checked = false;
+
+                zeigeAnderesText(
+                    anderes,
+                    form
+                );
+
+            }
+
+            automatischesSpeichernPlanen();
+
+        }
+    );
+
+
+    angestellt.addEventListener(
+        "change",
+        () => {
+
+            if (angestellt.checked) {
+
+                selbstaendig.checked = false;
+                anderes.checked = false;
+
+                zeigeAnderesText(
+                    anderes,
+                    form
+                );
+
+            }
+
+            automatischesSpeichernPlanen();
+
+        }
+    );
+
+
+    anderes.addEventListener(
+        "change",
+        () => {
+
+            if (anderes.checked) {
+
+                selbstaendig.checked = false;
+                angestellt.checked = false;
+
+            }
+
+            zeigeAnderesText(
+                anderes,
+                form
+            );
+
+            automatischesSpeichernPlanen();
+
+        }
+    );
+
+
+    const checkboxen = [
+
+        [
+            "liegenschaft_check",
+            "liegenschaft_details",
+            "ja-nein-liegenschaft"
+        ],
+
+        [
+            "anderes_vermoegen_check",
+            "anderes_vermoegen_details",
+            "ja-nein-vermoegen"
+        ],
+
+        [
+            "unterhaltsbeitrag_check",
+            "unterhaltsbeitrag_details",
+            "ja-nein-unterhalt"
+        ],
+
+        [
+            "kinder_check",
+            "kinder_details",
+            "ja-nein-kinder"
+        ]
+
+    ];
+
+
+    checkboxen.forEach(
+        ([checkboxName, detailName, labelName]) => {
+
+            const checkbox =
+                $(
+                    `input[name="${checkboxName}"]`,
+                    form
+                );
+
+
+            checkbox.addEventListener(
+                "change",
+                () => {
+
+                    const detail =
+                        $(
+                            "." + detailName,
+                            form
+                        );
+
+
+                    const label =
+                        $(
+                            "." + labelName,
+                            form
+                        );
+
+
+                    detail.style.display =
+                        checkbox.checked
+                            ? "block"
+                            : "none";
+
+
+                    label.textContent =
+                        checkbox.checked
+                            ? "Ja"
+                            : "Nein";
+
+
+                    automatischesSpeichernPlanen();
+
+                }
+            );
+
+        }
+    );
+
+
+    /*
+     * Automatisches Speichern für sämtliche
+     * Eingabefelder aktivieren.
+     */
+    aktiviereAutomatischesSpeichern(form);
+
+}
+
+
+/* =========================================================
+   AUTOMATISCHES SPEICHERN AKTIVIEREN
+   ========================================================= */
+
+function aktiviereAutomatischesSpeichern(form) {
+
+    const felder =
+        form.querySelectorAll(
+            "input, textarea, select"
+        );
+
+
+    felder.forEach(
+        feld => {
+
+            feld.addEventListener(
+                "input",
+                automatischesSpeichernPlanen
+            );
+
+
+            feld.addEventListener(
+                "change",
+                automatischesSpeichernPlanen
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   DATEN AUS FORMULAREN
+   ========================================================= */
+
+function datenAusFormularenSpeichern() {
+
+    alleDaten = [];
+
+
+    const forms =
+        document.querySelectorAll(
+            ".person-form"
+        );
+
+
+    forms.forEach(form => {
+
+        const finanz =
+            $(".finanzfelder", form);
+
+
+        let finanzDaten = null;
+
+
+        if (
+            finanz &&
+            getComputedStyle(finanz).display !== "none"
+        ) {
+
+            finanzDaten = {
+
+                selbstaendig:
+                    $('input[name="selbstaendig"]', form)
+                        .checked,
+
+                angestellt:
+                    $('input[name="angestellt"]', form)
+                        .checked,
+
+                anderes:
+                    $('input[name="anderes_einkommen"]', form)
+                        .checked,
+
+                anderes_text:
+                    $('input[name="anderes_einkommen_text"]', form)
+                        .value,
+
+                netto_einkommen:
+                    $('input[name="netto_einkommen"]', form)
+                        .value,
+
+                netto_partner:
+                    $('input[name="netto_partner"]', form)
+                        .value,
+
+                liegenschaft:
+                    $('input[name="liegenschaft_check"]', form)
+                        .checked,
+
+                liegenschaft_ort:
+                    $('input[name="liegenschaft_ort"]', form)
+                        .value,
+
+                steuerwert:
+                    $('input[name="steuerwert"]', form)
+                        .value,
+
+                hypothek:
+                    $('input[name="hypothek"]', form)
+                        .value,
+
+                anderes_vermoegen:
+                    $('input[name="anderes_vermoegen_check"]', form)
+                        .checked,
+
+                anderes_vermoegen_what:
+                    $('input[name="anderes_vermoegen_what"]', form)
+                        .value,
+
+                anderes_vermoegen_chf:
+                    $('input[name="anderes_vermoegen_chf"]', form)
+                        .value,
+
+                unterhaltsbeitrag:
+                    $('input[name="unterhaltsbeitrag_check"]', form)
+                        .checked,
+
+                unterhalt_total:
+                    $('input[name="unterhalt_total"]', form)
+                        .value,
+
+                unterhalt_an:
+                    $('input[name="unterhalt_an"]', form)
+                        .value,
+
+                kinder:
+                    $('input[name="kinder_check"]', form)
+                        .checked,
+
+                kinder_anzahl:
+                    $('input[name="kinder_anzahl"]', form)
+                        .value,
+
+                kinder_jahrgang:
+                    $('input[name="kinder_jahrgang"]', form)
+                        .value
+
+            };
+
+        }
+
+
+        alleDaten.push({
+
+            ort_person:
+                $('input[name="ort_person"]', form).value,
+
+            vorname:
+                $('input[name="vorname"]', form).value,
+
+            nachname:
+                $('input[name="nachname"]', form).value,
+
+            geburtsdatum:
+                $('input[name="geburtsdatum"]', form).value,
+
+            telefonnummer:
+                $('input[name="telefonnummer"]', form).value,
+
+            hatZusatz:
+                $(".zusatzfelder", form)
+                    .style.display === "block",
+
+            strasse:
+                $('input[name="strasse"]', form).value,
+
+            plz:
+                $('input[name="plz"]', form).value,
+
+            ort:
+                $('input[name="ort"]', form).value,
+
+            vater_vorname:
+                $('input[name="vater_vorname"]', form).value,
+
+            vater_nachname:
+                $('input[name="vater_nachname"]', form).value,
+
+            mutter_vorname:
+                $('input[name="mutter_vorname"]', form).value,
+
+            mutter_nachname:
+                $('input[name="mutter_nachname"]', form).value,
+
+            geburtsort:
+                $('input[name="geburtsort"]', form).value,
+
+            heimatort:
+                $('input[name="heimatort"]', form).value,
+
+            beruf:
+                $('input[name="beruf"]', form).value,
+
+            notizen:
+                $('textarea[name="notizen"]', form).value,
+
+            aussage_datum:
+                $('input[name="aussage_datum"]', form).value,
+
+            aussage_zeit:
+                $('input[name="aussage_zeit"]', form).value,
+
+            aussage_text:
+                $('textarea[name="aussage_text"]', form).value,
+
+            finanz:
+                finanzDaten
+
+        });
+
+    });
+
+}
+
+
+/* =========================================================
+   ZUSATZMASKE
+   ========================================================= */
+
+function zeigeZusatzMaske() {
+
+    datenAusFormularenSpeichern();
+
+
+    if (!alleDaten.length) {
+
+        alert(
+            "Es sind keine Personen vorhanden."
+        );
+
+        return;
+
+    }
+
+
+    const jetzt =
+        new Date();
+
+
+    $("#datum").value =
+        jetzt.toLocaleDateString(
+            "de-CH"
+        );
+
+
+    $("#zeit").value =
+        jetzt.toLocaleTimeString(
+            "de-CH",
+            {
+                hour: "2-digit",
+                minute: "2-digit"
+            }
+        );
+
+
+    $("#zusatzMaske")
+        .classList.remove("hidden");
+
+
+    window.scrollTo(
+        0,
+        document.body.scrollHeight
+    );
+
+}
+
+
+function versteckeZusatzMaske() {
+
+    $("#zusatzMaske")
+        .classList.add("hidden");
+
+}
+
+
+/* =========================================================
+   E-MAIL
+   ========================================================= */
+
+function finaleMailAbschicken() {
+
+    datenAusFormularenSpeichern();
+
+
+    const datum =
+        $("#datum").value;
+
+
+    const zeit =
+        $("#zeit").value;
+
+
+    const ereignis =
+        $("#ereignis").value;
+
+
+    let betreff =
+        `Personendaten ${datum}`;
+
+
+    if (ereignis.trim()) {
+
+        betreff +=
+            ` - ${ereignis.trim()}`;
+
+    }
+
+
+    let mailBody =
+        `Datum: ${datum}\n` +
+        `Zeit: ${zeit}\n` +
+        `Ereignis: ${ereignis}\n\n` +
+        `Erfasste Personen:\n\n`;
+
+
+    alleDaten.forEach(
+        (p, i) => {
+
+            mailBody +=
+                `==============================\n` +
+                `PERSON ${i + 1}\n` +
+                `==============================\n\n`;
+
+
+            mailBody +=
+                `Vorname: ${p.vorname}\n` +
+                `Nachname: ${p.nachname}\n` +
+                `Geburtsdatum: ${p.geburtsdatum}\n` +
+                `Telefonnummer: ${p.telefonnummer}\n` +
+                `Ort: ${p.ort_person || "Keine Angabe"}\n\n`;
+
+
+            if (p.hatZusatz) {
+
+                mailBody +=
+                    `--- Weitere Angaben ---\n` +
+                    `Strasse: ${p.strasse}\n` +
+                    `PLZ: ${p.plz}\n` +
+                    `Ort: ${p.ort}\n` +
+                    `Vater: ${p.vater_vorname} ${p.vater_nachname}\n` +
+                    `Mutter: ${p.mutter_vorname} ${p.mutter_nachname}\n` +
+                    `Geburtsort: ${p.geburtsort}\n` +
+                    `Heimatort: ${p.heimatort}\n` +
+                    `Beruf: ${p.beruf}\n\n`;
+
+            }
+
+
+            if (
+                p.aussage_text &&
+                p.aussage_text.trim() !== ""
+            ) {
+
+                mailBody +=
+                    `--- Aussagen ---\n` +
+                    `Aussage-Datum: ${p.aussage_datum}\n` +
+                    `Aussage-Zeit: ${p.aussage_zeit}\n` +
+                    `Aussage:\n${p.aussage_text}\n\n`;
+
+            }
+
+
+            if (p.finanz) {
+
+                const f =
+                    p.finanz;
+
+
+                if (f.angestellt) {
+
+                    mailBody +=
+                        `Erwerbsstatus: Angestellt\n`;
+
+                }
+                else if (f.selbstaendig) {
+
+                    mailBody +=
+                        `Erwerbsstatus: Selbstständig\n`;
+
+                }
+                else if (f.anderes) {
+
+                    mailBody +=
+                        `Erwerbsstatus: ${
+                            f.anderes_text || "Anderes"
+                        }\n`;
+
+                }
+                else {
+
+                    mailBody +=
+                        `Erwerbsstatus: Keine Angabe\n`;
+
+                }
+
+
+                mailBody +=
+                    `Netto-Einkünfte pro Monat: ${
+                        f.netto_einkommen || "Keine Angabe"
+                    }\n` +
+
+                    `Netto-Einkünfte Lebenspartner pro Monat: ${
+                        f.netto_partner || "Keine Angabe"
+                    }\n`;
+
+
+                mailBody +=
+                    `Liegenschaft: ${
+                        f.liegenschaft
+                            ? "Ja"
+                            : "Nein"
+                    }\n`;
+
+
+                if (f.liegenschaft) {
+
+                    mailBody +=
+                        `  Ort: ${f.liegenschaft_ort}\n` +
+                        `  Steuerwert: ${f.steuerwert}\n` +
+                        `  Hypothekarschulden: ${f.hypothek}\n`;
+
+                }
+
+
+                mailBody +=
+                    `Vermögen: ${
+                        f.anderes_vermoegen
+                            ? "Ja"
+                            : "Nein"
+                    }\n`;
+
+
+                if (f.anderes_vermoegen) {
+
+                    mailBody +=
+                        `  Welches: ${
+                            f.anderes_vermoegen_what
+                        }\n` +
+
+                        `  CHF: ${
+                            f.anderes_vermoegen_chf
+                        }\n`;
+
+                }
+
+
+                mailBody +=
+                    `Zu leistende Unterhaltsbeiträge: ${
+                        f.unterhaltsbeitrag
+                            ? "Ja"
+                            : "Nein"
+                    }\n`;
+
+
+                if (f.unterhaltsbeitrag) {
+
+                    mailBody +=
+                        `  Total pro Monat: ${
+                            f.unterhalt_total
+                        }\n` +
+
+                        `  An: ${
+                            f.unterhalt_an
+                        }\n`;
+
+                }
+
+
+                mailBody +=
+                    `Kinder: ${
+                        f.kinder
+                            ? "Ja"
+                            : "Nein"
+                    }\n`;
+
+
+                if (f.kinder) {
+
+                    mailBody +=
+                        `  Anzahl Kinder: ${
+                            f.kinder_anzahl
+                        }\n` +
+
+                        `  Jahrgang Kinder: ${
+                            f.kinder_jahrgang
+                        }\n`;
+
+                }
+
+
+                mailBody += "\n";
+
+            }
+
+
+            mailBody +=
+                `--- Notizen ---\n` +
+                `${p.notizen}\n\n`;
+
+        }
+    );
+
+
+    /*
+     * mailto übergibt die Daten im Klartext
+     * an die installierte Mail-App.
+     */
+    const mailto =
+        `mailto:${MAIL_EMPFAENGER}` +
+        `?subject=${encodeURIComponent(betreff)}` +
+        `&body=${encodeURIComponent(mailBody)}`;
+
+
+    status(
+        "📧 E-Mail wird an die Mail-App übergeben …",
+        "warn"
+    );
+
+
+    window.location.href =
+        mailto;
+
+}
+
+
+/* =========================================================
+   TEXTENCODER
+   ========================================================= */
+
+function textEncoder() {
+
+    return new TextEncoder();
+
+}
+
+
+function textDecoder() {
+
+    return new TextDecoder();
+
+}
+
+
+/* =========================================================
+   PASSWORT → AES-SCHLÜSSEL
+   ========================================================= */
+
+async function passwordKey(
+    password,
+    salt
+) {
+
+    const baseKey =
+        await crypto.subtle.importKey(
+            "raw",
+            textEncoder().encode(password),
+            {
+                name: "PBKDF2"
+            },
+            false,
+            ["deriveKey"]
+        );
+
+
+    return crypto.subtle.deriveKey(
+
+        {
+            name: "PBKDF2",
+
+            salt: salt,
+
+            iterations:
+                PBKDF2_ITERATIONS,
+
+            hash:
+                "SHA-256"
+        },
+
+        baseKey,
+
+        {
+            name: "AES-GCM",
+
+            length: 256
+        },
+
+        false,
+
+        [
+            "encrypt",
+            "decrypt"
+        ]
+
+    );
+
+}
+
+
+/* =========================================================
+   ENCRYPT
+   ========================================================= */
+
+async function verschluesseln(
+    text,
+    password
+) {
+
+    const salt =
+        crypto.getRandomValues(
+            new Uint8Array(16)
+        );
+
+
+    const iv =
+        crypto.getRandomValues(
+            new Uint8Array(12)
+        );
+
+
+    const key =
+        await passwordKey(
+            password,
+            salt
+        );
+
+
+    const encrypted =
+        await crypto.subtle.encrypt(
+
+            {
+                name: "AES-GCM",
+                iv: iv
+            },
+
+            key,
+
+            textEncoder()
+                .encode(text)
+
+        );
+
+
+    return {
+
+        version:
+            1,
+
+        algorithm:
+            "AES-256-GCM",
+
+        kdf:
+            "PBKDF2-SHA-256",
+
+        iterations:
+            PBKDF2_ITERATIONS,
+
+        salt:
+            arrayToBase64(salt),
+
+        iv:
+            arrayToBase64(iv),
+
+        data:
+            arrayToBase64(
+                new Uint8Array(
+                    encrypted
+                )
+            )
+
+    };
+
+}
+
+
+/* =========================================================
+   DECRYPT
+   ========================================================= */
+
+async function entschluesseln(
+    obj,
+    password
+) {
+
+    if (
+        !obj ||
+        obj.algorithm !== "AES-256-GCM" ||
+        obj.kdf !== "PBKDF2-SHA-256"
+    ) {
+
+        throw new Error(
+            "Ungültiges Verschlüsselungsformat."
+        );
+
+    }
+
+
+    const salt =
+        base64ToArray(
+            obj.salt
+        );
+
+
+    const iv =
+        base64ToArray(
+            obj.iv
+        );
+
+
+    const data =
+        base64ToArray(
+            obj.data
+        );
+
+
+    const key =
+        await passwordKey(
+            password,
+            salt
+        );
+
+
+    const decrypted =
+        await crypto.subtle.decrypt(
+
+            {
+                name: "AES-GCM",
+                iv: iv
+            },
+
+            key,
+
+            data
+
+        );
+
+
+    return textDecoder()
+        .decode(decrypted);
+
+}
+
+
+/* =========================================================
+   BASE64
+   ========================================================= */
+
+function arrayToBase64(array) {
+
+    let binary = "";
+
+
+    for (
+        let i = 0;
+        i < array.length;
+        i++
+    ) {
+
+        binary +=
+            String.fromCharCode(
+                array[i]
+            );
+
+    }
+
+
+    return btoa(binary);
+
+}
+
+
+function base64ToArray(base64) {
+
+    if (
+        typeof base64 !== "string"
+    ) {
+
+        throw new Error(
+            "Ungültige Base64-Daten."
+        );
+
+    }
+
+
+    const binary =
+        atob(base64);
+
+
+    const array =
+        new Uint8Array(
+            binary.length
+        );
+
+
+    for (
+        let i = 0;
+        i < binary.length;
+        i++
+    ) {
+
+        array[i] =
+            binary.charCodeAt(i);
+
+    }
+
+
+    return array;
+
+}
+
+
+/* =========================================================
+   AUTOMATISCHES SPEICHERN
+   ========================================================= */
+
+function automatischesSpeichernPlanen() {
+
+    if (wiederherstellungLaeuft) {
+        return;
+    }
+
+
+    clearTimeout(
+        autoSpeicherTimer
+    );
+
+
+    autoSpeicherTimer =
+        setTimeout(
+            () => {
+
+                automatischSpeichern();
+
+            },
+            1000
+        );
+
+}
+
+
+async function automatischSpeichern() {
+
+    if (wiederherstellungLaeuft) {
+        return;
+    }
+
+
+    /*
+     * Falls gerade schon gespeichert wird,
+     * merken wir uns, dass danach nochmals
+     * gespeichert werden muss.
+     */
+    if (speicherungLaeuft) {
+
+        speicherungErneutNoetig = true;
+
+        return;
+
+    }
+
+
+    datenAusFormularenSpeichern();
+
+
+    if (!alleDaten.length) {
+        return;
+    }
+
+
+    /*
+     * Erstes Speichern:
+     * Passwort erstellen.
+     */
+    if (!sitzungsPasswort) {
+
+        const passwort =
+            window.prompt(
+                "🔐 Passwort für die automatische Verschlüsselung:\n\n" +
+                "Mindestens 12 Zeichen.\n\n" +
+                "Das Passwort wird nicht gespeichert."
+            );
+
+
+        if (passwort === null) {
+
+            status(
+                "⚠️ Automatisches Speichern wartet auf ein Passwort.",
+                "warn"
+            );
+
+            return;
+
+        }
+
+
+        if (passwort.length < 12) {
+
+            alert(
+                "Das Passwort muss mindestens " +
+                "12 Zeichen lang sein."
+            );
+
+
+            status(
+                "⚠️ Passwort zu kurz.",
+                "warn"
+            );
+
+
+            return;
+
+        }
+
+
+        const bestaetigung =
+            window.prompt(
+                "🔐 Passwort bitte zur Bestätigung nochmals eingeben:"
+            );
+
+
+        if (bestaetigung === null) {
+
+            status(
+                "⚠️ Automatisches Speichern abgebrochen.",
+                "warn"
+            );
+
+            return;
+
+        }
+
+
+        if (passwort !== bestaetigung) {
+
+            alert(
+                "Die beiden Passwörter stimmen nicht überein."
+            );
+
+
+            status(
+                "⚠️ Passwörter stimmen nicht überein.",
+                "warn"
+            );
+
+
+            return;
+
+        }
+
+
+        sitzungsPasswort =
+            passwort;
+
+    }
+
+
+    speicherungLaeuft = true;
+
+    speicherungErneutNoetig = false;
+
+
+    try {
+
+        const daten = {
+
+            version:
+                APP_VERSION,
+
+            gespeichert:
+                new Date().toISOString(),
+
+            personen:
+                alleDaten
+
+        };
+
+
+        const verschluesselteDaten =
+            await verschluesseln(
+                JSON.stringify(daten),
+                sitzungsPasswort
+            );
+
+
+        localStorage.setItem(
+
+            STORAGE_KEY,
+
+            JSON.stringify(
+                verschluesselteDaten
+            )
+
+        );
+
+
+        status(
+            "🔐 Änderungen automatisch verschlüsselt gespeichert.",
+            "ok"
+        );
+
+    }
+    catch (error) {
+
+        console.error(
+            "Automatisches Speichern fehlgeschlagen:",
+            error
+        );
+
+
+        status(
+            "❌ Automatisches Speichern fehlgeschlagen.",
+            "error"
+        );
+
+    }
+    finally {
+
+        speicherungLaeuft = false;
+
+
+        /*
+         * Falls während der Verschlüsselung
+         * weitere Änderungen vorgenommen wurden,
+         * nochmals speichern.
+         */
+        if (speicherungErneutNoetig) {
+
+            speicherungErneutNoetig = false;
+
+            automatischesSpeichernPlanen();
+
+        }
+
+    }
+
+}
+
+
+/* =========================================================
+   AUTOMATISCHES WIEDERHERSTELLEN
+   ========================================================= */
+
+async function automatischLaden() {
+
+    const gespeichert =
+        localStorage.getItem(
+            STORAGE_KEY
+        );
+
+
+    if (!gespeichert) {
+
+        neuesFormular();
+
+        status(
+            "🔐 Bereit. Änderungen werden automatisch verschlüsselt gespeichert.",
+            "ok"
+        );
+
+        return;
+
+    }
+
+
+    const passwort =
+        window.prompt(
+            "🔓 Verschlüsselte Personendaten gefunden.\n\n" +
+            "Bitte Passwort eingeben, um die Daten wiederherzustellen:"
+        );
+
+
+    if (passwort === null) {
+
+        status(
+            "⚠️ Wiederherstellung abgebrochen.",
+            "warn"
+        );
+
+        neuesFormular();
+
+        return;
+
+    }
+
+
+    if (passwort.length < 12) {
+
+        alert(
+            "Das Passwort muss mindestens " +
+            "12 Zeichen lang sein."
+        );
+
+
+        status(
+            "⚠️ Passwort zu kurz.",
+            "warn"
+        );
+
+
+        neuesFormular();
+
+        return;
+
+    }
+
+
+    try {
+
+        wiederherstellungLaeuft = true;
+
+
+        const obj =
+            JSON.parse(
+                gespeichert
+            );
+
+
+        const text =
+            await entschluesseln(
+                obj,
+                passwort
+            );
+
+
+        const daten =
+            JSON.parse(text);
+
+
+        if (
+            !daten ||
+            !Array.isArray(
+                daten.personen
+            )
+        ) {
+
+            throw new Error(
+                "Ungültige Datenstruktur."
+            );
+
+        }
+
+
+        /*
+         * Passwort nur für diese Sitzung behalten.
+         */
+        sitzungsPasswort =
+            passwort;
+
+
+        alleDaten =
+            daten.personen;
+
+
+        formularAusDatenAufbauen();
+
+
+        status(
+            "🔓 Personendaten wurden automatisch wiederhergestellt.",
+            "ok"
+        );
+
+    }
+    catch (error) {
+
+        console.error(
+            "Wiederherstellung fehlgeschlagen:",
+            error
+        );
+
+
+        sitzungsPasswort = null;
+
+
+        status(
+            "❌ Falsches Passwort oder beschädigte Daten.",
+            "error"
+        );
+
+
+        alert(
+            "Die Daten konnten nicht entschlüsselt werden.\n\n" +
+            "Möglicherweise wurde ein falsches Passwort " +
+            "eingegeben oder die gespeicherten Daten " +
+            "sind beschädigt."
+        );
+
+
+        neuesFormular();
+
+    }
+    finally {
+
+        wiederherstellungLaeuft = false;
+
+    }
+
+}
+
+
+/* =========================================================
+   GELADENE DATEN WIEDER IN FORMULARE
+   ========================================================= */
+
+function formularAusDatenAufbauen() {
+
+    wiederherstellungLaeuft = true;
+
+
+    const container =
+        document.getElementById(
+            "formContainer"
+        );
+
+
+    container.replaceChildren();
+
+    formIndex = 0;
+
+
+    if (!alleDaten.length) {
+
+        neuesFormular();
+
+        wiederherstellungLaeuft = false;
+
+        return;
+
+    }
+
+
+    alleDaten.forEach(
+        person => {
+
+            neuesFormular();
+
+
+            const forms =
+                document.querySelectorAll(
+                    ".person-form"
+                );
+
+
+            const form =
+                forms[
+                    forms.length - 1
+                ];
+
+
+            $('input[name="ort_person"]', form)
+                .value =
+                person.ort_person || "";
+
+
+            $('input[name="vorname"]', form)
+                .value =
+                person.vorname || "";
+
+
+            $('input[name="nachname"]', form)
+                .value =
+                person.nachname || "";
+
+
+            $('input[name="geburtsdatum"]', form)
+                .value =
+                person.geburtsdatum || "";
+
+
+            $('input[name="telefonnummer"]', form)
+                .value =
+                person.telefonnummer || "";
+
+
+            $('textarea[name="notizen"]', form)
+                .value =
+                person.notizen || "";
+
+
+            $('input[name="strasse"]', form)
+                .value =
+                person.strasse || "";
+
+
+            $('input[name="plz"]', form)
+                .value =
+                person.plz || "";
+
+
+            $('input[name="ort"]', form)
+                .value =
+                person.ort || "";
+
+
+            $('input[name="vater_vorname"]', form)
+                .value =
+                person.vater_vorname || "";
+
+
+            $('input[name="vater_nachname"]', form)
+                .value =
+                person.vater_nachname || "";
+
+
+            $('input[name="mutter_vorname"]', form)
+                .value =
+                person.mutter_vorname || "";
+
+
+            $('input[name="mutter_nachname"]', form)
+                .value =
+                person.mutter_nachname || "";
+
+
+            $('input[name="geburtsort"]', form)
+                .value =
+                person.geburtsort || "";
+
+
+            $('input[name="heimatort"]', form)
+                .value =
+                person.heimatort || "";
+
+
+            $('input[name="beruf"]', form)
+                .value =
+                person.beruf || "";
+
+
+            $('input[name="aussage_datum"]', form)
+                .value =
+                person.aussage_datum || "";
+
+
+            $('input[name="aussage_zeit"]', form)
+                .value =
+                person.aussage_zeit || "";
+
+
+            $('textarea[name="aussage_text"]', form)
+                .value =
+                person.aussage_text || "";
+
+
+            if (person.hatZusatz) {
+
+                $(".zusatzfelder", form)
+                    .style.display = "block";
+
+
+                $(".btn-zusatz", form)
+                    .style.display = "none";
+
+            }
+
+
+            if (
+                person.aussage_text &&
+                person.aussage_text.trim()
+            ) {
+
+                $(".aussage-hinweis", form)
+                    .style.display = "block";
+
+
+                $(".aussagenfelder", form)
+                    .style.display = "block";
+
+
+                $(".btn-aussage", form)
+                    .style.display = "none";
+
+            }
+
+
+            if (person.finanz) {
+
+                const f =
+                    person.finanz;
+
+
+                const finanz =
+                    $(".finanzfelder", form);
+
+
+                finanz.style.display =
+                    "block";
+
+
+                $(".btn-finanz", form)
+                    .style.display = "none";
+
+
+                $('input[name="selbstaendig"]', form)
+                    .checked =
+                    !!f.selbstaendig;
+
+
+                $('input[name="angestellt"]', form)
+                    .checked =
+                    !!f.angestellt;
+
+
+                $('input[name="anderes_einkommen"]', form)
+                    .checked =
+                    !!f.anderes;
+
+
+                const anderesText =
+                    $('input[name="anderes_einkommen_text"]', form);
+
+
+                anderesText.value =
+                    f.anderes_text || "";
+
+
+                anderesText.style.display =
+                    f.anderes
+                        ? "block"
+                        : "none";
+
+
+                $('input[name="netto_einkommen"]', form)
+                    .value =
+                    f.netto_einkommen || "";
+
+
+                $('input[name="netto_partner"]', form)
+                    .value =
+                    f.netto_partner || "";
+
+
+                const checkboxen = [
+
+                    [
+                        "liegenschaft_check",
+                        "liegenschaft_details",
+                        "ja-nein-liegenschaft",
+                        f.liegenschaft
+                    ],
+
+                    [
+                        "anderes_vermoegen_check",
+                        "anderes_vermoegen_details",
+                        "ja-nein-vermoegen",
+                        f.anderes_vermoegen
+                    ],
+
+                    [
+                        "unterhaltsbeitrag_check",
+                        "unterhaltsbeitrag_details",
+                        "ja-nein-unterhalt",
+                        f.unterhaltsbeitrag
+                    ],
+
+                    [
+                        "kinder_check",
+                        "kinder_details",
+                        "ja-nein-kinder",
+                        f.kinder
+                    ]
+
+                ];
+
+
+                checkboxen.forEach(
+                    item => {
+
+                        const checkbox =
+                            $(
+                                `input[name="${item[0]}"]`,
+                                form
+                            );
+
+
+                        const detail =
+                            $(
+                                "." + item[1],
+                                form
+                            );
+
+
+                        const label =
+                            $(
+                                "." + item[2],
+                                form
+                            );
+
+
+                        checkbox.checked =
+                            !!item[3];
+
+
+                        detail.style.display =
+                            item[3]
+                                ? "block"
+                                : "none";
+
+
+                        label.textContent =
+                            item[3]
+                                ? "Ja"
+                                : "Nein";
+
+                    }
+                );
+
+
+                $('input[name="liegenschaft_ort"]', form)
+                    .value =
+                    f.liegenschaft_ort || "";
+
+
+                $('input[name="steuerwert"]', form)
+                    .value =
+                    f.steuerwert || "";
+
+
+                $('input[name="hypothek"]', form)
+                    .value =
+                    f.hypothek || "";
+
+
+                $('input[name="anderes_vermoegen_what"]', form)
+                    .value =
+                    f.anderes_vermoegen_what || "";
+
+
+                $('input[name="anderes_vermoegen_chf"]', form)
+                    .value =
+                    f.anderes_vermoegen_chf || "";
+
+
+                $('input[name="unterhalt_total"]', form)
+                    .value =
+                    f.unterhalt_total || "";
+
+
+                $('input[name="unterhalt_an"]', form)
+                    .value =
+                    f.unterhalt_an || "";
+
+
+                $('input[name="kinder_anzahl"]', form)
+                    .value =
+                    f.kinder_anzahl || "";
+
+
+                $('input[name="kinder_jahrgang"]', form)
+                    .value =
+                    f.kinder_jahrgang || "";
+
+            }
+
+        }
+    );
+
+
+    wiederherstellungLaeuft = false;
+
+}
+
+
+/* =========================================================
+   ALLES LÖSCHEN
+   ========================================================= */
+
+function allesLoeschen() {
+
+    const bestaetigung =
+        window.confirm(
+
+            "ACHTUNG!\n\n" +
+
+            "Sollen wirklich alle eingegebenen " +
+            "Personendaten und die verschlüsselte " +
+            "lokale Speicherung gelöscht werden?"
+
+        );
+
+
+    if (!bestaetigung) {
+        return;
+    }
+
+
+    /*
+     * Automatischen Speicher-Timer stoppen.
+     */
+    clearTimeout(
+        autoSpeicherTimer
+    );
+
+
+    /*
+     * Verschlüsselte Speicherung löschen.
+     */
+    try {
+
+        localStorage.removeItem(
+            STORAGE_KEY
+        );
+
+    }
+    catch (error) {
+
+        console.error(error);
+
+    }
+
+
+    /*
+     * Passwort aus dem Arbeitsspeicher entfernen.
+     */
+    sitzungsPasswort = null;
+
+
+    speicherungLaeuft = false;
+
+    speicherungErneutNoetig = false;
+
+
+    alleDaten = [];
+
+    formIndex = 0;
+
+
+    document
+        .getElementById("formContainer")
+        .replaceChildren();
+
+
+    neuesFormular();
+
+
+    $("#ereignis").value = "";
+
+
+    versteckeZusatzMaske();
+
+
+    status(
+        "🗑️ Alle lokalen Daten wurden gelöscht.",
+        "ok"
+    );
+
+}
+
+
+/* =========================================================
+   SICHERHEITSCHECK
+   ========================================================= */
+
+function sicherheitsCheck() {
+
+    if (!window.isSecureContext) {
+
+        status(
+            "⚠️ Die App läuft nicht über eine sichere HTTPS-Verbindung.",
+            "warn"
+        );
+
+        return false;
+
+    }
+
+
+    if (
+        !window.crypto ||
+        !window.crypto.subtle
+    ) {
+
+        status(
+            "❌ Dieses Gerät unterstützt die erforderliche Verschlüsselung nicht.",
+            "error"
+        );
+
+        return false;
+
+    }
+
+
+    status(
+        "🔐 Verschlüsselung verfügbar.",
+        "ok"
+    );
+
+
+    return true;
+
+}
+
+
+/* =========================================================
+   SERVICE WORKER
+   ========================================================= */
+
+if ("serviceWorker" in navigator) {
+
+    window.addEventListener(
+        "load",
+        () => {
+
+            navigator.serviceWorker
+                .register(
+                    "./sw.js",
+                    {
+                        scope: "./"
+                    }
+                )
+                .then(
+                    () => {
+
+                        console.log(
+                            "Service Worker registriert."
+                        );
+
+                    }
+                )
+                .catch(
+                    error => {
+
+                        console.warn(
+                            "Service Worker konnte nicht " +
+                            "registriert werden:",
+                            error
+                        );
+
+                    }
+                );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+
+document
+    .getElementById("btnNeuePerson")
+    .addEventListener(
+        "click",
+        neuesFormular
+    );
+
+
+document
+    .getElementById("btnMail")
+    .addEventListener(
+        "click",
+        zeigeZusatzMaske
+    );
+
+
+document
+    .getElementById("btnLoeschen")
+    .addEventListener(
+        "click",
+        allesLoeschen
+    );
+
+
+document
+    .getElementById("btnEmailErstellen")
+    .addEventListener(
+        "click",
+        finaleMailAbschicken
+    );
+
+
+document
+    .getElementById("btnZusatzZurueck")
+    .addEventListener(
+        "click",
+        versteckeZusatzMaske
+    );
+
+
+/* =========================================================
+   START
+   ========================================================= */
+
+window.addEventListener(
+    "load",
+    async () => {
+
+        const sicher =
+            sicherheitsCheck();
+
+
+        if (!sicher) {
+
+            neuesFormular();
+
+            return;
+
+        }
+
+
+        /*
+         * Prüfen, ob bereits ein verschlüsselter
+         * Datensatz vorhanden ist.
+         */
+        const gespeichert =
+            localStorage.getItem(
+                STORAGE_KEY
+            );
+
+
+        if (gespeichert) {
+
+            await automatischLaden();
+
+        }
+        else {
+
+            neuesFormular();
+
+            status(
+                "🔐 Bereit. Änderungen werden automatisch verschlüsselt gespeichert.",
+                "ok"
+            );
+
+        }
+
+    }
+);
+
+</script>
+
+</body>
+</html>
