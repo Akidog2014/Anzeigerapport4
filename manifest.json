@@ -1,7 +1,7 @@
 {
-  "name": "Personenerfassung V11.1",
+  "name": "Personenerfassung",
   "short_name": "Personenerfassung",
-  "description": "Offline-PWA zur verschlüsselten Erfassung von Personendaten",
+  "description": "Offline-PWA zur geschützten Erfassung von Personendaten",
   "lang": "de-CH",
   "start_url": "./index.html",
   "scope": "./",
