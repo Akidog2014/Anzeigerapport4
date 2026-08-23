@@ -1,5 +1,6 @@
 "use strict";
 
+
 /*
  * =========================================================
  * PERSONENERFASSUNG V11
@@ -7,30 +8,35 @@
  * =========================================================
  *
  * Der Service Worker speichert ausschließlich
- * die Programmdateien.
+ * die Anwendung selbst.
  *
- * PERSONENDATEN WERDEN NICHT GECACHT.
+ * PERSONENDATEN WERDEN NICHT DURCH DEN
+ * SERVICE WORKER GESPEICHERT.
  *
- * Die eigentlichen Personendaten befinden sich:
+ * Personendaten befinden sich:
  *
  * 1. während der Bearbeitung im Arbeitsspeicher
- * 2. verschlüsselt in localStorage
  *
- * Der Geräteschlüssel liegt getrennt davon
- * in IndexedDB.
+ * 2. verschlüsselt in IndexedDB
+ *
+ * Der Service Worker hat keinen Zugriff auf
+ * den Entschlüsselungsschlüssel.
  *
  * =========================================================
  */
 
+
 const CACHE_NAME =
-    "personenerfassung-v11-0";
+    "personenerfassung-v11";
 
 
 const APP_FILES = [
 
     "./",
     "./index.html",
-    "./manifest.json"
+    "./manifest.json",
+    "./icon-192.png",
+    "./icon-512.png"
 
 ];
 
@@ -46,7 +52,9 @@ self.addEventListener(
         event.waitUntil(
 
             caches
-                .open(CACHE_NAME)
+                .open(
+                    CACHE_NAME
+                )
                 .then(
                     cache => {
 
@@ -58,6 +66,11 @@ self.addEventListener(
                 )
 
         );
+
+
+        /*
+         * Neue Version sofort aktivieren.
+         */
 
         self.skipWaiting();
 
@@ -108,6 +121,7 @@ self.addEventListener(
 
         );
 
+
         self.clients.claim();
 
     }
@@ -122,13 +136,19 @@ self.addEventListener(
     "fetch",
     event => {
 
+        /*
+         * Nur GET behandeln.
+         */
+
         if (
-            event.request.method !== "GET"
+            event.request.method !==
+            "GET"
         ) {
 
             return;
 
         }
+
 
         const url =
             new URL(
@@ -136,9 +156,15 @@ self.addEventListener(
             );
 
 
+        /*
+         * Nur HTTP / HTTPS.
+         */
+
         if (
-            url.protocol !== "http:" &&
-            url.protocol !== "https:"
+            url.protocol !==
+                "http:" &&
+            url.protocol !==
+                "https:"
         ) {
 
             return;
@@ -147,7 +173,11 @@ self.addEventListener(
 
 
         /*
-         * Nur eigene Anwendung.
+         * Nur Ressourcen der eigenen Anwendung
+         * aus dem Cache bedienen.
+         *
+         * Fremde Ressourcen werden nicht
+         * dauerhaft gecacht.
          */
 
         if (
@@ -182,15 +212,16 @@ self.addEventListener(
                             event.request
                         )
                         .then(
-                            response => {
+                            networkResponse => {
 
                                 if (
-                                    response &&
-                                    response.ok
+                                    networkResponse &&
+                                    networkResponse.ok
                                 ) {
 
                                     const copy =
-                                        response.clone();
+                                        networkResponse.clone();
+
 
                                     caches
                                         .open(
@@ -209,7 +240,8 @@ self.addEventListener(
 
                                 }
 
-                                return response;
+
+                                return networkResponse;
 
                             }
                         )
@@ -218,17 +250,16 @@ self.addEventListener(
 
                                 return new Response(
 
-                                    "Offline – diese " +
-                                    "Ressource ist nicht " +
-                                    "verfügbar.",
+                                    "Offline – diese Ressource " +
+                                    "ist nicht verfügbar.",
 
                                     {
-                                        status: 503,
+                                        status:
+                                            503,
 
                                         headers: {
                                             "Content-Type":
-                                                "text/plain; " +
-                                                "charset=utf-8"
+                                                "text/plain; charset=utf-8"
                                         }
                                     }
 
@@ -241,6 +272,27 @@ self.addEventListener(
                 )
 
         );
+
+    }
+);
+
+
+/* =========================================================
+   MESSAGE
+========================================================= */
+
+self.addEventListener(
+    "message",
+    event => {
+
+        if (
+            event.data ===
+            "SKIP_WAITING"
+        ) {
+
+            self.skipWaiting();
+
+        }
 
     }
 );
