@@ -1,37 +1,39 @@
 "use strict";
 
-
 /*
  * =========================================================
- * PERSONENERFASSUNG
- * SERVICE WORKER V11.1
+ * PERSONENERFASSUNG V12
+ * SERVICE WORKER
  * =========================================================
  *
- * Der Service Worker cached ausschließlich
- * die Programmdateien.
+ * WICHTIG:
  *
- * PERSONENDATEN WERDEN NICHT GEcACHED.
+ * Der Service Worker speichert KEINE Personendaten.
  *
- * Die Personendaten befinden sich ausschließlich:
+ * Er cached ausschließlich die technischen
+ * Bestandteile der PWA:
  *
- * 1. während der Bearbeitung im Arbeitsspeicher
+ *   index.html
+ *   manifest.json
+ *   Icons
  *
- * 2. als AES-256-GCM-verschlüsselter Datensatz
- *    in localStorage
+ * Die verschlüsselten Personendaten liegen
+ * ausschließlich in IndexedDB.
  *
  * =========================================================
  */
 
-
 const CACHE_NAME =
-    "personenerfassung-v11-1";
+    "personenerfassung-v12-0";
 
 
 const APP_FILES = [
 
     "./",
     "./index.html",
-    "./manifest.json"
+    "./manifest.json",
+    "./icon-192.png",
+    "./icon-512.png"
 
 ];
 
@@ -47,7 +49,9 @@ self.addEventListener(
         event.waitUntil(
 
             caches
-                .open(CACHE_NAME)
+                .open(
+                    CACHE_NAME
+                )
                 .then(
                     cache => {
 
@@ -61,7 +65,7 @@ self.addEventListener(
         );
 
         /*
-         * Neue Version darf sofort aktiviert werden.
+         * Neue Version darf sofort aktiv werden.
          */
 
         self.skipWaiting();
@@ -113,7 +117,6 @@ self.addEventListener(
 
         );
 
-
         self.clients.claim();
 
     }
@@ -129,7 +132,7 @@ self.addEventListener(
     event => {
 
         /*
-         * Nur GET-Anfragen behandeln.
+         * Nur GET-Anfragen.
          */
 
         if (
@@ -148,7 +151,7 @@ self.addEventListener(
 
 
         /*
-         * Nur HTTP/HTTPS.
+         * Nur HTTP / HTTPS.
          */
 
         if (
@@ -162,10 +165,7 @@ self.addEventListener(
 
 
         /*
-         * Nur eigene Anwendung behandeln.
-         *
-         * Keine externen Webseiten und
-         * keine Mailto-Anfragen werden gecacht.
+         * Keine fremden Domains cachen.
          */
 
         if (
@@ -202,16 +202,9 @@ self.addEventListener(
                         .then(
                             networkResponse => {
 
-                                /*
-                                 * Nur erfolgreiche
-                                 * Basic-Antworten cachen.
-                                 */
-
                                 if (
                                     networkResponse &&
-                                    networkResponse.ok &&
-                                    networkResponse.type ===
-                                        "basic"
+                                    networkResponse.ok
                                 ) {
 
                                     const copy =
@@ -243,11 +236,6 @@ self.addEventListener(
                         .catch(
                             () => {
 
-                                /*
-                                 * Offline und Ressource
-                                 * nicht vorhanden.
-                                 */
-
                                 return new Response(
 
                                     "Offline – diese Ressource " +
@@ -257,11 +245,9 @@ self.addEventListener(
                                         status: 503,
 
                                         headers: {
-
                                             "Content-Type":
                                                 "text/plain; " +
                                                 "charset=utf-8"
-
                                         }
 
                                     }
