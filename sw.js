@@ -1,20 +1,24 @@
 "use strict";
 
+
 /*
  * =========================================================
  * PERSONENERFASSUNG
- * SERVICE WORKER
- * VERSION 11.1
+ * SERVICE WORKER V11.1
  * =========================================================
  *
- * WICHTIG:
+ * Der Service Worker cached ausschließlich
+ * die Programmdateien.
  *
- * Dieser Service Worker speichert KEINE Personendaten.
+ * PERSONENDATEN WERDEN NICHT GEcACHED.
  *
- * Er cached ausschließlich die Dateien der Anwendung.
+ * Die Personendaten befinden sich ausschließlich:
  *
- * Die eigentlichen Personendaten liegen verschlüsselt
- * im Browser-Speicher der Anwendung.
+ * 1. während der Bearbeitung im Arbeitsspeicher
+ *
+ * 2. als AES-256-GCM-verschlüsselter Datensatz
+ *    in localStorage
+ *
  * =========================================================
  */
 
@@ -57,7 +61,7 @@ self.addEventListener(
         );
 
         /*
-         * Neue Version darf sofort aktiv werden.
+         * Neue Version darf sofort aktiviert werden.
          */
 
         self.skipWaiting();
@@ -109,6 +113,7 @@ self.addEventListener(
 
         );
 
+
         self.clients.claim();
 
     }
@@ -132,6 +137,7 @@ self.addEventListener(
         ) {
 
             return;
+
         }
 
 
@@ -142,7 +148,7 @@ self.addEventListener(
 
 
         /*
-         * Nur HTTP und HTTPS.
+         * Nur HTTP/HTTPS.
          */
 
         if (
@@ -151,20 +157,33 @@ self.addEventListener(
         ) {
 
             return;
+
         }
 
 
         /*
-         * Cache-First:
+         * Nur eigene Anwendung behandeln.
          *
-         * Dadurch funktioniert die PWA
-         * auch ohne Internet.
+         * Keine externen Webseiten und
+         * keine Mailto-Anfragen werden gecacht.
          */
+
+        if (
+            url.origin !==
+            self.location.origin
+        ) {
+
+            return;
+
+        }
+
 
         event.respondWith(
 
             caches
-                .match(event.request)
+                .match(
+                    event.request
+                )
                 .then(
                     cachedResponse => {
 
@@ -173,6 +192,7 @@ self.addEventListener(
                         ) {
 
                             return cachedResponse;
+
                         }
 
 
@@ -183,21 +203,20 @@ self.addEventListener(
                             networkResponse => {
 
                                 /*
-                                 * Nur erfolgreiche Antworten
-                                 * derselben Origin cachen.
+                                 * Nur erfolgreiche
+                                 * Basic-Antworten cachen.
                                  */
 
                                 if (
                                     networkResponse &&
                                     networkResponse.ok &&
                                     networkResponse.type ===
-                                        "basic" &&
-                                    url.origin ===
-                                        self.location.origin
+                                        "basic"
                                 ) {
 
                                     const copy =
                                         networkResponse.clone();
+
 
                                     caches
                                         .open(
@@ -206,7 +225,7 @@ self.addEventListener(
                                         .then(
                                             cache => {
 
-                                                return cache.put(
+                                                cache.put(
                                                     event.request,
                                                     copy
                                                 );
@@ -216,12 +235,18 @@ self.addEventListener(
 
                                 }
 
+
                                 return networkResponse;
 
                             }
                         )
                         .catch(
                             () => {
+
+                                /*
+                                 * Offline und Ressource
+                                 * nicht vorhanden.
+                                 */
 
                                 return new Response(
 
@@ -232,10 +257,13 @@ self.addEventListener(
                                         status: 503,
 
                                         headers: {
+
                                             "Content-Type":
                                                 "text/plain; " +
                                                 "charset=utf-8"
+
                                         }
+
                                     }
 
                                 );
