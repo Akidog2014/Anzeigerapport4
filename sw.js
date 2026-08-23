@@ -1,40 +1,37 @@
 "use strict";
 
-
 /*
  * =========================================================
- * PERSONENERFASSUNG V8
+ * PERSONENERFASSUNG V10
  * SERVICE WORKER
  * =========================================================
  *
- * WICHTIG:
+ * SICHERHEITSPRINZIP:
  *
- * Der Service Worker verarbeitet KEINE Personendaten.
+ * Der Service Worker speichert ausschließlich
+ * statische Anwendungsdateien.
  *
- * Personendaten befinden sich ausschließlich:
+ * PERSONENDATEN WERDEN NICHT GECACHT.
  *
- * 1. kurzfristig im Arbeitsspeicher der Anwendung
+ * Die verschlüsselten Personendaten befinden sich
+ * ausschließlich im localStorage der Anwendung.
  *
- * 2. verschlüsselt in IndexedDB
- *
- * Der Service Worker cached ausschließlich
- * statische Dateien der Anwendung.
+ * Der Service Worker liest weder localStorage
+ * noch entschlüsselte Personendaten.
  *
  * =========================================================
  */
 
 
 const CACHE_NAME =
-    "personenerfassung-v8-0";
+    "personenerfassung-v10-0";
 
 
 const APP_FILES = [
 
     "./",
     "./index.html",
-    "./manifest.json",
-    "./icon-192.png",
-    "./icon-512.png"
+    "./manifest.json"
 
 ];
 
@@ -66,7 +63,7 @@ self.addEventListener(
 
         /*
          * Neue Version darf sofort
-         * aktiviert werden.
+         * übernommen werden.
          */
 
         self.skipWaiting();
@@ -133,9 +130,12 @@ self.addEventListener(
     "fetch",
     event => {
 
+        /*
+         * Nur GET behandeln.
+         */
+
         if (
-            event.request.method !==
-            "GET"
+            event.request.method !== "GET"
         ) {
 
             return;
@@ -150,7 +150,8 @@ self.addEventListener(
 
 
         /*
-         * Nur HTTP/HTTPS behandeln.
+         * Keine Behandlung von nicht-http(s)
+         * Ressourcen.
          */
 
         if (
@@ -164,10 +165,11 @@ self.addEventListener(
 
 
         /*
-         * Nur eigene Origin behandeln.
+         * NUR dieselbe Origin.
          *
-         * Dadurch werden externe Ressourcen
-         * nicht in den App-Cache übernommen.
+         * Dadurch werden keine fremden
+         * Ressourcen durch diesen Service
+         * Worker gecacht.
          */
 
         if (
@@ -180,12 +182,19 @@ self.addEventListener(
         }
 
 
+        /*
+         * Niemals dynamische personenbezogene
+         * Daten oder API-Antworten speichern.
+         *
+         * Der Service Worker kennt keine
+         * localStorage-Daten.
+         */
+
+
         event.respondWith(
 
             caches
-                .match(
-                    event.request
-                )
+                .match(event.request)
                 .then(
                     cachedResponse => {
 
@@ -204,9 +213,17 @@ self.addEventListener(
                         .then(
                             networkResponse => {
 
+                                /*
+                                 * Nur erfolgreiche
+                                 * grundlegende Antworten
+                                 * speichern.
+                                 */
+
                                 if (
                                     networkResponse &&
-                                    networkResponse.ok
+                                    networkResponse.ok &&
+                                    networkResponse.type ===
+                                        "basic"
                                 ) {
 
                                     const copy =
@@ -214,16 +231,45 @@ self.addEventListener(
 
 
                                     caches
-                                        .open(
-                                            CACHE_NAME
-                                        )
+                                        .open(CACHE_NAME)
                                         .then(
                                             cache => {
 
-                                                cache.put(
-                                                    event.request,
-                                                    copy
-                                                );
+                                                /*
+                                                 * Nur die
+                                                 * explizit
+                                                 * vorgesehenen
+                                                 * App-Dateien
+                                                 * werden dauerhaft
+                                                 * gecacht.
+                                                 */
+
+                                                const path =
+                                                    url.pathname;
+
+
+                                                const erlaubt =
+                                                    path.endsWith(
+                                                        "/"
+                                                    ) ||
+                                                    path.endsWith(
+                                                        "/index.html"
+                                                    ) ||
+                                                    path.endsWith(
+                                                        "/manifest.json"
+                                                    );
+
+
+                                                if (
+                                                    erlaubt
+                                                ) {
+
+                                                    cache.put(
+                                                        event.request,
+                                                        copy
+                                                    );
+
+                                                }
 
                                             }
                                         );
@@ -248,7 +294,11 @@ self.addEventListener(
 
                                         headers: {
                                             "Content-Type":
-                                                "text/plain; charset=utf-8"
+                                                "text/plain; " +
+                                                "charset=utf-8",
+
+                                            "Cache-Control":
+                                                "no-store"
                                         }
                                     }
 
