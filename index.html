@@ -25,10 +25,31 @@
 <meta name="referrer"
       content="no-referrer">
 
+<!--
+    V10:
+    Die Anwendung verwendet keine externen Skripte,
+    Stylesheets oder Bilder.
+-->
+<meta http-equiv="Content-Security-Policy"
+      content="
+        default-src 'self';
+        script-src 'self' 'unsafe-inline';
+        style-src 'self' 'unsafe-inline';
+        img-src 'self' data:;
+        connect-src 'self';
+        manifest-src 'self';
+        worker-src 'self';
+        object-src 'none';
+        base-uri 'none';
+        form-action 'self';
+        frame-ancestors 'none';
+      ">
+
 <link rel="manifest"
       href="./manifest.json">
 
-<title>Personenerfassung V9</title>
+<title>Personenerfassung V10</title>
+
 
 <style>
 
@@ -54,12 +75,17 @@ body {
 
     padding: 20px;
 
-    padding-bottom: 60px;
+    padding-bottom: 50px;
 
     background: #f4f6f8;
 
     color: #222;
 
+    -webkit-text-size-adjust: 100%;
+}
+
+body.gesperrt {
+    overflow: hidden;
 }
 
 h1 {
@@ -68,20 +94,15 @@ h1 {
 
     margin-top: 10px;
 
-    margin-bottom: 10px;
-
+    margin-bottom: 25px;
 }
 
 h3 {
-
     text-align: center;
-
 }
 
 h4 {
-
     margin-top: 5px;
-
 }
 
 .person-form,
@@ -102,7 +123,6 @@ h4 {
 
     box-shadow:
         0 2px 8px rgba(0,0,0,0.05);
-
 }
 
 label {
@@ -112,7 +132,6 @@ label {
     margin-top: 12px;
 
     font-size: 16px;
-
 }
 
 input,
@@ -134,13 +153,10 @@ select {
     background: white;
 
     color: #222;
-
 }
 
 textarea {
-
     resize: vertical;
-
 }
 
 input:focus,
@@ -150,7 +166,6 @@ select:focus {
     outline: 2px solid #80bdff;
 
     outline-offset: 1px;
-
 }
 
 button {
@@ -172,19 +187,14 @@ button {
     font-size: 16px;
 
     cursor: pointer;
-
 }
 
 button:active {
-
     transform: scale(0.99);
-
 }
 
 button:hover {
-
     background: #0056b3;
-
 }
 
 button:focus-visible {
@@ -192,67 +202,46 @@ button:focus-visible {
     outline: 3px solid #222;
 
     outline-offset: 2px;
-
 }
 
 .btn-gruen {
-
     background: #198754;
-
 }
 
 .btn-gruen:hover {
-
     background: #146c43;
-
 }
 
 .btn-orange {
-
     background: #fd7e14;
-
 }
 
 .btn-orange:hover {
-
     background: #dc6502;
-
 }
 
 .btn-rot {
-
     background: #dc3545;
-
 }
 
 .btn-rot:hover {
-
     background: #bb2d3b;
-
 }
 
 .btn-grau {
-
     background: #6c757d;
-
 }
 
 .btn-grau:hover {
-
     background: #565e64;
-
 }
 
-.btn-violett {
-
-    background: #6f42c1;
-
+.btn-sperren {
+    background: #343a40;
 }
 
-.btn-violett:hover {
-
-    background: #59359a;
-
+.btn-sperren:hover {
+    background: #212529;
 }
 
 .zusatzfelder,
@@ -267,7 +256,6 @@ button:focus-visible {
     border-radius: 7px;
 
     display: none;
-
 }
 
 .zusatzfelder {
@@ -275,7 +263,6 @@ button:focus-visible {
     border-left: 4px solid #007bff;
 
     background: #f1f8ff;
-
 }
 
 .aussagenfelder {
@@ -283,7 +270,6 @@ button:focus-visible {
     border-left: 4px solid #6f42c1;
 
     background: #f7f2ff;
-
 }
 
 .aussage-hinweis {
@@ -291,7 +277,6 @@ button:focus-visible {
     background: #fff3cd;
 
     border-left: 4px solid #ffc107;
-
 }
 
 .finanzfelder {
@@ -299,7 +284,6 @@ button:focus-visible {
     border-left: 4px solid #198754;
 
     background: #e8f5e9;
-
 }
 
 .finanz-option {
@@ -311,7 +295,6 @@ button:focus-visible {
     gap: 8px;
 
     margin-top: 12px;
-
 }
 
 .finanz-option input[type="checkbox"] {
@@ -321,7 +304,6 @@ button:focus-visible {
     margin: 0;
 
     transform: scale(1.2);
-
 }
 
 .finanz-detail {
@@ -333,7 +315,6 @@ button:focus-visible {
     padding-left: 10px;
 
     border-left: 2px solid #aaa;
-
 }
 
 .status {
@@ -351,7 +332,6 @@ button:focus-visible {
     text-align: center;
 
     font-size: 14px;
-
 }
 
 .status.ok {
@@ -359,7 +339,6 @@ button:focus-visible {
     background: #d1e7dd;
 
     color: #0f5132;
-
 }
 
 .status.warn {
@@ -367,7 +346,6 @@ button:focus-visible {
     background: #fff3cd;
 
     color: #664d03;
-
 }
 
 .status.error {
@@ -375,15 +353,6 @@ button:focus-visible {
     background: #f8d7da;
 
     color: #842029;
-
-}
-
-.status.locked {
-
-    background: #212529;
-
-    color: white;
-
 }
 
 .info-box {
@@ -397,7 +366,6 @@ button:focus-visible {
     margin-top: 10px;
 
     font-size: 14px;
-
 }
 
 .small {
@@ -405,13 +373,10 @@ button:focus-visible {
     font-size: 13px;
 
     color: #666;
-
 }
 
 .hidden {
-
     display: none !important;
-
 }
 
 hr {
@@ -421,7 +386,6 @@ hr {
     border-top: 1px solid #ddd;
 
     margin: 20px 0;
-
 }
 
 .sicherheits-box {
@@ -429,7 +393,6 @@ hr {
     border-left: 4px solid #198754;
 
     font-size: 14px;
-
 }
 
 .checkbox-zeile {
@@ -441,7 +404,6 @@ hr {
     gap: 10px;
 
     margin-top: 12px;
-
 }
 
 .checkbox-zeile input {
@@ -451,28 +413,97 @@ hr {
     margin: 0;
 
     transform: scale(1.2);
-
 }
 
-.sicherheits-status {
+#lockScreen {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 99999;
 
     display: flex;
 
+    align-items: center;
+
     justify-content: center;
+
+    padding: 20px;
+
+    background:
+        rgba(244,246,248,0.98);
+}
+
+.lock-box {
+
+    width: 100%;
+
+    max-width: 430px;
+
+    padding: 25px;
+
+    background: white;
+
+    border: 1px solid #ccc;
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 8px 30px rgba(0,0,0,0.15);
+
+    text-align: center;
+}
+
+.lock-box h2 {
+    margin-top: 0;
+}
+
+.lock-box input {
+    text-align: center;
+}
+
+.lock-status {
+
+    min-height: 22px;
+
+    margin-top: 10px;
+
+    font-size: 14px;
+}
+
+.lock-status.error {
+    color: #842029;
+}
+
+.lock-status.ok {
+    color: #0f5132;
+}
+
+.security-status {
+
+    display: flex;
+
+    justify-content: space-between;
 
     align-items: center;
 
-    gap: 8px;
-
-    margin: 0 auto 20px auto;
+    gap: 10px;
 
     max-width: 650px;
 
-    font-size: 13px;
+    margin: 0 auto 20px auto;
 
+    padding: 10px 12px;
+
+    border-radius: 7px;
+
+    background: #e9ecef;
+
+    font-size: 13px;
 }
 
-.punkt {
+.security-dot {
 
     width: 10px;
 
@@ -482,109 +513,35 @@ hr {
 
     background: #198754;
 
+    flex-shrink: 0;
 }
 
-.punkt.gelb {
-
-    background: #ffc107;
-
-}
-
-.punkt.rot {
-
+.security-dot.locked {
     background: #dc3545;
-
 }
 
-#appLocked {
-
-    position: fixed;
-
-    inset: 0;
-
-    z-index: 9999;
-
-    background: rgba(20,20,20,0.97);
-
-    color: white;
+.security-left {
 
     display: flex;
 
-    justify-content: center;
-
     align-items: center;
 
-    padding: 20px;
-
+    gap: 8px;
 }
 
-.lock-box {
-
-    width: 100%;
-
-    max-width: 450px;
-
-    background: #fff;
-
-    color: #222;
-
-    border-radius: 12px;
-
-    padding: 24px;
-
-    box-shadow:
-        0 10px 40px rgba(0,0,0,0.4);
-
-}
-
-.lock-box h2 {
-
-    text-align: center;
-
-    margin-top: 0;
-
-}
-
-.lock-box input {
-
-    margin-top: 10px;
-
-}
-
-.lock-box button {
-
-    margin-top: 15px;
-
-}
-
-.passwort-hinweis {
-
-    font-size: 13px;
-
-    color: #666;
-
-    line-height: 1.5;
-
-}
-
-.auto-speichern {
-
-    font-size: 13px;
-
-    text-align: center;
+.autosave {
 
     color: #555;
 
-    margin-bottom: 15px;
+    font-size: 12px;
 
+    text-align: right;
 }
 
 @media (min-width: 600px) {
 
     body {
-
         padding-top: 30px;
-
     }
 
     button {
@@ -594,41 +551,45 @@ hr {
         margin-left: auto;
 
         margin-right: auto;
-
     }
-
 }
 
 </style>
 
 </head>
 
+
 <body>
 
-<div id="appLocked">
+
+<!-- =====================================================
+     SPERRBILDSCHIRM
+===================================================== -->
+
+<div id="lockScreen"
+     class="hidden">
 
     <div class="lock-box">
 
         <h2>🔐 Personenerfassung</h2>
 
-        <p id="lockText">
+        <p>
             Die Anwendung ist gesperrt.
         </p>
 
-        <label>
+        <p class="small">
+            Die lokal gespeicherten Daten sind
+            verschlüsselt.
+        </p>
 
-            Passwort:
-
-            <input
-                type="password"
-                id="unlockPassword"
-                autocomplete="current-password"
-                maxlength="200">
-
-        </label>
+        <input
+            id="unlockPassword"
+            type="password"
+            autocomplete="current-password"
+            placeholder="Passwort">
 
         <button
-            id="btnUnlock"
+            id="btnEntsperren"
             class="btn-gruen"
             type="button">
 
@@ -636,25 +597,10 @@ hr {
 
         </button>
 
-        <p
-            id="firstPasswordHint"
-            class="passwort-hinweis hidden">
-
-            Beim ersten Start wird mit diesem Passwort
-            die lokale Verschlüsselung eingerichtet.
-            Das Passwort wird nicht gespeichert.
-
-            <br><br>
-
-            <strong>
-                Wichtig:
-            </strong>
-
-            Wenn Sie das Passwort verlieren, können
-            die verschlüsselten Daten nicht
-            wiederhergestellt werden.
-
-        </p>
+        <div
+            id="lockStatus"
+            class="lock-status">
+        </div>
 
     </div>
 
@@ -664,24 +610,33 @@ hr {
 <h1>📋 Personalienblatt</h1>
 
 
-<div
-    id="status"
-    class="status">
+<div id="status"
+     class="status">
 
     App wird gestartet …
 
 </div>
 
 
-<div class="sicherheits-status">
+<div class="security-status">
+
+    <div class="security-left">
+
+        <span
+            id="securityDot"
+            class="security-dot">
+        </span>
+
+        <span id="securityText">
+            Sicherheitsstatus wird geprüft …
+        </span>
+
+    </div>
 
     <span
-        id="statusPunkt"
-        class="punkt">
-    </span>
-
-    <span id="securityText">
-        Sicherheitsstatus wird geprüft …
+        id="autosaveStatus"
+        class="autosave">
+        Auto-Speicherung aktiv
     </span>
 
 </div>
@@ -689,55 +644,30 @@ hr {
 
 <div class="sicherheits-box">
 
-    <strong>🔐 Datenschutz V9</strong>
+    <strong>🔐 Datenschutz V10</strong>
 
     <p>
-
-        Die Personendaten werden automatisch
-        verschlüsselt gespeichert.
-
+        Die lokal gespeicherten Personendaten
+        werden mit AES-256-GCM verschlüsselt.
     </p>
 
     <p>
-
-        Die lokale Speicherung verwendet
-        AES-256-GCM mit einem aus Ihrem Passwort
-        abgeleiteten Schlüssel.
-
+        Das Verschlüsselungspasswort wird nicht
+        gespeichert.
     </p>
 
     <p>
-
-        Das Passwort wird nicht gespeichert.
-
+        Bei Inaktivität wird die Anwendung
+        automatisch gesperrt.
     </p>
 
     <p class="small">
-
-        Nach einem Neustart oder nach einer
-        automatischen Sperre muss das Passwort
-        erneut eingegeben werden.
-
-    </p>
-
-    <p class="small">
-
         Die E-Mail-Funktion verwendet weiterhin
-        <code>mailto:</code>. Die Daten werden dabei
-        an die installierte Mail-App übergeben und
-        verlassen dort den geschützten lokalen
-        Speicherbereich.
-
+        mailto:. Dabei werden die Daten an die
+        installierte Mail-App übergeben und sind
+        dort nicht durch die lokale
+        Verschlüsselung geschützt.
     </p>
-
-</div>
-
-
-<div
-    id="autoSaveStatus"
-    class="auto-speichern">
-
-    🔐 Automatische Speicherung vorbereitet
 
 </div>
 
@@ -745,41 +675,37 @@ hr {
 <div id="formContainer"></div>
 
 
-<button
-    id="btnNeuePerson"
-    class="btn-gruen"
-    type="button">
+<button id="btnNeuePerson"
+        class="btn-gruen"
+        type="button">
 
     ➕ Neue Person hinzufügen
 
 </button>
 
 
-<button
-    id="btnMail"
-    type="button">
+<button id="btnMail"
+        type="button">
 
     📤 Abschicken / E-Mail erstellen
 
 </button>
 
 
-<button
-    id="btnSperren"
-    class="btn-grau"
-    type="button">
+<button id="btnSperren"
+        class="btn-sperren"
+        type="button">
 
     🔒 App jetzt sperren
 
 </button>
 
 
-<button
-    id="btnLoeschen"
-    class="btn-rot"
-    type="button">
+<button id="btnLoeschen"
+        class="btn-rot"
+        type="button">
 
-    🗑️ Alle Daten löschen
+    🗑️ Alle lokalen Daten löschen
 
 </button>
 
@@ -788,9 +714,8 @@ hr {
      ZUSATZMASKE
 ===================================================== -->
 
-<div
-    id="zusatzMaske"
-    class="zusatz-maske hidden">
+<div id="zusatzMaske"
+     class="zusatz-maske hidden">
 
     <h3>📤 Zusätzliche Informationen</h3>
 
@@ -798,10 +723,9 @@ hr {
 
         Aktuelles Datum:
 
-        <input
-            type="text"
-            id="datum"
-            readonly>
+        <input type="text"
+               id="datum"
+               readonly>
 
     </label>
 
@@ -809,9 +733,8 @@ hr {
 
         Zeit:
 
-        <input
-            type="time"
-            id="zeit">
+        <input type="time"
+               id="zeit">
 
     </label>
 
@@ -819,10 +742,9 @@ hr {
 
         Ereignis:
 
-        <input
-            type="text"
-            id="ereignis"
-            maxlength="200">
+        <input type="text"
+               id="ereignis"
+               maxlength="200">
 
     </label>
 
@@ -831,28 +753,24 @@ hr {
         <strong>Hinweis:</strong>
 
         <p>
-
             Beim Erstellen der E-Mail werden die
             eingegebenen Personendaten an die
             Mail-App übergeben.
-
         </p>
 
     </div>
 
-    <button
-        id="btnEmailErstellen"
-        class="btn-gruen"
-        type="button">
+    <button id="btnEmailErstellen"
+            class="btn-gruen"
+            type="button">
 
         ✅ E-Mail erstellen
 
     </button>
 
-    <button
-        id="btnZusatzZurueck"
-        class="btn-grau"
-        type="button">
+    <button id="btnZusatzZurueck"
+            class="btn-grau"
+            type="button">
 
         Zurück
 
@@ -863,27 +781,22 @@ hr {
 
 <script>
 
+/* =========================================================
+   PERSONENERFASSUNG V10
+   ========================================================= */
+
 "use strict";
 
 
 /* =========================================================
-   V9 KONFIGURATION
-========================================================= */
+   KONFIGURATION
+   ========================================================= */
+
+const STORAGE_KEY =
+    "personenerfassung_secure_v10";
 
 const APP_VERSION =
-    "9.0";
-
-const DB_NAME =
-    "PersonenerfassungV9";
-
-const DB_VERSION =
-    1;
-
-const STORE_NAME =
-    "secureData";
-
-const RECORD_ID =
-    "primary";
+    "10.0";
 
 const PBKDF2_ITERATIONS =
     600000;
@@ -892,7 +805,10 @@ const AUTO_SAVE_DELAY =
     1200;
 
 const AUTO_LOCK_MINUTES =
-    5;
+    15;
+
+const AUTO_LOCK_MS =
+    AUTO_LOCK_MINUTES * 60 * 1000;
 
 const MAIL_EMPFAENGER =
     "marco.wueest@lu.ch";
@@ -902,25 +818,19 @@ let formIndex = 0;
 
 let alleDaten = [];
 
-let encryptionPassword = null;
-
-let encryptionSalt = null;
+let masterPassword = null;
 
 let autoSaveTimer = null;
 
-let autoSaveInProgress = false;
+let autoLockTimer = null;
 
-let pendingSave = false;
+let appInitialisiert = false;
 
-let appUnlocked = false;
-
-let firstRun = false;
-
-let lastActivity = Date.now();
+let entsperrt = false;
 
 
 /* =========================================================
-   DOM HELPER
+   HILFSFUNKTIONEN
 ========================================================= */
 
 function $(selector, parent = document) {
@@ -930,1036 +840,73 @@ function $(selector, parent = document) {
 }
 
 
-/* =========================================================
-   STATUS
-========================================================= */
-
 function status(text, typ = "") {
 
     const el =
         document.getElementById("status");
 
-    if (!el) {
+    el.textContent = text;
 
-        return;
-
-    }
-
-    el.textContent =
-        text;
-
-    el.className =
-        "status";
+    el.className = "status";
 
     if (typ) {
-
         el.classList.add(typ);
-
     }
+
+}
+
+
+function sicherheitsStatus(text, locked = false) {
+
+    const dot =
+        document.getElementById("securityDot");
+
+    const label =
+        document.getElementById("securityText");
+
+    label.textContent = text;
+
+    dot.classList.toggle(
+        "locked",
+        locked
+    );
+
+}
+
+
+function autosaveStatus(text) {
+
+    document.getElementById(
+        "autosaveStatus"
+    ).textContent = text;
 
 }
 
 
 /* =========================================================
-   AKTIVITÄT
+   ZEIT
 ========================================================= */
 
-function registriereAktivitaet() {
+function aktuelleZeit() {
 
-    if (!appUnlocked) {
+    const jetzt =
+        new Date();
 
-        return;
-
-    }
-
-    lastActivity =
-        Date.now();
-
-}
-
-
-[
-    "click",
-    "touchstart",
-    "keydown",
-    "mousemove",
-    "scroll"
-].forEach(eventName => {
-
-    document.addEventListener(
-        eventName,
-        registriereAktivitaet,
+    return jetzt.toLocaleTimeString(
+        "de-CH",
         {
-            passive: true
-        }
-    );
-
-});
-
-
-/* =========================================================
-   AUTOMATISCHE SPERRE
-========================================================= */
-
-setInterval(
-    () => {
-
-        if (!appUnlocked) {
-
-            return;
-
-        }
-
-        const inaktiv =
-            Date.now() -
-            lastActivity;
-
-        const limit =
-            AUTO_LOCK_MINUTES *
-            60 *
-            1000;
-
-        if (inaktiv >= limit) {
-
-            sperreApp(
-                "Die App wurde wegen Inaktivität automatisch gesperrt."
-            );
-
-        }
-
-    },
-    10000
-);
-
-
-/* =========================================================
-   TEXTENCODER
-========================================================= */
-
-function textEncoder() {
-
-    return new TextEncoder();
-
-}
-
-
-function textDecoder() {
-
-    return new TextDecoder();
-
-}
-
-
-/* =========================================================
-   BASE64
-========================================================= */
-
-function arrayToBase64(array) {
-
-    let binary = "";
-
-    for (
-        let i = 0;
-        i < array.length;
-        i++
-    ) {
-
-        binary +=
-            String.fromCharCode(
-                array[i]
-            );
-
-    }
-
-    return btoa(binary);
-
-}
-
-
-function base64ToArray(base64) {
-
-    if (
-        typeof base64 !== "string"
-    ) {
-
-        throw new Error(
-            "Ungültige Base64-Daten."
-        );
-
-    }
-
-    const binary =
-        atob(base64);
-
-    const array =
-        new Uint8Array(
-            binary.length
-        );
-
-    for (
-        let i = 0;
-        i < binary.length;
-        i++
-    ) {
-
-        array[i] =
-            binary.charCodeAt(i);
-
-    }
-
-    return array;
-
-}
-
-
-/* =========================================================
-   PASSWORT SCHLÜSSEL
-========================================================= */
-
-async function passwordKey(
-    password,
-    salt
-) {
-
-    const baseKey =
-        await crypto.subtle.importKey(
-
-            "raw",
-
-            textEncoder()
-                .encode(password),
-
-            {
-                name: "PBKDF2"
-            },
-
-            false,
-
-            [
-                "deriveKey"
-            ]
-
-        );
-
-
-    return crypto.subtle.deriveKey(
-
-        {
-
-            name: "PBKDF2",
-
-            salt: salt,
-
-            iterations:
-                PBKDF2_ITERATIONS,
-
-            hash:
-                "SHA-256"
-
-        },
-
-        baseKey,
-
-        {
-
-            name: "AES-GCM",
-
-            length: 256
-
-        },
-
-        false,
-
-        [
-            "encrypt",
-            "decrypt"
-        ]
-
-    );
-
-}
-
-
-/* =========================================================
-   VERSCHLÜSSELN
-========================================================= */
-
-async function verschluesseln(
-    text,
-    password
-) {
-
-    const salt =
-        crypto.getRandomValues(
-            new Uint8Array(16)
-        );
-
-    const iv =
-        crypto.getRandomValues(
-            new Uint8Array(12)
-        );
-
-    const key =
-        await passwordKey(
-            password,
-            salt
-        );
-
-    const encrypted =
-        await crypto.subtle.encrypt(
-
-            {
-
-                name:
-                    "AES-GCM",
-
-                iv:
-                    iv
-
-            },
-
-            key,
-
-            textEncoder()
-                .encode(text)
-
-        );
-
-
-    return {
-
-        version:
-            APP_VERSION,
-
-        algorithm:
-            "AES-256-GCM",
-
-        kdf:
-            "PBKDF2-SHA-256",
-
-        iterations:
-            PBKDF2_ITERATIONS,
-
-        salt:
-            arrayToBase64(salt),
-
-        iv:
-            arrayToBase64(iv),
-
-        data:
-            arrayToBase64(
-                new Uint8Array(
-                    encrypted
-                )
-            )
-
-    };
-
-}
-
-
-/* =========================================================
-   ENTSCHLÜSSELN
-========================================================= */
-
-async function entschluesseln(
-    obj,
-    password
-) {
-
-    if (
-        !obj ||
-        obj.algorithm !==
-            "AES-256-GCM" ||
-        obj.kdf !==
-            "PBKDF2-SHA-256"
-    ) {
-
-        throw new Error(
-            "Ungültiges Verschlüsselungsformat."
-        );
-
-    }
-
-
-    const salt =
-        base64ToArray(
-            obj.salt
-        );
-
-    const iv =
-        base64ToArray(
-            obj.iv
-        );
-
-    const data =
-        base64ToArray(
-            obj.data
-        );
-
-
-    const key =
-        await passwordKey(
-            password,
-            salt
-        );
-
-
-    const decrypted =
-        await crypto.subtle.decrypt(
-
-            {
-
-                name:
-                    "AES-GCM",
-
-                iv:
-                    iv
-
-            },
-
-            key,
-
-            data
-
-        );
-
-
-    return textDecoder()
-        .decode(decrypted);
-
-}
-
-
-/* =========================================================
-   INDEXEDDB ÖFFNEN
-========================================================= */
-
-function openDatabase() {
-
-    return new Promise(
-        (resolve, reject) => {
-
-            const request =
-                indexedDB.open(
-                    DB_NAME,
-                    DB_VERSION
-                );
-
-
-            request.onupgradeneeded =
-                event => {
-
-                    const db =
-                        event.target.result;
-
-                    if (
-                        !db.objectStoreNames
-                            .contains(STORE_NAME)
-                    ) {
-
-                        db.createObjectStore(
-                            STORE_NAME,
-                            {
-                                keyPath: "id"
-                            }
-                        );
-
-                    }
-
-                };
-
-
-            request.onsuccess =
-                () => {
-
-                    resolve(
-                        request.result
-                    );
-
-                };
-
-
-            request.onerror =
-                () => {
-
-                    reject(
-                        request.error
-                    );
-
-                };
-
+            hour: "2-digit",
+            minute: "2-digit"
         }
     );
 
 }
 
 
-/* =========================================================
-   INDEXEDDB SPEICHERN
-========================================================= */
+function aktuellesDatum() {
 
-async function dbSpeichern(
-    record
-) {
-
-    const db =
-        await openDatabase();
-
-
-    return new Promise(
-        (resolve, reject) => {
-
-            const transaction =
-                db.transaction(
-                    STORE_NAME,
-                    "readwrite"
-                );
-
-
-            const store =
-                transaction.objectStore(
-                    STORE_NAME
-                );
-
-
-            const request =
-                store.put(record);
-
-
-            request.onsuccess =
-                () => {
-
-                    resolve();
-
-                };
-
-
-            request.onerror =
-                () => {
-
-                    reject(
-                        request.error
-                    );
-
-                };
-
-
-            transaction.oncomplete =
-                () => {
-
-                    db.close();
-
-                };
-
-        }
-    );
-
-}
-
-
-/* =========================================================
-   INDEXEDDB LADEN
-========================================================= */
-
-async function dbLaden() {
-
-    const db =
-        await openDatabase();
-
-
-    return new Promise(
-        (resolve, reject) => {
-
-            const transaction =
-                db.transaction(
-                    STORE_NAME,
-                    "readonly"
-                );
-
-
-            const store =
-                transaction.objectStore(
-                    STORE_NAME
-                );
-
-
-            const request =
-                store.get(
-                    RECORD_ID
-                );
-
-
-            request.onsuccess =
-                () => {
-
-                    resolve(
-                        request.result ||
-                        null
-                    );
-
-                };
-
-
-            request.onerror =
-                () => {
-
-                    reject(
-                        request.error
-                    );
-
-                };
-
-
-            transaction.oncomplete =
-                () => {
-
-                    db.close();
-
-                };
-
-        }
-    );
-
-}
-
-
-/* =========================================================
-   INDEXEDDB LÖSCHEN
-========================================================= */
-
-async function dbLoeschen() {
-
-    const db =
-        await openDatabase();
-
-
-    return new Promise(
-        (resolve, reject) => {
-
-            const transaction =
-                db.transaction(
-                    STORE_NAME,
-                    "readwrite"
-                );
-
-
-            const store =
-                transaction.objectStore(
-                    STORE_NAME
-                );
-
-
-            const request =
-                store.delete(
-                    RECORD_ID
-                );
-
-
-            request.onsuccess =
-                () => {
-
-                    resolve();
-
-                };
-
-
-            request.onerror =
-                () => {
-
-                    reject(
-                        request.error
-                    );
-
-                };
-
-
-            transaction.oncomplete =
-                () => {
-
-                    db.close();
-
-                };
-
-        }
-    );
-
-}
-
-
-/* =========================================================
-   FORMULAR-DATEN AUSLESEN
-========================================================= */
-
-function datenAusFormularenSpeichern() {
-
-    alleDaten = [];
-
-    const forms =
-        document.querySelectorAll(
-            ".person-form"
-        );
-
-
-    forms.forEach(form => {
-
-        const finanz =
-            $(".finanzfelder", form);
-
-
-        let finanzDaten =
-            null;
-
-
-        if (
-            finanz &&
-            getComputedStyle(finanz).display !==
-                "none"
-        ) {
-
-            finanzDaten = {
-
-                selbstaendig:
-                    $('input[name="selbstaendig"]', form)
-                        .checked,
-
-                angestellt:
-                    $('input[name="angestellt"]', form)
-                        .checked,
-
-                anderes:
-                    $('input[name="anderes_einkommen"]', form)
-                        .checked,
-
-                anderes_text:
-                    $('input[name="anderes_einkommen_text"]', form)
-                        .value,
-
-                netto_einkommen:
-                    $('input[name="netto_einkommen"]', form)
-                        .value,
-
-                netto_partner:
-                    $('input[name="netto_partner"]', form)
-                        .value,
-
-                liegenschaft:
-                    $('input[name="liegenschaft_check"]', form)
-                        .checked,
-
-                liegenschaft_ort:
-                    $('input[name="liegenschaft_ort"]', form)
-                        .value,
-
-                steuerwert:
-                    $('input[name="steuerwert"]', form)
-                        .value,
-
-                hypothek:
-                    $('input[name="hypothek"]', form)
-                        .value,
-
-                anderes_vermoegen:
-                    $('input[name="anderes_vermoegen_check"]', form)
-                        .checked,
-
-                anderes_vermoegen_what:
-                    $('input[name="anderes_vermoegen_what"]', form)
-                        .value,
-
-                anderes_vermoegen_chf:
-                    $('input[name="anderes_vermoegen_chf"]', form)
-                        .value,
-
-                unterhaltsbeitrag:
-                    $('input[name="unterhaltsbeitrag_check"]', form)
-                        .checked,
-
-                unterhalt_total:
-                    $('input[name="unterhalt_total"]', form)
-                        .value,
-
-                unterhalt_an:
-                    $('input[name="unterhalt_an"]', form)
-                        .value,
-
-                kinder:
-                    $('input[name="kinder_check"]', form)
-                        .checked,
-
-                kinder_anzahl:
-                    $('input[name="kinder_anzahl"]', form)
-                        .value,
-
-                kinder_jahrgang:
-                    $('input[name="kinder_jahrgang"]', form)
-                        .value
-
-            };
-
-        }
-
-
-        alleDaten.push({
-
-            ort_person:
-                $('input[name="ort_person"]', form)
-                    .value,
-
-            vorname:
-                $('input[name="vorname"]', form)
-                    .value,
-
-            nachname:
-                $('input[name="nachname"]', form)
-                    .value,
-
-            geburtsdatum:
-                $('input[name="geburtsdatum"]', form)
-                    .value,
-
-            telefonnummer:
-                $('input[name="telefonnummer"]', form)
-                    .value,
-
-            hatZusatz:
-                $(".zusatzfelder", form)
-                    .style.display === "block",
-
-            strasse:
-                $('input[name="strasse"]', form)
-                    .value,
-
-            plz:
-                $('input[name="plz"]', form)
-                    .value,
-
-            ort:
-                $('input[name="ort"]', form)
-                    .value,
-
-            vater_vorname:
-                $('input[name="vater_vorname"]', form)
-                    .value,
-
-            vater_nachname:
-                $('input[name="vater_nachname"]', form)
-                    .value,
-
-            mutter_vorname:
-                $('input[name="mutter_vorname"]', form)
-                    .value,
-
-            mutter_nachname:
-                $('input[name="mutter_nachname"]', form)
-                    .value,
-
-            geburtsort:
-                $('input[name="geburtsort"]', form)
-                    .value,
-
-            heimatort:
-                $('input[name="heimatort"]', form)
-                    .value,
-
-            beruf:
-                $('input[name="beruf"]', form)
-                    .value,
-
-            notizen:
-                $('textarea[name="notizen"]', form)
-                    .value,
-
-            aussage_datum:
-                $('input[name="aussage_datum"]', form)
-                    .value,
-
-            aussage_zeit:
-                $('input[name="aussage_zeit"]', form)
-                    .value,
-
-            aussage_text:
-                $('textarea[name="aussage_text"]', form)
-                    .value,
-
-            finanz:
-                finanzDaten
-
-        });
-
-    });
-
-}
-
-
-/* =========================================================
-   AUTOMATISCHE VERSCHLÜSSELTE SPEICHERUNG
-========================================================= */
-
-function automatischeSpeicherungAnfordern() {
-
-    if (!appUnlocked) {
-
-        return;
-
-    }
-
-
-    if (!encryptionPassword) {
-
-        return;
-
-    }
-
-
-    clearTimeout(
-        autoSaveTimer
-    );
-
-
-    autoSaveTimer =
-        setTimeout(
-            () => {
-
-                automatischeSpeicherung();
-
-            },
-            AUTO_SAVE_DELAY
-        );
-
-}
-
-
-async function automatischeSpeicherung() {
-
-    if (!appUnlocked ||
-        !encryptionPassword) {
-
-        return;
-
-    }
-
-
-    if (autoSaveInProgress) {
-
-        pendingSave = true;
-
-        return;
-
-    }
-
-
-    autoSaveInProgress =
-        true;
-
-
-    try {
-
-        datenAusFormularenSpeichern();
-
-
-        const daten = {
-
-            version:
-                APP_VERSION,
-
-            gespeichert:
-                new Date().toISOString(),
-
-            personen:
-                alleDaten
-
-        };
-
-
-        const verschluesselteDaten =
-            await verschluesseln(
-
-                JSON.stringify(daten),
-
-                encryptionPassword
-
-            );
-
-
-        await dbSpeichern({
-
-            id:
-                RECORD_ID,
-
-            ...verschluesselteDaten
-
-        });
-
-
-        $("#autoSaveStatus")
-            .textContent =
-            "🔐 Automatisch verschlüsselt gespeichert";
-
-
-        status(
-            "🔐 Änderungen wurden automatisch verschlüsselt gespeichert.",
-            "ok"
-        );
-
-    }
-    catch (error) {
-
-        console.error(
-            "Automatische Speicherung fehlgeschlagen."
-        );
-
-
-        status(
-            "❌ Automatische Speicherung fehlgeschlagen.",
-            "error"
-        );
-
-    }
-    finally {
-
-        autoSaveInProgress =
-            false;
-
-
-        if (pendingSave) {
-
-            pendingSave =
-                false;
-
-            automatischeSpeicherungAnfordern();
-
-        }
-
-    }
-
-}
-
-
-/* =========================================================
-   FORMULAR ÄNDERUNGEN ÜBERWACHEN
-========================================================= */
-
-function ueberwacheFormular(form) {
-
-    form.addEventListener(
-        "input",
-        () => {
-
-            automatischeSpeicherungAnfordern();
-
-        }
-    );
-
-
-    form.addEventListener(
-        "change",
-        () => {
-
-            automatischeSpeicherungAnfordern();
-
-        }
-    );
+    return new Date()
+        .toLocaleDateString("de-CH");
 
 }
 
@@ -1974,50 +921,26 @@ function formatDate(event) {
         event.target.value
             .replace(/[^\d]/g, "");
 
-
     if (value.length > 2) {
 
         value =
-            value.slice(0, 2) +
-            "." +
-            value.slice(2);
+            value.slice(0, 2)
+            + "."
+            + value.slice(2);
 
     }
-
 
     if (value.length > 5) {
 
         value =
-            value.slice(0, 5) +
-            "." +
-            value.slice(5);
+            value.slice(0, 5)
+            + "."
+            + value.slice(5);
 
     }
 
-
     event.target.value =
         value.slice(0, 10);
-
-}
-
-
-/* =========================================================
-   ANDERES EINKOMMEN
-========================================================= */
-
-function zeigeAnderesText(
-    checkbox,
-    form
-) {
-
-    const input =
-        $('input[name="anderes_einkommen_text"]', form);
-
-
-    input.style.display =
-        checkbox.checked
-            ? "block"
-            : "none";
 
 }
 
@@ -2033,69 +956,47 @@ function neuesFormular() {
             "formContainer"
         );
 
-
     const div =
-        document.createElement(
-            "div"
-        );
-
+        document.createElement("div");
 
     div.className =
         "person-form";
 
-
     div.innerHTML = `
 
-        <h3>
-            Person ${formIndex + 1}
-        </h3>
-
+        <h3>Person ${formIndex + 1}</h3>
 
         <label>
-
             Ort:
-
             <input
                 type="text"
                 name="ort_person"
                 maxlength="150"
                 autocomplete="address-level2">
-
         </label>
 
-
         <label>
-
             Nachname:
-
             <input
                 type="text"
                 name="nachname"
                 maxlength="100"
                 autocomplete="family-name"
                 required>
-
         </label>
 
-
         <label>
-
             Vorname:
-
             <input
                 type="text"
                 name="vorname"
                 maxlength="100"
                 autocomplete="given-name"
                 required>
-
         </label>
 
-
         <label>
-
             Geburtsdatum:
-
             <input
                 type="text"
                 name="geburtsdatum"
@@ -2104,22 +1005,16 @@ function neuesFormular() {
                 maxlength="10"
                 autocomplete="bday"
                 required>
-
         </label>
 
-
         <label>
-
             Telefonnummer:
-
             <input
                 type="tel"
                 name="telefonnummer"
                 maxlength="50"
                 autocomplete="tel">
-
         </label>
-
 
         <button
             type="button"
@@ -2129,130 +1024,90 @@ function neuesFormular() {
 
         </button>
 
-
         <div class="zusatzfelder">
 
             <label>
-
                 Strasse:
-
                 <input
                     type="text"
                     name="strasse"
-                    maxlength="150">
-
+                    maxlength="150"
+                    autocomplete="street-address">
             </label>
 
-
             <label>
-
                 PLZ:
-
                 <input
                     type="text"
                     name="plz"
                     maxlength="20">
-
             </label>
 
-
             <label>
-
                 Ort:
-
                 <input
                     type="text"
                     name="ort"
                     maxlength="150">
-
             </label>
 
-
             <label>
-
                 Vorname Vater:
-
                 <input
                     type="text"
                     name="vater_vorname"
                     maxlength="100">
-
             </label>
 
-
             <label>
-
                 Nachname Vater:
-
                 <input
                     type="text"
                     name="vater_nachname"
                     maxlength="100">
-
             </label>
 
-
             <label>
-
                 Vorname Mutter:
-
                 <input
                     type="text"
                     name="mutter_vorname"
                     maxlength="100">
-
             </label>
 
-
             <label>
-
                 Nachname Mutter:
-
                 <input
                     type="text"
                     name="mutter_nachname"
                     maxlength="100">
-
             </label>
 
-
             <label>
-
                 Geburtsort:
-
                 <input
                     type="text"
                     name="geburtsort"
                     maxlength="150">
-
             </label>
 
-
             <label>
-
                 Heimatort:
-
                 <input
                     type="text"
                     name="heimatort"
                     maxlength="150">
-
             </label>
 
-
             <label>
-
                 Beruf:
-
                 <input
                     type="text"
                     name="beruf"
                     maxlength="150">
-
             </label>
 
         </div>
-
 
         <label>
 
@@ -2266,6 +1121,8 @@ function neuesFormular() {
         </label>
 
 
+        <!-- AUSSAGEN -->
+
         <button
             type="button"
             class="btn-aussage">
@@ -2274,7 +1131,6 @@ function neuesFormular() {
 
         </button>
 
-
         <div class="aussage-hinweis">
 
             <strong>
@@ -2282,10 +1138,8 @@ function neuesFormular() {
             </strong>
 
             <p>
-
                 Gegen Sie ist ein Vorverfahren wegen
                 …..... eingeleitet worden.
-
             </p>
 
             <ul>
@@ -2317,34 +1171,24 @@ function neuesFormular() {
 
         </div>
 
-
         <div class="aussagenfelder">
 
             <label>
-
                 Datum Aussage:
-
                 <input
                     type="text"
                     name="aussage_datum"
                     readonly>
-
             </label>
 
-
             <label>
-
                 Zeit Aussage:
-
                 <input
                     type="time"
                     name="aussage_zeit">
-
             </label>
 
-
             <label>
-
                 Aussage:
 
                 <textarea
@@ -2358,6 +1202,8 @@ function neuesFormular() {
         </div>
 
 
+        <!-- FINANZEN -->
+
         <button
             type="button"
             class="btn-finanz">
@@ -2365,7 +1211,6 @@ function neuesFormular() {
             💰 Finanzielle Verhältnisse
 
         </button>
-
 
         <div class="finanzfelder">
 
@@ -2458,7 +1303,6 @@ function neuesFormular() {
                 <span>
 
                     Liegenschaft:
-
                     <strong
                         class="ja-nein-liegenschaft">
                         Nein
@@ -2483,7 +1327,6 @@ function neuesFormular() {
 
                 </label>
 
-
                 <label>
 
                     Steuerwert:
@@ -2494,7 +1337,6 @@ function neuesFormular() {
                         maxlength="100">
 
                 </label>
-
 
                 <label>
 
@@ -2519,7 +1361,6 @@ function neuesFormular() {
                 <span>
 
                     Vermögen:
-
                     <strong
                         class="ja-nein-vermoegen">
                         Nein
@@ -2543,7 +1384,6 @@ function neuesFormular() {
                         maxlength="300">
 
                 </label>
-
 
                 <label>
 
@@ -2594,7 +1434,6 @@ function neuesFormular() {
 
                 </label>
 
-
                 <label>
 
                     An:
@@ -2618,7 +1457,6 @@ function neuesFormular() {
                 <span>
 
                     Kinder:
-
                     <strong
                         class="ja-nein-kinder">
                         Nein
@@ -2645,7 +1483,6 @@ function neuesFormular() {
 
                 </label>
 
-
                 <label>
 
                     Jahrgang Kinder:
@@ -2661,27 +1498,19 @@ function neuesFormular() {
             </div>
 
         </div>
-
     `;
 
-
-    container.appendChild(
-        div
-    );
-
+    container.appendChild(div);
 
     formIndex++;
 
-
-    aktiviereFormular(
-        div
-    );
+    aktiviereFormular(div);
 
 }
 
 
 /* =========================================================
-   FORMULAR EVENTS
+   FORMULAR-EVENTS
 ========================================================= */
 
 function aktiviereFormular(form) {
@@ -2689,115 +1518,88 @@ function aktiviereFormular(form) {
     const dateInput =
         $('input[name="geburtsdatum"]', form);
 
-
     dateInput.addEventListener(
         "input",
         formatDate
     );
 
 
-    const zusatzButton =
-        $(".btn-zusatz", form);
+    $(".btn-zusatz", form)
+        .addEventListener(
+            "click",
+            () => {
+
+                $(".zusatzfelder", form)
+                    .style.display = "block";
+
+                $(".btn-zusatz", form)
+                    .style.display = "none";
+
+                planeAutomatischesSpeichern();
+
+            }
+        );
 
 
-    zusatzButton.addEventListener(
-        "click",
-        () => {
+    $(".btn-aussage", form)
+        .addEventListener(
+            "click",
+            () => {
 
-            $(".zusatzfelder", form)
-                .style.display =
-                "block";
+                $(".aussage-hinweis", form)
+                    .style.display = "block";
 
-            zusatzButton.style.display =
-                "none";
+                $(".aussagenfelder", form)
+                    .style.display = "block";
 
-            automatischeSpeicherungAnfordern();
+                const jetzt =
+                    new Date();
 
-        }
-    );
+                $('input[name="aussage_datum"]', form)
+                    .value =
+                    jetzt.toLocaleDateString("de-CH");
 
+                $('input[name="aussage_zeit"]', form)
+                    .value =
+                    jetzt.toLocaleTimeString(
+                        "de-CH",
+                        {
+                            hour: "2-digit",
+                            minute: "2-digit"
+                        }
+                    );
 
-    const aussageButton =
-        $(".btn-aussage", form);
+                $(".btn-aussage", form)
+                    .style.display = "none";
 
+                planeAutomatischesSpeichern();
 
-    aussageButton.addEventListener(
-        "click",
-        () => {
-
-            $(".aussage-hinweis", form)
-                .style.display =
-                "block";
-
-            $(".aussagenfelder", form)
-                .style.display =
-                "block";
-
-
-            const jetzt =
-                new Date();
-
-
-            $('input[name="aussage_datum"]', form)
-                .value =
-                jetzt.toLocaleDateString(
-                    "de-CH"
-                );
+            }
+        );
 
 
-            $('input[name="aussage_zeit"]', form)
-                .value =
-                jetzt.toLocaleTimeString(
-                    "de-CH",
-                    {
-                        hour:
-                            "2-digit",
-                        minute:
-                            "2-digit"
-                    }
-                );
+    $(".btn-finanz", form)
+        .addEventListener(
+            "click",
+            () => {
 
+                $(".finanzfelder", form)
+                    .style.display = "block";
 
-            aussageButton.style.display =
-                "none";
+                $(".btn-finanz", form)
+                    .style.display = "none";
 
+                planeAutomatischesSpeichern();
 
-            automatischeSpeicherungAnfordern();
-
-        }
-    );
-
-
-    const finanzButton =
-        $(".btn-finanz", form);
-
-
-    finanzButton.addEventListener(
-        "click",
-        () => {
-
-            $(".finanzfelder", form)
-                .style.display =
-                "block";
-
-
-            finanzButton.style.display =
-                "none";
-
-
-            automatischeSpeicherungAnfordern();
-
-        }
-    );
+            }
+        );
 
 
     const selbstaendig =
         $('input[name="selbstaendig"]', form);
 
-
     const angestellt =
         $('input[name="angestellt"]', form);
-
 
     const anderes =
         $('input[name="anderes_einkommen"]', form);
@@ -2807,24 +1609,19 @@ function aktiviereFormular(form) {
         "change",
         () => {
 
-            if (
-                selbstaendig.checked
-            ) {
+            if (selbstaendig.checked) {
 
-                angestellt.checked =
-                    false;
-
-                anderes.checked =
-                    false;
-
-                zeigeAnderesText(
-                    anderes,
-                    form
-                );
+                angestellt.checked = false;
+                anderes.checked = false;
 
             }
 
-            automatischeSpeicherungAnfordern();
+            zeigeAnderesText(
+                anderes,
+                form
+            );
+
+            planeAutomatischesSpeichern();
 
         }
     );
@@ -2834,24 +1631,19 @@ function aktiviereFormular(form) {
         "change",
         () => {
 
-            if (
-                angestellt.checked
-            ) {
+            if (angestellt.checked) {
 
-                selbstaendig.checked =
-                    false;
-
-                anderes.checked =
-                    false;
-
-                zeigeAnderesText(
-                    anderes,
-                    form
-                );
+                selbstaendig.checked = false;
+                anderes.checked = false;
 
             }
 
-            automatischeSpeicherungAnfordern();
+            zeigeAnderesText(
+                anderes,
+                form
+            );
+
+            planeAutomatischesSpeichern();
 
         }
     );
@@ -2861,15 +1653,10 @@ function aktiviereFormular(form) {
         "change",
         () => {
 
-            if (
-                anderes.checked
-            ) {
+            if (anderes.checked) {
 
-                selbstaendig.checked =
-                    false;
-
-                angestellt.checked =
-                    false;
+                selbstaendig.checked = false;
+                angestellt.checked = false;
 
             }
 
@@ -2878,7 +1665,7 @@ function aktiviereFormular(form) {
                 form
             );
 
-            automatischeSpeicherungAnfordern();
+            planeAutomatischesSpeichern();
 
         }
     );
@@ -2922,7 +1709,6 @@ function aktiviereFormular(form) {
                     form
                 );
 
-
             checkbox.addEventListener(
                 "change",
                 () => {
@@ -2933,27 +1719,23 @@ function aktiviereFormular(form) {
                             form
                         );
 
-
                     const label =
                         $(
                             "." + labelName,
                             form
                         );
 
-
                     detail.style.display =
                         checkbox.checked
                             ? "block"
                             : "none";
-
 
                     label.textContent =
                         checkbox.checked
                             ? "Ja"
                             : "Nein";
 
-
-                    automatischeSpeicherungAnfordern();
+                    planeAutomatischesSpeichern();
 
                 }
             );
@@ -2962,15 +1744,822 @@ function aktiviereFormular(form) {
     );
 
 
-    ueberwacheFormular(
-        form
+    /*
+     * Änderungen an allen Eingabefeldern
+     * lösen automatische Speicherung aus.
+     */
+
+    form.querySelectorAll(
+        "input, textarea, select"
+    ).forEach(
+        element => {
+
+            element.addEventListener(
+                "input",
+                () => {
+
+                    planeAutomatischesSpeichern();
+
+                    resetAutoLock();
+
+                }
+            );
+
+            element.addEventListener(
+                "change",
+                () => {
+
+                    planeAutomatischesSpeichern();
+
+                    resetAutoLock();
+
+                }
+            );
+
+        }
+    );
+
+}
+
+
+function zeigeAnderesText(
+    checkbox,
+    form
+) {
+
+    const input =
+        $('input[name="anderes_einkommen_text"]', form);
+
+    input.style.display =
+        checkbox.checked
+            ? "block"
+            : "none";
+
+}
+
+
+/* =========================================================
+   DATEN AUS FORMULAREN
+========================================================= */
+
+function datenAusFormularenSpeichern() {
+
+    alleDaten = [];
+
+    const forms =
+        document.querySelectorAll(
+            ".person-form"
+        );
+
+
+    forms.forEach(form => {
+
+        const finanz =
+            $(".finanzfelder", form);
+
+        let finanzDaten = null;
+
+
+        if (
+            finanz &&
+            getComputedStyle(finanz).display !== "none"
+        ) {
+
+            finanzDaten = {
+
+                selbstaendig:
+                    $('input[name="selbstaendig"]', form)
+                        .checked,
+
+                angestellt:
+                    $('input[name="angestellt"]', form)
+                        .checked,
+
+                anderes:
+                    $('input[name="anderes_einkommen"]', form)
+                        .checked,
+
+                anderes_text:
+                    $('input[name="anderes_einkommen_text"]', form)
+                        .value,
+
+                netto_einkommen:
+                    $('input[name="netto_einkommen"]', form)
+                        .value,
+
+                netto_partner:
+                    $('input[name="netto_partner"]', form)
+                        .value,
+
+                liegenschaft:
+                    $('input[name="liegenschaft_check"]', form)
+                        .checked,
+
+                liegenschaft_ort:
+                    $('input[name="liegenschaft_ort"]', form)
+                        .value,
+
+                steuerwert:
+                    $('input[name="steuerwert"]', form)
+                        .value,
+
+                hypothek:
+                    $('input[name="hypothek"]', form)
+                        .value,
+
+                anderes_vermoegen:
+                    $('input[name="anderes_vermoegen_check"]', form)
+                        .checked,
+
+                anderes_vermoegen_what:
+                    $('input[name="anderes_vermoegen_what"]', form)
+                        .value,
+
+                anderes_vermoegen_chf:
+                    $('input[name="anderes_vermoegen_chf"]', form)
+                        .value,
+
+                unterhaltsbeitrag:
+                    $('input[name="unterhaltsbeitrag_check"]', form)
+                        .checked,
+
+                unterhalt_total:
+                    $('input[name="unterhalt_total"]', form)
+                        .value,
+
+                unterhalt_an:
+                    $('input[name="unterhalt_an"]', form)
+                        .value,
+
+                kinder:
+                    $('input[name="kinder_check"]', form)
+                        .checked,
+
+                kinder_anzahl:
+                    $('input[name="kinder_anzahl"]', form)
+                        .value,
+
+                kinder_jahrgang:
+                    $('input[name="kinder_jahrgang"]', form)
+                        .value
+
+            };
+
+        }
+
+
+        alleDaten.push({
+
+            ort_person:
+                $('input[name="ort_person"]', form).value,
+
+            vorname:
+                $('input[name="vorname"]', form).value,
+
+            nachname:
+                $('input[name="nachname"]', form).value,
+
+            geburtsdatum:
+                $('input[name="geburtsdatum"]', form).value,
+
+            telefonnummer:
+                $('input[name="telefonnummer"]', form).value,
+
+            hatZusatz:
+                $(".zusatzfelder", form)
+                    .style.display === "block",
+
+            strasse:
+                $('input[name="strasse"]', form).value,
+
+            plz:
+                $('input[name="plz"]', form).value,
+
+            ort:
+                $('input[name="ort"]', form).value,
+
+            vater_vorname:
+                $('input[name="vater_vorname"]', form).value,
+
+            vater_nachname:
+                $('input[name="vater_nachname"]', form).value,
+
+            mutter_vorname:
+                $('input[name="mutter_vorname"]', form).value,
+
+            mutter_nachname:
+                $('input[name="mutter_nachname"]', form).value,
+
+            geburtsort:
+                $('input[name="geburtsort"]', form).value,
+
+            heimatort:
+                $('input[name="heimatort"]', form).value,
+
+            beruf:
+                $('input[name="beruf"]', form).value,
+
+            notizen:
+                $('textarea[name="notizen"]', form).value,
+
+            aussage_datum:
+                $('input[name="aussage_datum"]', form).value,
+
+            aussage_zeit:
+                $('input[name="aussage_zeit"]', form).value,
+
+            aussage_text:
+                $('textarea[name="aussage_text"]', form).value,
+
+            finanz:
+                finanzDaten
+
+        });
+
+    });
+
+}
+
+
+/* =========================================================
+   TEXTENCODER / DECODER
+========================================================= */
+
+const encoder =
+    new TextEncoder();
+
+const decoder =
+    new TextDecoder();
+
+
+/* =========================================================
+   PASSWORT → SCHLÜSSEL
+========================================================= */
+
+async function passwordKey(
+    password,
+    salt
+) {
+
+    const baseKey =
+        await crypto.subtle.importKey(
+            "raw",
+            encoder.encode(password),
+            {
+                name: "PBKDF2"
+            },
+            false,
+            ["deriveKey"]
+        );
+
+
+    return crypto.subtle.deriveKey(
+
+        {
+            name: "PBKDF2",
+
+            salt: salt,
+
+            iterations:
+                PBKDF2_ITERATIONS,
+
+            hash:
+                "SHA-256"
+        },
+
+        baseKey,
+
+        {
+            name: "AES-GCM",
+
+            length: 256
+        },
+
+        false,
+
+        [
+            "encrypt",
+            "decrypt"
+        ]
+
     );
 
 }
 
 
 /* =========================================================
-   FORMULAR AUS DATEN AUFBAUEN
+   ENCRYPT
+========================================================= */
+
+async function verschluesseln(
+    text,
+    password
+) {
+
+    const salt =
+        crypto.getRandomValues(
+            new Uint8Array(16)
+        );
+
+
+    const iv =
+        crypto.getRandomValues(
+            new Uint8Array(12)
+        );
+
+
+    const key =
+        await passwordKey(
+            password,
+            salt
+        );
+
+
+    const encrypted =
+        await crypto.subtle.encrypt(
+
+            {
+                name: "AES-GCM",
+
+                iv: iv
+
+            },
+
+            key,
+
+            encoder.encode(text)
+
+        );
+
+
+    return {
+
+        version:
+            10,
+
+        algorithm:
+            "AES-256-GCM",
+
+        kdf:
+            "PBKDF2-SHA-256",
+
+        iterations:
+            PBKDF2_ITERATIONS,
+
+        salt:
+            arrayToBase64(salt),
+
+        iv:
+            arrayToBase64(iv),
+
+        data:
+            arrayToBase64(
+                new Uint8Array(encrypted)
+            )
+
+    };
+
+}
+
+
+/* =========================================================
+   DECRYPT
+========================================================= */
+
+async function entschluesseln(
+    obj,
+    password
+) {
+
+    if (
+        !obj ||
+        obj.algorithm !==
+            "AES-256-GCM" ||
+        obj.kdf !==
+            "PBKDF2-SHA-256"
+    ) {
+
+        throw new Error(
+            "Ungültiges Verschlüsselungsformat."
+        );
+
+    }
+
+
+    if (
+        obj.iterations <
+        100000
+    ) {
+
+        throw new Error(
+            "Unsichere KDF-Konfiguration."
+        );
+
+    }
+
+
+    const salt =
+        base64ToArray(
+            obj.salt
+        );
+
+
+    const iv =
+        base64ToArray(
+            obj.iv
+        );
+
+
+    const data =
+        base64ToArray(
+            obj.data
+        );
+
+
+    const key =
+        await passwordKey(
+            password,
+            salt
+        );
+
+
+    const decrypted =
+        await crypto.subtle.decrypt(
+
+            {
+                name: "AES-GCM",
+
+                iv: iv
+
+            },
+
+            key,
+
+            data
+
+        );
+
+
+    return decoder.decode(
+        decrypted
+    );
+
+}
+
+
+/* =========================================================
+   BASE64
+========================================================= */
+
+function arrayToBase64(array) {
+
+    let binary = "";
+
+    const chunkSize =
+        0x8000;
+
+
+    for (
+        let i = 0;
+        i < array.length;
+        i += chunkSize
+    ) {
+
+        binary +=
+            String.fromCharCode.apply(
+                null,
+                array.subarray(
+                    i,
+                    Math.min(
+                        i + chunkSize,
+                        array.length
+                    )
+                )
+            );
+
+    }
+
+
+    return btoa(binary);
+
+}
+
+
+function base64ToArray(base64) {
+
+    if (
+        typeof base64 !== "string"
+    ) {
+
+        throw new Error(
+            "Ungültige Base64-Daten."
+        );
+
+    }
+
+
+    const binary =
+        atob(base64);
+
+
+    const array =
+        new Uint8Array(
+            binary.length
+        );
+
+
+    for (
+        let i = 0;
+        i < binary.length;
+        i++
+    ) {
+
+        array[i] =
+            binary.charCodeAt(i);
+
+    }
+
+
+    return array;
+
+}
+
+
+/* =========================================================
+   PASSWORT
+========================================================= */
+
+function passwortPruefen(
+    password
+) {
+
+    return (
+        typeof password === "string" &&
+        password.length >= 12
+    );
+
+}
+
+
+function passwortAbfragen(
+    text
+) {
+
+    const password =
+        window.prompt(text);
+
+
+    if (
+        password === null
+    ) {
+
+        return null;
+
+    }
+
+
+    if (
+        !passwortPruefen(password)
+    ) {
+
+        alert(
+            "Bitte ein Passwort mit mindestens " +
+            "12 Zeichen verwenden."
+        );
+
+        return null;
+
+    }
+
+
+    return password;
+
+}
+
+
+/* =========================================================
+   AUTOMATISCHES SPEICHERN
+========================================================= */
+
+function planeAutomatischesSpeichern() {
+
+    if (!entsperrt) {
+        return;
+    }
+
+
+    if (!masterPassword) {
+        return;
+    }
+
+
+    clearTimeout(
+        autoSaveTimer
+    );
+
+
+    autosaveStatus(
+        "Änderung wird gespeichert …"
+    );
+
+
+    autoSaveTimer =
+        setTimeout(
+            () => {
+
+                speichereAutomatisch();
+
+            },
+            AUTO_SAVE_DELAY
+        );
+
+}
+
+
+async function speichereAutomatisch() {
+
+    if (!entsperrt) {
+        return;
+    }
+
+
+    if (!masterPassword) {
+        return;
+    }
+
+
+    try {
+
+        datenAusFormularenSpeichern();
+
+
+        const daten = {
+
+            app:
+                "Personenerfassung",
+
+            version:
+                APP_VERSION,
+
+            gespeichert:
+                new Date().toISOString(),
+
+            personen:
+                alleDaten
+
+        };
+
+
+        const verschluesselteDaten =
+            await verschluesseln(
+                JSON.stringify(daten),
+                masterPassword
+            );
+
+
+        localStorage.setItem(
+
+            STORAGE_KEY,
+
+            JSON.stringify(
+                verschluesselteDaten
+            )
+
+        );
+
+
+        autosaveStatus(
+            "✓ automatisch verschlüsselt gespeichert"
+        );
+
+
+        status(
+            "🔐 Änderungen wurden automatisch verschlüsselt gespeichert.",
+            "ok"
+        );
+
+    }
+    catch (error) {
+
+        console.error(error);
+
+        autosaveStatus(
+            "⚠️ Speicherung fehlgeschlagen"
+        );
+
+
+        status(
+            "❌ Automatische Verschlüsselung fehlgeschlagen.",
+            "error"
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   DATEN LÖSCHEN
+========================================================= */
+
+function lokaleDatenVorhanden() {
+
+    return !!localStorage.getItem(
+        STORAGE_KEY
+    );
+
+}
+
+
+function allesLoeschen() {
+
+    const bestaetigung =
+        window.confirm(
+
+            "ACHTUNG!\n\n" +
+
+            "Sollen wirklich alle lokal gespeicherten " +
+            "Personendaten gelöscht werden?\n\n" +
+
+            "Dieser Vorgang kann nicht rückgängig " +
+            "gemacht werden."
+
+        );
+
+
+    if (!bestaetigung) {
+        return;
+    }
+
+
+    try {
+
+        localStorage.removeItem(
+            STORAGE_KEY
+        );
+
+    }
+    catch (error) {
+
+        console.error(error);
+
+        alert(
+            "Die lokale Speicherung konnte " +
+            "nicht vollständig gelöscht werden."
+        );
+
+        return;
+
+    }
+
+
+    /*
+     * Schlüssel aus dem aktiven Anwendungsspeicher
+     * entfernen.
+     */
+
+    masterPassword = null;
+
+    entsperrt = false;
+
+    alleDaten = [];
+
+    formIndex = 0;
+
+
+    document
+        .getElementById("formContainer")
+        .replaceChildren();
+
+
+    neuesFormular();
+
+
+    $("#ereignis").value = "";
+
+
+    versteckeZusatzMaske();
+
+
+    entsperrt = true;
+
+
+    sicherheitsStatus(
+        "Entsperrt – keine gespeicherten Daten vorhanden",
+        false
+    );
+
+
+    status(
+        "🗑️ Alle lokalen Daten wurden gelöscht.",
+        "ok"
+    );
+
+}
+
+
+/* =========================================================
+   FORMULARE AUS DATEN AUFBAUEN
 ========================================================= */
 
 function formularAusDatenAufbauen() {
@@ -2983,8 +2572,7 @@ function formularAusDatenAufbauen() {
 
     container.replaceChildren();
 
-    formIndex =
-        0;
+    formIndex = 0;
 
 
     if (!alleDaten.length) {
@@ -3014,129 +2602,108 @@ function formularAusDatenAufbauen() {
                 ];
 
 
-            const setValue =
-                (selector, value) => {
-
-                    const element =
-                        $(selector, form);
-
-                    if (element) {
-
-                        element.value =
-                            value || "";
-
-                    }
-
-                };
+            $('input[name="ort_person"]', form)
+                .value =
+                person.ort_person || "";
 
 
-            setValue(
-                'input[name="ort_person"]',
-                person.ort_person
-            );
-
-            setValue(
-                'input[name="vorname"]',
-                person.vorname
-            );
-
-            setValue(
-                'input[name="nachname"]',
-                person.nachname
-            );
-
-            setValue(
-                'input[name="geburtsdatum"]',
-                person.geburtsdatum
-            );
-
-            setValue(
-                'input[name="telefonnummer"]',
-                person.telefonnummer
-            );
-
-            setValue(
-                'input[name="strasse"]',
-                person.strasse
-            );
-
-            setValue(
-                'input[name="plz"]',
-                person.plz
-            );
-
-            setValue(
-                'input[name="ort"]',
-                person.ort
-            );
-
-            setValue(
-                'input[name="vater_vorname"]',
-                person.vater_vorname
-            );
-
-            setValue(
-                'input[name="vater_nachname"]',
-                person.vater_nachname
-            );
-
-            setValue(
-                'input[name="mutter_vorname"]',
-                person.mutter_vorname
-            );
-
-            setValue(
-                'input[name="mutter_nachname"]',
-                person.mutter_nachname
-            );
-
-            setValue(
-                'input[name="geburtsort"]',
-                person.geburtsort
-            );
-
-            setValue(
-                'input[name="heimatort"]',
-                person.heimatort
-            );
-
-            setValue(
-                'input[name="beruf"]',
-                person.beruf
-            );
-
-            setValue(
-                'input[name="aussage_datum"]',
-                person.aussage_datum
-            );
-
-            setValue(
-                'input[name="aussage_zeit"]',
-                person.aussage_zeit
-            );
-
-            setValue(
-                'textarea[name="aussage_text"]',
-                person.aussage_text
-            );
-
-            setValue(
-                'textarea[name="notizen"]',
-                person.notizen
-            );
+            $('input[name="vorname"]', form)
+                .value =
+                person.vorname || "";
 
 
-            if (
-                person.hatZusatz
-            ) {
+            $('input[name="nachname"]', form)
+                .value =
+                person.nachname || "";
+
+
+            $('input[name="geburtsdatum"]', form)
+                .value =
+                person.geburtsdatum || "";
+
+
+            $('input[name="telefonnummer"]', form)
+                .value =
+                person.telefonnummer || "";
+
+
+            $('textarea[name="notizen"]', form)
+                .value =
+                person.notizen || "";
+
+
+            $('input[name="strasse"]', form)
+                .value =
+                person.strasse || "";
+
+
+            $('input[name="plz"]', form)
+                .value =
+                person.plz || "";
+
+
+            $('input[name="ort"]', form)
+                .value =
+                person.ort || "";
+
+
+            $('input[name="vater_vorname"]', form)
+                .value =
+                person.vater_vorname || "";
+
+
+            $('input[name="vater_nachname"]', form)
+                .value =
+                person.vater_nachname || "";
+
+
+            $('input[name="mutter_vorname"]', form)
+                .value =
+                person.mutter_vorname || "";
+
+
+            $('input[name="mutter_nachname"]', form)
+                .value =
+                person.mutter_nachname || "";
+
+
+            $('input[name="geburtsort"]', form)
+                .value =
+                person.geburtsort || "";
+
+
+            $('input[name="heimatort"]', form)
+                .value =
+                person.heimatort || "";
+
+
+            $('input[name="beruf"]', form)
+                .value =
+                person.beruf || "";
+
+
+            $('input[name="aussage_datum"]', form)
+                .value =
+                person.aussage_datum || "";
+
+
+            $('input[name="aussage_zeit"]', form)
+                .value =
+                person.aussage_zeit || "";
+
+
+            $('textarea[name="aussage_text"]', form)
+                .value =
+                person.aussage_text || "";
+
+
+            if (person.hatZusatz) {
 
                 $(".zusatzfelder", form)
-                    .style.display =
-                    "block";
+                    .style.display = "block";
 
                 $(".btn-zusatz", form)
-                    .style.display =
-                    "none";
+                    .style.display = "none";
 
             }
 
@@ -3147,23 +2714,18 @@ function formularAusDatenAufbauen() {
             ) {
 
                 $(".aussage-hinweis", form)
-                    .style.display =
-                    "block";
+                    .style.display = "block";
 
                 $(".aussagenfelder", form)
-                    .style.display =
-                    "block";
+                    .style.display = "block";
 
                 $(".btn-aussage", form)
-                    .style.display =
-                    "none";
+                    .style.display = "none";
 
             }
 
 
-            if (
-                person.finanz
-            ) {
+            if (person.finanz) {
 
                 const f =
                     person.finanz;
@@ -3178,8 +2740,7 @@ function formularAusDatenAufbauen() {
 
 
                 $(".btn-finanz", form)
-                    .style.display =
-                    "none";
+                    .style.display = "none";
 
 
                 $('input[name="selbstaendig"]', form)
@@ -3211,16 +2772,14 @@ function formularAusDatenAufbauen() {
                         : "none";
 
 
-                setValue(
-                    'input[name="netto_einkommen"]',
-                    f.netto_einkommen
-                );
+                $('input[name="netto_einkommen"]', form)
+                    .value =
+                    f.netto_einkommen || "";
 
 
-                setValue(
-                    'input[name="netto_partner"]',
-                    f.netto_partner
-                );
+                $('input[name="netto_partner"]', form)
+                    .value =
+                    f.netto_partner || "";
 
 
                 const checkboxen = [
@@ -3299,58 +2858,49 @@ function formularAusDatenAufbauen() {
                 );
 
 
-                setValue(
-                    'input[name="liegenschaft_ort"]',
-                    f.liegenschaft_ort
-                );
+                $('input[name="liegenschaft_ort"]', form)
+                    .value =
+                    f.liegenschaft_ort || "";
 
 
-                setValue(
-                    'input[name="steuerwert"]',
-                    f.steuerwert
-                );
+                $('input[name="steuerwert"]', form)
+                    .value =
+                    f.steuerwert || "";
 
 
-                setValue(
-                    'input[name="hypothek"]',
-                    f.hypothek
-                );
+                $('input[name="hypothek"]', form)
+                    .value =
+                    f.hypothek || "";
 
 
-                setValue(
-                    'input[name="anderes_vermoegen_what"]',
-                    f.anderes_vermoegen_what
-                );
+                $('input[name="anderes_vermoegen_what"]', form)
+                    .value =
+                    f.anderes_vermoegen_what || "";
 
 
-                setValue(
-                    'input[name="anderes_vermoegen_chf"]',
-                    f.anderes_vermoegen_chf
-                );
+                $('input[name="anderes_vermoegen_chf"]', form)
+                    .value =
+                    f.anderes_vermoegen_chf || "";
 
 
-                setValue(
-                    'input[name="unterhalt_total"]',
-                    f.unterhalt_total
-                );
+                $('input[name="unterhalt_total"]', form)
+                    .value =
+                    f.unterhalt_total || "";
 
 
-                setValue(
-                    'input[name="unterhalt_an"]',
-                    f.unterhalt_an
-                );
+                $('input[name="unterhalt_an"]', form)
+                    .value =
+                    f.unterhalt_an || "";
 
 
-                setValue(
-                    'input[name="kinder_anzahl"]',
-                    f.kinder_anzahl
-                );
+                $('input[name="kinder_anzahl"]', form)
+                    .value =
+                    f.kinder_anzahl || "";
 
 
-                setValue(
-                    'input[name="kinder_jahrgang"]',
-                    f.kinder_jahrgang
-                );
+                $('input[name="kinder_jahrgang"]', form)
+                    .value =
+                    f.kinder_jahrgang || "";
 
             }
 
@@ -3361,100 +2911,173 @@ function formularAusDatenAufbauen() {
 
 
 /* =========================================================
-   APP SPERREN
+   SPERRFUNKTION
 ========================================================= */
 
-function sperreApp(
-    grund = "Die App wurde gesperrt."
-) {
+function sperreApp() {
 
-    if (!appUnlocked) {
-
+    if (!entsperrt) {
         return;
+    }
+
+
+    /*
+     * Vor dem Sperren noch einmal automatisch speichern.
+     */
+
+    if (masterPassword) {
+
+        speichereAutomatisch();
 
     }
 
 
-    encryptionPassword =
-        null;
-
-    encryptionSalt =
-        null;
-
-    appUnlocked =
-        false;
-
-
-    lastActivity =
-        Date.now();
-
-
-    const container =
-        document.getElementById(
-            "formContainer"
-        );
+    entsperrt = false;
 
 
     /*
-     * Wichtig:
-     *
-     * Die Klartextdaten werden aus dem DOM entfernt.
-     * Die verschlüsselte Kopie liegt weiterhin in IndexedDB.
+     * Passwort aus der aktiven JS-Variable entfernen.
      */
 
-    container.replaceChildren();
+    masterPassword = null;
 
 
-    $("#appLocked")
+    clearTimeout(
+        autoSaveTimer
+    );
+
+
+    clearTimeout(
+        autoLockTimer
+    );
+
+
+    document
+        .getElementById("lockScreen")
         .classList.remove("hidden");
 
 
-    $("#unlockPassword")
+    document
+        .getElementById("unlockPassword")
         .value = "";
 
 
-    $("#lockText")
-        .textContent =
-        grund;
+    document
+        .getElementById("lockStatus")
+        .textContent = "";
 
 
-    $("#securityText")
-        .textContent =
-        "App gesperrt – verschlüsselte Daten bleiben geschützt.";
+    document
+        .getElementById("unlockPassword")
+        .focus();
 
 
-    $("#statusPunkt")
-        .className =
-        "punkt rot";
+    document.body.classList.add(
+        "gesperrt"
+    );
+
+
+    sicherheitsStatus(
+        "App gesperrt",
+        true
+    );
 
 
     status(
-        "🔒 App gesperrt.",
-        "locked"
+        "🔒 App wurde gesperrt.",
+        "warn"
+    );
+
+}
+
+
+function resetAutoLock() {
+
+    if (!entsperrt) {
+        return;
+    }
+
+
+    clearTimeout(
+        autoLockTimer
+    );
+
+
+    autoLockTimer =
+        setTimeout(
+            () => {
+
+                sperreApp();
+
+            },
+            AUTO_LOCK_MS
+        );
+
+}
+
+
+function aktiviereBenutzeraktivitaet() {
+
+    [
+        "pointerdown",
+        "keydown",
+        "touchstart"
+    ].forEach(
+        eventName => {
+
+            document.addEventListener(
+                eventName,
+                () => {
+
+                    resetAutoLock();
+
+                },
+                {
+                    passive: true
+                }
+            );
+
+        }
     );
 
 }
 
 
 /* =========================================================
-   PASSWORT PRÜFEN / ENTSPERREN
+   ENTSPERREN
 ========================================================= */
 
-async function entsperren() {
+async function entsperrenApp() {
+
+    const input =
+        document.getElementById(
+            "unlockPassword"
+        );
+
 
     const password =
-        $("#unlockPassword")
-            .value;
+        input.value;
+
+
+    const lockStatus =
+        document.getElementById(
+            "lockStatus"
+        );
+
+
+    lockStatus.className =
+        "lock-status";
 
 
     if (
-        !password ||
-        password.length < 12
+        !passwortPruefen(password)
     ) {
 
-        alert(
-            "Das Passwort muss mindestens " +
-            "12 Zeichen lang sein."
+        lockStatus.textContent =
+            "Passwort muss mindestens 12 Zeichen enthalten.";
+
+        lockStatus.classList.add(
+            "error"
         );
 
         return;
@@ -3462,89 +3085,84 @@ async function entsperren() {
     }
 
 
-    const record =
-        await dbLaden();
-
-
-    /*
-     * ERSTER START
-     */
-
-    if (!record) {
-
-        encryptionPassword =
-            password;
-
-        encryptionSalt =
-            null;
-
-        appUnlocked =
-            true;
-
-        firstRun =
-            true;
-
-
-        $("#appLocked")
-            .classList.add("hidden");
-
-
-        $("#firstPasswordHint")
-            .classList.add("hidden");
-
-
-        $("#securityText")
-            .textContent =
-            "Entsperrt – automatische verschlüsselte Speicherung aktiv.";
-
-
-        $("#statusPunkt")
-            .className =
-            "punkt";
-
-
-        status(
-            "🔐 Neue verschlüsselte Speicherung eingerichtet.",
-            "ok"
+    const gespeichert =
+        localStorage.getItem(
+            STORAGE_KEY
         );
 
 
-        alleDaten =
-            [];
+    /*
+     * Noch keine Daten vorhanden:
+     * Passwort wird als Sitzungsschlüssel
+     * verwendet, aber nicht gespeichert.
+     */
 
+    if (!gespeichert) {
+
+        masterPassword =
+            password;
+
+        entsperrt = true;
+
+        alleDaten = [];
 
         formularAusDatenAufbauen();
 
 
-        lastActivity =
-            Date.now();
+        document
+            .getElementById("lockScreen")
+            .classList.add("hidden");
 
 
-        await automatischeSpeicherung();
+        document.body.classList.remove(
+            "gesperrt"
+        );
 
+
+        lockStatus.textContent =
+            "Bereit.";
+
+        lockStatus.classList.add(
+            "ok"
+        );
+
+
+        sicherheitsStatus(
+            "Entsperrt – Auto-Speicherung aktiv",
+            false
+        );
+
+
+        status(
+            "🔐 Bereit. Daten werden automatisch verschlüsselt gespeichert.",
+            "ok"
+        );
+
+
+        resetAutoLock();
 
         return;
 
     }
 
 
-    /*
-     * VERSUCH DER ENTSCHLÜSSELUNG
-     */
-
     try {
+
+        const obj =
+            JSON.parse(
+                gespeichert
+            );
+
 
         const text =
             await entschluesseln(
-                record,
+                obj,
                 password
             );
 
 
         const daten =
-            JSON.parse(
-                text
-            );
+            JSON.parse(text);
 
 
         if (
@@ -3561,47 +3179,46 @@ async function entsperren() {
         }
 
 
-        encryptionPassword =
+        /*
+         * Passwort nur im Arbeitsspeicher
+         * der aktuellen Sitzung.
+         */
+
+        masterPassword =
             password;
-
-
-        encryptionSalt =
-            base64ToArray(
-                record.salt
-            );
 
 
         alleDaten =
             daten.personen;
 
 
-        appUnlocked =
-            true;
-
-
-        firstRun =
-            false;
-
-
-        $("#appLocked")
-            .classList.add("hidden");
-
-
-        $("#securityText")
-            .textContent =
-            "Entsperrt – automatische verschlüsselte Speicherung aktiv.";
-
-
-        $("#statusPunkt")
-            .className =
-            "punkt";
+        entsperrt = true;
 
 
         formularAusDatenAufbauen();
 
 
-        lastActivity =
-            Date.now();
+        document
+            .getElementById("lockScreen")
+            .classList.add("hidden");
+
+
+        document.body.classList.remove(
+            "gesperrt"
+        );
+
+
+        input.value = "";
+
+
+        lockStatus.textContent =
+            "";
+
+
+        sicherheitsStatus(
+            "Entsperrt – Auto-Speicherung aktiv",
+            false
+        );
 
 
         status(
@@ -3610,36 +3227,28 @@ async function entsperren() {
         );
 
 
-        $("#autoSaveStatus")
-            .textContent =
-            "🔐 Verschlüsselte Daten wiederhergestellt";
-
+        resetAutoLock();
 
     }
     catch (error) {
 
-        encryptionPassword =
-            null;
+        console.error(error);
 
 
-        appUnlocked =
-            false;
+        masterPassword = null;
+
+        entsperrt = false;
 
 
-        status(
-            "❌ Passwort falsch oder Daten beschädigt.",
+        lockStatus.textContent =
+            "Falsches Passwort oder beschädigte Daten.";
+
+        lockStatus.classList.add(
             "error"
         );
 
 
-        alert(
-            "Die Daten konnten nicht entschlüsselt werden.\n\n" +
-            "Bitte prüfen Sie das Passwort."
-        );
-
-
-        $("#unlockPassword")
-            .select();
+        input.select();
 
     }
 
@@ -3652,10 +3261,8 @@ async function entsperren() {
 
 function zeigeZusatzMaske() {
 
-    if (!appUnlocked) {
-
+    if (!entsperrt) {
         return;
-
     }
 
 
@@ -3673,32 +3280,16 @@ function zeigeZusatzMaske() {
     }
 
 
-    const jetzt =
-        new Date();
-
-
     $("#datum").value =
-        jetzt.toLocaleDateString(
-            "de-CH"
-        );
+        aktuellesDatum();
 
 
     $("#zeit").value =
-        jetzt.toLocaleTimeString(
-            "de-CH",
-            {
-                hour:
-                    "2-digit",
-                minute:
-                    "2-digit"
-            }
-        );
+        aktuelleZeit();
 
 
     $("#zusatzMaske")
-        .classList.remove(
-            "hidden"
-        );
+        .classList.remove("hidden");
 
 
     window.scrollTo(
@@ -3706,15 +3297,16 @@ function zeigeZusatzMaske() {
         document.body.scrollHeight
     );
 
+
+    resetAutoLock();
+
 }
 
 
 function versteckeZusatzMaske() {
 
     $("#zusatzMaske")
-        .classList.add(
-            "hidden"
-        );
+        .classList.add("hidden");
 
 }
 
@@ -3725,10 +3317,8 @@ function versteckeZusatzMaske() {
 
 function finaleMailAbschicken() {
 
-    if (!appUnlocked) {
-
+    if (!entsperrt) {
         return;
-
     }
 
 
@@ -3738,10 +3328,8 @@ function finaleMailAbschicken() {
     const datum =
         $("#datum").value;
 
-
     const zeit =
         $("#zeit").value;
-
 
     const ereignis =
         $("#ereignis").value;
@@ -3751,9 +3339,7 @@ function finaleMailAbschicken() {
         `Personendaten ${datum}`;
 
 
-    if (
-        ereignis.trim()
-    ) {
+    if (ereignis.trim()) {
 
         betreff +=
             ` - ${ereignis.trim()}`;
@@ -3785,9 +3371,7 @@ function finaleMailAbschicken() {
                 `Ort: ${p.ort_person || "Keine Angabe"}\n\n`;
 
 
-            if (
-                p.hatZusatz
-            ) {
+            if (p.hatZusatz) {
 
                 mailBody +=
                     `--- Weitere Angaben ---\n` +
@@ -3805,7 +3389,7 @@ function finaleMailAbschicken() {
 
             if (
                 p.aussage_text &&
-                p.aussage_text.trim()
+                p.aussage_text.trim() !== ""
             ) {
 
                 mailBody +=
@@ -3817,38 +3401,29 @@ function finaleMailAbschicken() {
             }
 
 
-            if (
-                p.finanz
-            ) {
+            if (p.finanz) {
 
                 const f =
                     p.finanz;
 
 
-                if (
-                    f.angestellt
-                ) {
+                if (f.angestellt) {
 
                     mailBody +=
                         `Erwerbsstatus: Angestellt\n`;
 
                 }
-                else if (
-                    f.selbstaendig
-                ) {
+                else if (f.selbstaendig) {
 
                     mailBody +=
                         `Erwerbsstatus: Selbstständig\n`;
 
                 }
-                else if (
-                    f.anderes
-                ) {
+                else if (f.anderes) {
 
                     mailBody +=
                         `Erwerbsstatus: ${
-                            f.anderes_text ||
-                            "Anderes"
+                            f.anderes_text || "Anderes"
                         }\n`;
 
                 }
@@ -3862,13 +3437,11 @@ function finaleMailAbschicken() {
 
                 mailBody +=
                     `Netto-Einkünfte pro Monat: ${
-                        f.netto_einkommen ||
-                        "Keine Angabe"
+                        f.netto_einkommen || "Keine Angabe"
                     }\n` +
 
                     `Netto-Einkünfte Lebenspartner pro Monat: ${
-                        f.netto_partner ||
-                        "Keine Angabe"
+                        f.netto_partner || "Keine Angabe"
                     }\n`;
 
 
@@ -3880,9 +3453,7 @@ function finaleMailAbschicken() {
                     }\n`;
 
 
-                if (
-                    f.liegenschaft
-                ) {
+                if (f.liegenschaft) {
 
                     mailBody +=
                         `  Ort: ${f.liegenschaft_ort}\n` +
@@ -3900,9 +3471,7 @@ function finaleMailAbschicken() {
                     }\n`;
 
 
-                if (
-                    f.anderes_vermoegen
-                ) {
+                if (f.anderes_vermoegen) {
 
                     mailBody +=
                         `  Welches: ${
@@ -3924,9 +3493,7 @@ function finaleMailAbschicken() {
                     }\n`;
 
 
-                if (
-                    f.unterhaltsbeitrag
-                ) {
+                if (f.unterhaltsbeitrag) {
 
                     mailBody +=
                         `  Total pro Monat: ${
@@ -3948,9 +3515,7 @@ function finaleMailAbschicken() {
                     }\n`;
 
 
-                if (
-                    f.kinder
-                ) {
+                if (f.kinder) {
 
                     mailBody +=
                         `  Anzahl Kinder: ${
@@ -3964,8 +3529,7 @@ function finaleMailAbschicken() {
                 }
 
 
-                mailBody +=
-                    "\n";
+                mailBody += "\n";
 
             }
 
@@ -3981,21 +3545,17 @@ function finaleMailAbschicken() {
     /*
      * ACHTUNG:
      *
-     * Ab diesem Punkt wird der Text absichtlich
-     * als Klartext an die Mail-App übergeben.
+     * Ab hier verlassen die Daten die lokale
+     * verschlüsselte Speicherung.
      *
-     * Die lokale AES-Verschlüsselung schützt diesen
-     * Übertragungsweg nicht.
+     * mailto: übergibt den Klartext an die
+     * installierte Mail-App.
      */
 
     const mailto =
         `mailto:${MAIL_EMPFAENGER}` +
-        `?subject=${encodeURIComponent(
-            betreff
-        )}` +
-        `&body=${encodeURIComponent(
-            mailBody
-        )}`;
+        `?subject=${encodeURIComponent(betreff)}` +
+        `&body=${encodeURIComponent(mailBody)}`;
 
 
     status(
@@ -4004,120 +3564,11 @@ function finaleMailAbschicken() {
     );
 
 
+    resetAutoLock();
+
+
     window.location.href =
         mailto;
-
-}
-
-
-/* =========================================================
-   ALLES LÖSCHEN
-========================================================= */
-
-async function allesLoeschen() {
-
-    if (!appUnlocked) {
-
-        return;
-
-    }
-
-
-    const bestaetigung =
-        window.confirm(
-
-            "ACHTUNG!\n\n" +
-
-            "Sollen wirklich alle eingegebenen " +
-            "Personendaten und die verschlüsselte " +
-            "lokale Speicherung gelöscht werden?"
-
-        );
-
-
-    if (!bestaetigung) {
-
-        return;
-
-    }
-
-
-    try {
-
-        await dbLoeschen();
-
-    }
-    catch (error) {
-
-        console.error(
-            "Löschen fehlgeschlagen."
-        );
-
-
-        alert(
-            "Die lokale Speicherung konnte " +
-            "nicht vollständig gelöscht werden."
-        );
-
-
-        return;
-
-    }
-
-
-    alleDaten =
-        [];
-
-
-    formIndex =
-        0;
-
-
-    encryptionPassword =
-        null;
-
-
-    encryptionSalt =
-        null;
-
-
-    document
-        .getElementById(
-            "formContainer"
-        )
-        .replaceChildren();
-
-
-    $("#ereignis")
-        .value = "";
-
-
-    versteckeZusatzMaske();
-
-
-    neuesFormular();
-
-
-    appUnlocked =
-        true;
-
-
-    status(
-        "🗑️ Alle lokalen Daten wurden gelöscht.",
-        "ok"
-    );
-
-
-    $("#autoSaveStatus")
-        .textContent =
-        "Keine gespeicherten Personendaten";
-
-
-    /*
-     * Da die Datenbank gelöscht wurde, muss
-     * beim nächsten automatischen Speichern
-     * wieder ein neuer Datensatz angelegt werden.
-     */
 
 }
 
@@ -4128,22 +3579,16 @@ async function allesLoeschen() {
 
 function sicherheitsCheck() {
 
-    if (
-        !window.isSecureContext
-    ) {
+    if (!window.isSecureContext) {
 
-        $("#statusPunkt")
-            .className =
-            "punkt rot";
-
-
-        $("#securityText")
-            .textContent =
-            "Keine sichere Browserumgebung.";
+        sicherheitsStatus(
+            "Keine sichere Browserumgebung",
+            true
+        );
 
 
         status(
-            "⚠️ Die App läuft nicht über eine sichere HTTPS-Verbindung.",
+            "⚠️ Die App benötigt HTTPS oder localhost.",
             "warn"
         );
 
@@ -4158,14 +3603,10 @@ function sicherheitsCheck() {
         !window.crypto.subtle
     ) {
 
-        $("#statusPunkt")
-            .className =
-            "punkt rot";
-
-
-        $("#securityText")
-            .textContent =
-            "Web Crypto API nicht verfügbar.";
+        sicherheitsStatus(
+            "Web Crypto API nicht verfügbar",
+            true
+        );
 
 
         status(
@@ -4179,41 +3620,6 @@ function sicherheitsCheck() {
     }
 
 
-    if (
-        !window.indexedDB
-    ) {
-
-        $("#statusPunkt")
-            .className =
-            "punkt rot";
-
-
-        $("#securityText")
-            .textContent =
-            "IndexedDB nicht verfügbar.";
-
-
-        status(
-            "❌ IndexedDB wird von diesem Browser nicht unterstützt.",
-            "error"
-        );
-
-
-        return false;
-
-    }
-
-
-    $("#statusPunkt")
-        .className =
-        "punkt";
-
-
-    $("#securityText")
-        .textContent =
-        "Sichere Browserumgebung erkannt.";
-
-
     return true;
 
 }
@@ -4223,9 +3629,7 @@ function sicherheitsCheck() {
    SERVICE WORKER
 ========================================================= */
 
-if (
-    "serviceWorker" in navigator
-) {
+if ("serviceWorker" in navigator) {
 
     window.addEventListener(
         "load",
@@ -4235,24 +3639,25 @@ if (
                 .register(
                     "./sw.js",
                     {
-                        scope:
-                            "./"
+                        scope: "./"
                     }
                 )
                 .then(
                     () => {
 
                         console.log(
-                            "Service Worker registriert."
+                            "V10 Service Worker registriert."
                         );
 
                     }
                 )
                 .catch(
-                    () => {
+                    error => {
 
                         console.warn(
-                            "Service Worker konnte nicht registriert werden."
+                            "Service Worker konnte nicht " +
+                            "registriert werden:",
+                            error
                         );
 
                     }
@@ -4269,31 +3674,27 @@ if (
 ========================================================= */
 
 document
-    .getElementById(
-        "btnNeuePerson"
-    )
+    .getElementById("btnNeuePerson")
     .addEventListener(
         "click",
         () => {
 
-            if (!appUnlocked) {
-
+            if (!entsperrt) {
                 return;
-
             }
 
             neuesFormular();
 
-            automatischeSpeicherungAnfordern();
+            planeAutomatischesSpeichern();
+
+            resetAutoLock();
 
         }
     );
 
 
 document
-    .getElementById(
-        "btnMail"
-    )
+    .getElementById("btnMail")
     .addEventListener(
         "click",
         zeigeZusatzMaske
@@ -4301,36 +3702,19 @@ document
 
 
 document
-    .getElementById(
-        "btnSperren"
-    )
+    .getElementById("btnSperren")
     .addEventListener(
         "click",
         () => {
 
-            /*
-             * Vor dem Sperren noch einmal speichern.
-             */
-
-            automatischeSpeicherung()
-                .finally(
-                    () => {
-
-                        sperreApp(
-                            "Die App wurde manuell gesperrt."
-                        );
-
-                    }
-                );
+            sperreApp();
 
         }
     );
 
 
 document
-    .getElementById(
-        "btnLoeschen"
-    )
+    .getElementById("btnLoeschen")
     .addEventListener(
         "click",
         allesLoeschen
@@ -4338,9 +3722,7 @@ document
 
 
 document
-    .getElementById(
-        "btnEmailErstellen"
-    )
+    .getElementById("btnEmailErstellen")
     .addEventListener(
         "click",
         finaleMailAbschicken
@@ -4348,9 +3730,7 @@ document
 
 
 document
-    .getElementById(
-        "btnZusatzZurueck"
-    )
+    .getElementById("btnZusatzZurueck")
     .addEventListener(
         "click",
         versteckeZusatzMaske
@@ -4358,29 +3738,24 @@ document
 
 
 document
-    .getElementById(
-        "btnUnlock"
-    )
+    .getElementById("btnEntsperren")
     .addEventListener(
         "click",
-        entsperren
+        entsperrenApp
     );
 
 
 document
-    .getElementById(
-        "unlockPassword"
-    )
+    .getElementById("unlockPassword")
     .addEventListener(
         "keydown",
         event => {
 
             if (
-                event.key ===
-                "Enter"
+                event.key === "Enter"
             ) {
 
-                entsperren();
+                entsperrenApp();
 
             }
 
@@ -4389,37 +3764,10 @@ document
 
 
 /* =========================================================
-   SEITE VERLASSEN
+   AKTIVITÄT
 ========================================================= */
 
-document.addEventListener(
-    "visibilitychange",
-    () => {
-
-        if (
-            document.visibilityState ===
-            "hidden"
-        ) {
-
-            /*
-             * Vor dem Verlassen des Tabs
-             * noch eine automatische Speicherung
-             * anfordern.
-             */
-
-            if (
-                appUnlocked &&
-                encryptionPassword
-            ) {
-
-                automatischeSpeicherung();
-
-            }
-
-        }
-
-    }
-);
+aktiviereBenutzeraktivitaet();
 
 
 /* =========================================================
@@ -4430,86 +3778,127 @@ window.addEventListener(
     "load",
     async () => {
 
+        appInitialisiert = true;
+
+
         const sicher =
             sicherheitsCheck();
 
 
         if (!sicher) {
-
             return;
-
         }
 
 
-        try {
+        /*
+         * Wenn bereits verschlüsselte Daten
+         * vorhanden sind, wird die App gesperrt
+         * gestartet.
+         */
 
-            const record =
-                await dbLaden();
+        if (lokaleDatenVorhanden()) {
 
-
-            if (record) {
-
-                /*
-                 * Vorhandene verschlüsselte Daten.
-                 */
-
-                $("#lockText")
-                    .textContent =
-                    "Bitte geben Sie Ihr Passwort ein, um die verschlüsselten Personendaten zu laden.";
+            entsperrt = false;
 
 
-                $("#firstPasswordHint")
-                    .classList.add(
-                        "hidden"
-                    );
-
-            }
-            else {
-
-                /*
-                 * Erster Start.
-                 */
-
-                $("#lockText")
-                    .textContent =
-                    "Es wurden noch keine verschlüsselten Personendaten gefunden. Bitte legen Sie ein Passwort fest.";
+            document
+                .getElementById("lockScreen")
+                .classList.remove("hidden");
 
 
-                $("#firstPasswordHint")
-                    .classList.remove(
-                        "hidden"
-                    );
-
-            }
+            document.body.classList.add(
+                "gesperrt"
+            );
 
 
-            $("#appLocked")
-                .classList.remove(
-                    "hidden"
-                );
-
-
-            $("#unlockPassword")
-                .focus();
+            sicherheitsStatus(
+                "App gesperrt – Entsperrung erforderlich",
+                true
+            );
 
 
             status(
-                "🔐 Bitte Anwendung entsperren.",
+                "🔒 Verschlüsselte Daten vorhanden. Bitte entsperren.",
                 "warn"
             );
 
-        }
-        catch (error) {
 
-            console.error(
-                "Initialisierung fehlgeschlagen."
+            document
+                .getElementById("unlockPassword")
+                .focus();
+
+        }
+        else {
+
+            /*
+             * Bei einer erstmaligen Verwendung:
+             * Passwort einmal abfragen.
+             */
+
+            const password =
+                passwortAbfragen(
+
+                    "Erste Verwendung:\n\n" +
+                    "Bitte ein Passwort mit mindestens " +
+                    "12 Zeichen festlegen.\n\n" +
+                    "Dieses Passwort wird NICHT gespeichert. " +
+                    "Ohne das Passwort können die Daten " +
+                    "nicht wiederhergestellt werden."
+
+                );
+
+
+            if (!password) {
+
+                sicherheitsStatus(
+                    "Wartet auf Passwort",
+                    true
+                );
+
+
+                status(
+                    "⚠️ Es wurde kein gültiges Passwort festgelegt.",
+                    "warn"
+                );
+
+
+                return;
+
+            }
+
+
+            masterPassword =
+                password;
+
+
+            entsperrt = true;
+
+
+            formularAusDatenAufbauen();
+
+
+            sicherheitsStatus(
+                "Entsperrt – Auto-Speicherung aktiv",
+                false
             );
 
 
             status(
-                "❌ Die lokale sichere Speicherung konnte nicht initialisiert werden.",
-                "error"
+                "🔐 V10 ist bereit. Eingaben werden automatisch verschlüsselt gespeichert.",
+                "ok"
             );
+
+
+            /*
+             * Leeren Datensatz initial verschlüsselt
+             * anlegen, damit beim nächsten Start
+             * ebenfalls eine Passwortprüfung erfolgt.
+             */
+
+            await speichereAutomatisch();
+
+
+            resetAutoLock();
 
         }
 
