@@ -2,7 +2,6 @@
 <html lang="de-CH">
 
 <head>
-
 <meta charset="UTF-8">
 
 <meta name="viewport"
@@ -28,7 +27,7 @@
 <link rel="manifest"
       href="./manifest.json">
 
-<title>Personenerfassung V11</title>
+<title>Personenerfassung V11.1</title>
 
 <style>
 
@@ -53,7 +52,7 @@ body {
     color: #222;
 }
 
-body.gesperrt {
+body.locked {
     overflow: hidden;
 }
 
@@ -76,15 +75,10 @@ h4 {
 .sicherheits-box {
 
     background: white;
-
     border: 1px solid #d5d5d5;
-
     border-radius: 10px;
-
     padding: 16px;
-
     margin: 0 auto 20px auto;
-
     max-width: 650px;
 
     box-shadow:
@@ -102,19 +96,14 @@ textarea,
 select {
 
     width: 100%;
-
     padding: 11px;
-
     font-size: 16px;
-
     margin-top: 5px;
 
     border: 1px solid #bbb;
-
     border-radius: 6px;
 
     background: white;
-
     color: #222;
 }
 
@@ -133,21 +122,16 @@ select:focus {
 button {
 
     width: 100%;
-
     padding: 13px;
-
     margin-top: 15px;
 
     border: none;
-
     border-radius: 7px;
 
     background: #007bff;
-
     color: white;
 
     font-size: 16px;
-
     cursor: pointer;
 }
 
@@ -162,7 +146,6 @@ button:hover {
 button:focus-visible {
 
     outline: 3px solid #222;
-
     outline-offset: 2px;
 }
 
@@ -198,83 +181,71 @@ button:focus-visible {
     background: #565e64;
 }
 
+.btn-gesperrt {
+    background: #343a40;
+}
+
 .zusatzfelder,
 .aussagenfelder,
 .aussage-hinweis,
 .finanzfelder {
 
     margin-top: 12px;
-
     padding: 12px;
-
     border-radius: 7px;
-
     display: none;
 }
 
 .zusatzfelder {
 
     border-left: 4px solid #007bff;
-
     background: #f1f8ff;
 }
 
 .aussagenfelder {
 
     border-left: 4px solid #6f42c1;
-
     background: #f7f2ff;
 }
 
 .aussage-hinweis {
 
     background: #fff3cd;
-
     border-left: 4px solid #ffc107;
 }
 
 .finanzfelder {
 
     border-left: 4px solid #198754;
-
     background: #e8f5e9;
 }
 
-.finanz-option {
+.checkbox-zeile {
 
     display: flex;
-
     align-items: center;
-
-    gap: 8px;
-
+    gap: 10px;
     margin-top: 12px;
 }
 
-.finanz-option input[type="checkbox"] {
+.checkbox-zeile input {
 
     width: auto;
-
     margin: 0;
-
     transform: scale(1.2);
 }
 
 .finanz-detail {
 
     display: none;
-
     margin-left: 20px;
-
     padding-left: 10px;
-
     border-left: 2px solid #aaa;
 }
 
 .status {
 
     max-width: 650px;
-
     margin: 0 auto 20px auto;
 
     padding: 12px;
@@ -289,19 +260,16 @@ button:focus-visible {
 }
 
 .status.ok {
-
     background: #d1e7dd;
     color: #0f5132;
 }
 
 .status.warn {
-
     background: #fff3cd;
     color: #664d03;
 }
 
 .status.error {
-
     background: #f8d7da;
     color: #842029;
 }
@@ -309,20 +277,14 @@ button:focus-visible {
 .info-box {
 
     background: #eef5ff;
-
     padding: 12px;
-
     border-radius: 7px;
-
     margin-top: 10px;
-
     font-size: 14px;
 }
 
 .small {
-
     font-size: 13px;
-
     color: #666;
 }
 
@@ -333,81 +295,36 @@ button:focus-visible {
 hr {
 
     border: 0;
-
     border-top: 1px solid #ddd;
-
     margin: 20px 0;
 }
 
 .sicherheits-box {
 
     border-left: 4px solid #198754;
-
     font-size: 14px;
 }
 
-.checkbox-zeile {
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 10px;
-
-    margin-top: 12px;
-}
-
-.checkbox-zeile input {
-
-    width: auto;
-
-    margin: 0;
-
-    transform: scale(1.2);
-}
-
-.sicherheits-status {
-
-    max-width: 650px;
-
-    margin: 0 auto 20px auto;
-
-    text-align: center;
-
-    font-size: 13px;
-
-    color: #555;
-}
-
-
-/* =====================================================
-   SPERRBILDSCHIRM
-===================================================== */
-
-#lockScreen {
+#lockOverlay {
 
     position: fixed;
-
     inset: 0;
 
     z-index: 99999;
 
+    background:
+        rgba(20,25,30,0.98);
+
     display: flex;
-
     align-items: center;
-
     justify-content: center;
 
     padding: 20px;
-
-    background:
-        rgba(20,25,30,0.97);
 }
 
-.lock-box {
+.lock-card {
 
     width: 100%;
-
     max-width: 430px;
 
     background: white;
@@ -417,102 +334,55 @@ hr {
     padding: 25px;
 
     box-shadow:
-        0 10px 50px rgba(0,0,0,0.35);
-
-    text-align: center;
+        0 10px 40px rgba(0,0,0,0.35);
 }
 
-.lock-box h2 {
-
+.lock-card h2 {
+    text-align: center;
     margin-top: 0;
 }
 
-.lock-icon {
-
-    font-size: 48px;
-
-    margin-bottom: 10px;
+.lock-card p {
+    line-height: 1.5;
 }
 
-.lock-error {
+#appContent {
+    transition: opacity 0.15s;
+}
 
-    min-height: 20px;
+#appContent.locked-content {
+    filter: blur(10px);
+    pointer-events: none;
+    user-select: none;
+}
 
-    margin-top: 10px;
+.security-line {
 
-    color: #842029;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 10px;
+
+    margin-top: 12px;
+
+    padding: 10px;
+
+    background: #f8f9fa;
+
+    border-radius: 7px;
+}
+
+.security-line button {
+
+    width: auto;
+
+    margin: 0;
+
+    padding: 8px 12px;
 
     font-size: 14px;
 }
-
-.lock-hint {
-
-    font-size: 13px;
-
-    color: #666;
-
-    margin-top: 15px;
-}
-
-
-/* =====================================================
-   APP-SPERRBUTTON
-===================================================== */
-
-#btnSperren {
-
-    max-width: 650px;
-
-    margin-left: auto;
-
-    margin-right: auto;
-}
-
-
-/* =====================================================
-   SETUP
-===================================================== */
-
-#setupScreen {
-
-    position: fixed;
-
-    inset: 0;
-
-    z-index: 100000;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    padding: 20px;
-
-    background:
-        rgba(20,25,30,0.97);
-}
-
-.setup-box {
-
-    width: 100%;
-
-    max-width: 480px;
-
-    background: white;
-
-    border-radius: 14px;
-
-    padding: 25px;
-
-    box-shadow:
-        0 10px 50px rgba(0,0,0,0.35);
-}
-
-
-/* =====================================================
-   RESPONSIVE
-===================================================== */
 
 @media (min-width: 600px) {
 
@@ -521,133 +391,46 @@ hr {
     }
 
     button {
-
         max-width: 650px;
-
         margin-left: auto;
-
         margin-right: auto;
     }
 }
 
 </style>
-
 </head>
 
-
 <body>
-
-
-<!-- =====================================================
-     SETUP-BILDSCHIRM
-===================================================== -->
-
-<div id="setupScreen"
-     class="hidden">
-
-    <div class="setup-box">
-
-        <h2>🔐 Sicherheitskonfiguration</h2>
-
-        <p>
-            Beim ersten Start wird ein persönlicher
-            Sicherheitscode eingerichtet.
-        </p>
-
-        <p>
-            Der Code muss mindestens
-            <strong>8 Zeichen</strong> lang sein.
-            Eine praktische Maximallänge gibt es nicht.
-        </p>
-
-        <label>
-
-            Sicherheitscode:
-
-            <input
-                type="password"
-                id="setupPassword"
-                autocomplete="new-password">
-
-        </label>
-
-        <label>
-
-            Sicherheitscode wiederholen:
-
-            <input
-                type="password"
-                id="setupPassword2"
-                autocomplete="new-password">
-
-        </label>
-
-        <div class="info-box">
-
-            <strong>Wichtig:</strong>
-
-            <p>
-                Der Sicherheitscode wird nicht gespeichert.
-                Wenn er vergessen wird, können die
-                verschlüsselten Daten nicht wiederhergestellt
-                werden.
-            </p>
-
-        </div>
-
-        <button
-            id="btnSetup"
-            class="btn-gruen"
-            type="button">
-
-            🔐 Sicherheitscode einrichten
-
-        </button>
-
-        <div
-            id="setupError"
-            class="lock-error">
-        </div>
-
-    </div>
-
-</div>
-
 
 <!-- =====================================================
      SPERRBILDSCHIRM
 ===================================================== -->
 
-<div id="lockScreen"
-     class="hidden">
+<div id="lockOverlay">
 
-    <div class="lock-box">
+    <div class="lock-card">
 
-        <div class="lock-icon">
-            🔐
-        </div>
+        <h2>🔐 Personenerfassung</h2>
 
-        <h2>
-            App gesperrt
-        </h2>
-
-        <p>
-            Bitte Sicherheitscode eingeben.
+        <p id="lockText">
+            Die Anwendung wird vorbereitet …
         </p>
 
-        <label>
+        <label id="passwordLabel">
 
-            Sicherheitscode:
+            Code / Passwort:
 
             <input
+                id="masterPassword"
                 type="password"
-                id="unlockPassword"
-                autocomplete="current-password">
+                autocomplete="new-password"
+                minlength="8"
+                placeholder="Mindestens 8 Zeichen">
 
         </label>
 
         <button
-            id="btnEntsperren"
+            id="btnUnlock"
             class="btn-gruen"
             type="button">
 
@@ -655,17 +438,29 @@ hr {
 
         </button>
 
-        <div
-            id="unlockError"
-            class="lock-error">
-        </div>
+        <button
+            id="btnSetup"
+            class="btn-gruen hidden"
+            type="button">
 
-        <div class="lock-hint">
+            🔐 Code einrichten
 
-            Die Daten befinden sich verschlüsselt
-            auf diesem Gerät.
+        </button>
 
-        </div>
+        <button
+            id="btnDeleteAll"
+            class="btn-rot hidden"
+            type="button">
+
+            🗑️ Alle gespeicherten Daten löschen
+
+        </button>
+
+        <p
+            id="lockError"
+            class="small"
+            style="color:#842029;">
+        </p>
 
     </div>
 
@@ -673,15 +468,13 @@ hr {
 
 
 <!-- =====================================================
-     HAUPTAPP
+     APP
 ===================================================== -->
 
-<main id="app">
+<div id="appContent"
+     class="locked-content">
 
-<h1>
-    📋 Personalienblatt
-</h1>
-
+<h1>📋 Personalienblatt</h1>
 
 <div id="status"
      class="status">
@@ -691,49 +484,46 @@ hr {
 </div>
 
 
-<div
-    id="securityStatus"
-    class="sicherheits-status">
-
-    🔐 Sicherheitsarchitektur V11 wird initialisiert …
-
-</div>
-
-
 <div class="sicherheits-box">
 
-    <strong>
-        🔐 Datenschutz / V11
-    </strong>
+    <strong>🔐 Datenschutz / V11.1</strong>
 
     <p>
-        Die Personendaten werden automatisch
-        verschlüsselt gespeichert.
+        Die eingegebenen Personendaten werden
+        automatisch verschlüsselt gespeichert.
     </p>
 
     <p>
-        Die Verschlüsselung verwendet AES-256-GCM
-        in Verbindung mit einem persönlichen
-        Sicherheitscode und einem gerätegebundenen
-        Schlüssel.
+        Die lokale Speicherung verwendet
+        AES-256-GCM mit einem gerätespezifischen
+        Schlüssel und einem von Ihnen eingegebenen
+        Code/Passwort.
     </p>
 
     <p class="small">
-
-        Der Sicherheitscode wird nicht gespeichert.
-        Bei Inaktivität wird die Anwendung automatisch
-        gesperrt.
-
+        Der Code selbst wird nicht gespeichert.
+        Ohne den richtigen Code können die
+        gespeicherten Daten nicht entschlüsselt
+        werden.
     </p>
 
-    <p class="small">
+    <div class="security-line">
 
-        Die E-Mail-Funktion verwendet weiterhin
-        mailto:. Beim Erstellen einer E-Mail werden
-        die Daten als Klartext an die installierte
-        Mail-App übergeben.
+        <span>
+            🔒 Automatische Sperre:
+            <strong>5 Minuten</strong>
+        </span>
 
-    </p>
+        <button
+            id="btnJetztSperren"
+            class="btn-grau"
+            type="button">
+
+            Sperren
+
+        </button>
+
+    </div>
 
 </div>
 
@@ -741,41 +531,28 @@ hr {
 <div id="formContainer"></div>
 
 
-<button
-    id="btnNeuePerson"
-    class="btn-gruen"
-    type="button">
+<button id="btnNeuePerson"
+        class="btn-gruen"
+        type="button">
 
     ➕ Neue Person hinzufügen
 
 </button>
 
 
-<button
-    id="btnMail"
-    type="button">
+<button id="btnMail"
+        type="button">
 
     📤 Abschicken / E-Mail erstellen
 
 </button>
 
 
-<button
-    id="btnSperren"
-    class="btn-orange"
-    type="button">
+<button id="btnLoeschen"
+        class="btn-rot"
+        type="button">
 
-    🔒 App jetzt sperren
-
-</button>
-
-
-<button
-    id="btnLoeschen"
-    class="btn-rot"
-    type="button">
-
-    🗑️ Alle Daten und Sicherheitsdaten löschen
+    🗑️ Alle Daten löschen
 
 </button>
 
@@ -784,13 +561,10 @@ hr {
      ZUSATZMASKE
 ===================================================== -->
 
-<div
-    id="zusatzMaske"
-    class="zusatz-maske hidden">
+<div id="zusatzMaske"
+     class="zusatz-maske hidden">
 
-    <h3>
-        📤 Zusätzliche Informationen
-    </h3>
+    <h3>📤 Zusätzliche Informationen</h3>
 
     <label>
 
@@ -836,19 +610,17 @@ hr {
 
     </div>
 
-    <button
-        id="btnEmailErstellen"
-        class="btn-gruen"
-        type="button">
+    <button id="btnEmailErstellen"
+            class="btn-gruen"
+            type="button">
 
         ✅ E-Mail erstellen
 
     </button>
 
-    <button
-        id="btnZusatzZurueck"
-        class="btn-grau"
-        type="button">
+    <button id="btnZusatzZurueck"
+            class="btn-grau"
+            type="button">
 
         Zurück
 
@@ -856,7 +628,7 @@ hr {
 
 </div>
 
-</main>
+</div>
 
 
 <script>
@@ -865,68 +637,40 @@ hr {
 
 
 /* =========================================================
-   V11 KONFIGURATION
+   KONFIGURATION
 ========================================================= */
 
-const APP_VERSION = "11.0";
+const APP_VERSION = "11.1";
 
-const DB_NAME =
-    "PersonenerfassungV11";
+const STORAGE_KEY =
+    "personenerfassung_v11_secure";
 
-const DB_VERSION = 1;
-
-const DATA_STORE =
-    "secureData";
-
-const KEY_STORE =
-    "deviceKeys";
-
-const DATA_ID =
-    "main";
-
-const DEVICE_KEY_ID =
-    "device";
+const DEVICE_KEY_NAME =
+    "personenerfassung_v11_device_key";
 
 const PBKDF2_ITERATIONS =
     600000;
 
-const MIN_PASSWORD_LENGTH =
-    8;
-
-/*
- * Automatische Sperre:
- * 10 Minuten Inaktivität.
- *
- * Kann hier geändert werden.
- */
-
-const AUTO_LOCK_MINUTES =
-    10;
-
 const AUTO_LOCK_MS =
-    AUTO_LOCK_MINUTES * 60 * 1000;
+    5 * 60 * 1000;
 
 const MAIL_EMPFAENGER =
     "marco.wueest@lu.ch";
 
 
-/* =========================================================
-   GLOBALE VARIABLEN
-========================================================= */
-
 let formIndex = 0;
 
 let alleDaten = [];
 
-let datenSchluessel = null;
+let masterKey = null;
 
-let entsperrt = false;
+let deviceKeyBytes = null;
 
-let setupAbgeschlossen = false;
+let saveTimer = null;
 
-let autoLockTimer = null;
+let lockTimer = null;
 
-let db = null;
+let isUnlocked = false;
 
 
 /* =========================================================
@@ -934,9 +678,7 @@ let db = null;
 ========================================================= */
 
 function $(selector, parent = document) {
-
     return parent.querySelector(selector);
-
 }
 
 
@@ -950,41 +692,18 @@ function status(text, typ = "") {
     el.className = "status";
 
     if (typ) {
-
         el.classList.add(typ);
-
     }
-
 }
 
 
-function sicherheitsStatus(text) {
-
-    const el =
-        document.getElementById(
-            "securityStatus"
-        );
-
-    el.textContent = text;
-
-}
-
-
-/* =========================================================
-   TEXTENCODER
-========================================================= */
-
-function encoder() {
-
+function textEncoder() {
     return new TextEncoder();
-
 }
 
 
-function decoder() {
-
+function textDecoder() {
     return new TextDecoder();
-
 }
 
 
@@ -996,305 +715,30 @@ function arrayToBase64(array) {
 
     let binary = "";
 
-    for (
-        let i = 0;
-        i < array.length;
-        i++
-    ) {
-
-        binary +=
-            String.fromCharCode(
-                array[i]
-            );
-
+    for (let i = 0; i < array.length; i++) {
+        binary += String.fromCharCode(array[i]);
     }
 
     return btoa(binary);
-
 }
 
 
 function base64ToArray(base64) {
 
-    const binary =
-        atob(base64);
+    if (typeof base64 !== "string") {
+        throw new Error("Ungültige Base64-Daten.");
+    }
+
+    const binary = atob(base64);
 
     const array =
-        new Uint8Array(
-            binary.length
-        );
+        new Uint8Array(binary.length);
 
-    for (
-        let i = 0;
-        i < binary.length;
-        i++
-    ) {
-
-        array[i] =
-            binary.charCodeAt(i);
-
+    for (let i = 0; i < binary.length; i++) {
+        array[i] = binary.charCodeAt(i);
     }
 
     return array;
-
-}
-
-
-/* =========================================================
-   INDEXEDDB
-========================================================= */
-
-function openDatabase() {
-
-    return new Promise(
-        (resolve, reject) => {
-
-            const request =
-                indexedDB.open(
-                    DB_NAME,
-                    DB_VERSION
-                );
-
-
-            request.onerror =
-                () => {
-
-                    reject(
-                        request.error
-                    );
-
-                };
-
-
-            request.onupgradeneeded =
-                event => {
-
-                    const database =
-                        event.target.result;
-
-
-                    if (
-                        !database.objectStoreNames
-                            .contains(DATA_STORE)
-                    ) {
-
-                        database.createObjectStore(
-                            DATA_STORE
-                        );
-
-                    }
-
-
-                    if (
-                        !database.objectStoreNames
-                            .contains(KEY_STORE)
-                    ) {
-
-                        database.createObjectStore(
-                            KEY_STORE
-                        );
-
-                    }
-
-                };
-
-
-            request.onsuccess =
-                () => {
-
-                    resolve(
-                        request.result
-                    );
-
-                };
-
-        }
-    );
-
-}
-
-
-function dbGet(storeName, key) {
-
-    return new Promise(
-        (resolve, reject) => {
-
-            const transaction =
-                db.transaction(
-                    storeName,
-                    "readonly"
-                );
-
-            const store =
-                transaction.objectStore(
-                    storeName
-                );
-
-            const request =
-                store.get(key);
-
-
-            request.onsuccess =
-                () => {
-
-                    resolve(
-                        request.result
-                    );
-
-                };
-
-
-            request.onerror =
-                () => {
-
-                    reject(
-                        request.error
-                    );
-
-                };
-
-        }
-    );
-
-}
-
-
-function dbPut(
-    storeName,
-    key,
-    value
-) {
-
-    return new Promise(
-        (resolve, reject) => {
-
-            const transaction =
-                db.transaction(
-                    storeName,
-                    "readwrite"
-                );
-
-            const store =
-                transaction.objectStore(
-                    storeName
-                );
-
-            const request =
-                store.put(
-                    value,
-                    key
-                );
-
-
-            request.onsuccess =
-                () => {
-
-                    resolve();
-
-                };
-
-
-            request.onerror =
-                () => {
-
-                    reject(
-                        request.error
-                    );
-
-                };
-
-        }
-    );
-
-}
-
-
-function dbDelete(
-    storeName,
-    key
-) {
-
-    return new Promise(
-        (resolve, reject) => {
-
-            const transaction =
-                db.transaction(
-                    storeName,
-                    "readwrite"
-                );
-
-            const store =
-                transaction.objectStore(
-                    storeName
-                );
-
-            const request =
-                store.delete(key);
-
-
-            request.onsuccess =
-                () => {
-
-                    resolve();
-
-                };
-
-
-            request.onerror =
-                () => {
-
-                    reject(
-                        request.error
-                    );
-
-                };
-
-        }
-    );
-
-}
-
-
-function dbClear(storeName) {
-
-    return new Promise(
-        (resolve, reject) => {
-
-            const transaction =
-                db.transaction(
-                    storeName,
-                    "readwrite"
-                );
-
-            const store =
-                transaction.objectStore(
-                    storeName
-                );
-
-            const request =
-                store.clear();
-
-
-            request.onsuccess =
-                () => {
-
-                    resolve();
-
-                };
-
-
-            request.onerror =
-                () => {
-
-                    reject(
-                        request.error
-                    );
-
-                };
-
-        }
-    );
-
 }
 
 
@@ -1302,115 +746,35 @@ function dbClear(storeName) {
    GERÄTESCHLÜSSEL
 ========================================================= */
 
-/*
- * Der Geräteschlüssel wird als nicht exportierbarer
- * AES-GCM-Schlüssel erzeugt.
- *
- * Dadurch kann JavaScript ihn nicht einfach als
- * Klartext auslesen.
- */
+function getDeviceKey() {
 
-async function erzeugeGeraeteSchluessel() {
-
-    const key =
-        await crypto.subtle.generateKey(
-
-            {
-                name: "AES-GCM",
-                length: 256
-            },
-
-            false,
-
-            [
-                "encrypt",
-                "decrypt"
-            ]
-
+    let stored =
+        localStorage.getItem(
+            DEVICE_KEY_NAME
         );
 
-    await dbPut(
-        KEY_STORE,
-        DEVICE_KEY_ID,
-        key
-    );
+    if (!stored) {
 
-    return key;
+        const random =
+            crypto.getRandomValues(
+                new Uint8Array(32)
+            );
 
-}
+        stored =
+            arrayToBase64(random);
 
-
-async function ladeGeraeteSchluessel() {
-
-    let key =
-        await dbGet(
-            KEY_STORE,
-            DEVICE_KEY_ID
+        localStorage.setItem(
+            DEVICE_KEY_NAME,
+            stored
         );
-
-
-    if (!key) {
-
-        key =
-            await erzeugeGeraeteSchluessel();
-
     }
 
-
-    return key;
-
+    return base64ToArray(stored);
 }
 
 
 /* =========================================================
-   GERÄTESCHLÜSSEL → KEY MATERIAL
-========================================================= */
-
-async function geraeteKeyMaterial(
-    deviceKey,
-    salt
-) {
-
-    /*
-     * Der Geräteschlüssel wird nicht exportiert.
-     *
-     * Stattdessen wird mit ihm ein HMAC-artiger
-     * Gerätebeweis erzeugt.
-     *
-     * Dafür wird ein separater nicht exportierbarer
-     * HMAC-Schlüssel verwendet.
-     *
-     * Falls bereits ein AES-Geräteschlüssel existiert,
-     * erzeugen wir daraus einen Geräte-gebundenen
-     * Verschlüsselungsbeweis über AES-GCM.
-     */
-
-    const iv =
-        new Uint8Array(12);
-
-    const encrypted =
-        await crypto.subtle.encrypt(
-
-            {
-                name: "AES-GCM",
-                iv: iv
-            },
-
-            deviceKey,
-
-            salt
-
-        );
-
-    return new Uint8Array(
-        encrypted
-    );
-
-}
-
-
-/* =========================================================
-   PASSWORT KEY
+   PASSWORT + GERÄTESCHLÜSSEL
 ========================================================= */
 
 async function passwordKey(
@@ -1418,41 +782,43 @@ async function passwordKey(
     salt
 ) {
 
+    const passwordBytes =
+        textEncoder().encode(password);
+
+    const combined =
+        new Uint8Array(
+            passwordBytes.length +
+            deviceKeyBytes.length
+        );
+
+    combined.set(
+        passwordBytes,
+        0
+    );
+
+    combined.set(
+        deviceKeyBytes,
+        passwordBytes.length
+    );
+
     const baseKey =
         await crypto.subtle.importKey(
-
             "raw",
-
-            encoder().encode(
-                password
-            ),
-
+            combined,
             {
                 name: "PBKDF2"
             },
-
             false,
-
-            [
-                "deriveKey"
-            ]
-
+            ["deriveKey"]
         );
-
 
     return crypto.subtle.deriveKey(
 
         {
             name: "PBKDF2",
-
-            salt,
-
-            iterations:
-                PBKDF2_ITERATIONS,
-
-            hash:
-                "SHA-256"
-
+            salt: salt,
+            iterations: PBKDF2_ITERATIONS,
+            hash: "SHA-256"
         },
 
         baseKey,
@@ -1468,124 +834,7 @@ async function passwordKey(
             "encrypt",
             "decrypt"
         ]
-
     );
-
-}
-
-
-/* =========================================================
-   V11 KEY DERIVATION
-========================================================= */
-
-/*
- * Der endgültige Schlüssel entsteht aus:
- *
- * 1. Sicherheitscode
- * 2. PBKDF2
- * 3. gerätegebundenem Schlüsselmaterial
- *
- * Das Passwort allein reicht somit nicht.
- */
-
-async function createEncryptionKey(
-    password,
-    salt,
-    deviceKey
-) {
-
-    const pinKey =
-        await passwordKey(
-            password,
-            salt
-        );
-
-
-    /*
-     * Wir erzeugen aus dem PIN-Schlüssel einen
-     * 32-Byte-Wert über AES-GCM.
-     */
-
-    const zeroIv =
-        new Uint8Array(12);
-
-    const pinMaterial =
-        new Uint8Array(
-            await crypto.subtle.encrypt(
-
-                {
-                    name: "AES-GCM",
-                    iv: zeroIv
-                },
-
-                pinKey,
-
-                encoder().encode(
-                    "Personenerfassung-V11"
-                )
-
-            )
-        );
-
-
-    /*
-     * Gerätespezifisches Material.
-     */
-
-    const deviceMaterial =
-        await geraeteKeyMaterial(
-            deviceKey,
-            salt
-        );
-
-
-    /*
-     * Beide Materialien werden kombiniert.
-     */
-
-    const combined =
-        new Uint8Array(
-            32
-        );
-
-
-    for (
-        let i = 0;
-        i < combined.length;
-        i++
-    ) {
-
-        combined[i] =
-            pinMaterial[
-                i % pinMaterial.length
-            ]
-            ^
-            deviceMaterial[
-                i % deviceMaterial.length
-            ];
-
-    }
-
-
-    return crypto.subtle.importKey(
-
-        "raw",
-
-        combined,
-
-        {
-            name: "AES-GCM"
-        },
-
-        false,
-
-        [
-            "encrypt",
-            "decrypt"
-        ]
-
-    );
-
 }
 
 
@@ -1593,68 +842,50 @@ async function createEncryptionKey(
    VERSCHLÜSSELN
 ========================================================= */
 
-async function encryptData(
+async function verschluesseln(
     text,
-    password,
-    deviceKey
+    password
 ) {
 
     const salt =
         crypto.getRandomValues(
-            new Uint8Array(32)
+            new Uint8Array(16)
         );
-
 
     const iv =
         crypto.getRandomValues(
             new Uint8Array(12)
         );
 
-
     const key =
-        await createEncryptionKey(
+        await passwordKey(
             password,
-            salt,
-            deviceKey
+            salt
         );
-
 
     const encrypted =
         await crypto.subtle.encrypt(
 
             {
                 name: "AES-GCM",
-                iv
+                iv: iv
             },
 
             key,
 
-            encoder().encode(
-                text
-            )
+            textEncoder().encode(text)
 
         );
 
-
     return {
 
-        version:
-            APP_VERSION,
+        version: APP_VERSION,
 
-        algorithm:
-            "AES-256-GCM",
+        algorithm: "AES-256-GCM",
 
-        kdf:
-            "PBKDF2-SHA-256",
+        kdf: "PBKDF2-SHA-256",
 
-        iterations:
-            PBKDF2_ITERATIONS,
-
-        deviceBound:
-            true,
-
-        created:
-            new Date().toISOString(),
+        iterations: PBKDF2_ITERATIONS,
 
         salt:
             arrayToBase64(salt),
@@ -1664,13 +895,10 @@ async function encryptData(
 
         data:
             arrayToBase64(
-                new Uint8Array(
-                    encrypted
-                )
+                new Uint8Array(encrypted)
             )
 
     };
-
 }
 
 
@@ -1678,320 +906,331 @@ async function encryptData(
    ENTSCHLÜSSELN
 ========================================================= */
 
-async function decryptData(
+async function entschluesseln(
     obj,
-    password,
-    deviceKey
+    password
 ) {
 
     if (
         !obj ||
-        obj.algorithm !==
-            "AES-256-GCM" ||
-        obj.kdf !==
-            "PBKDF2-SHA-256" ||
-        obj.deviceBound !== true
+        obj.algorithm !== "AES-256-GCM" ||
+        obj.kdf !== "PBKDF2-SHA-256"
     ) {
-
         throw new Error(
-            "Ungültiges V11-Datenformat."
+            "Ungültiges Verschlüsselungsformat."
         );
-
     }
 
-
     const salt =
-        base64ToArray(
-            obj.salt
-        );
-
+        base64ToArray(obj.salt);
 
     const iv =
-        base64ToArray(
-            obj.iv
-        );
-
+        base64ToArray(obj.iv);
 
     const data =
-        base64ToArray(
-            obj.data
-        );
-
+        base64ToArray(obj.data);
 
     const key =
-        await createEncryptionKey(
+        await passwordKey(
             password,
-            salt,
-            deviceKey
+            salt
         );
-
 
     const decrypted =
         await crypto.subtle.decrypt(
 
             {
                 name: "AES-GCM",
-                iv
+                iv: iv
             },
 
             key,
 
             data
-
         );
 
-
-    return decoder().decode(
-        decrypted
-    );
-
+    return textDecoder()
+        .decode(decrypted);
 }
 
 
 /* =========================================================
-   CODE-PRÜFUNG
+   STATUS DES SPEICHERS
 ========================================================= */
 
-function validiereCode(password) {
+function hatGespeicherteDaten() {
 
-    if (
-        typeof password !== "string"
-    ) {
+    return !!localStorage.getItem(
+        STORAGE_KEY
+    );
+}
 
-        return false;
 
+/* =========================================================
+   AUTOMATISCHES SPEICHERN
+========================================================= */
+
+function automatischesSpeichern() {
+
+    if (!isUnlocked || !masterKey) {
+        return;
     }
 
+    clearTimeout(saveTimer);
 
-    /*
-     * Keine Maximallänge.
-     *
-     * Mindestlänge: 8 Zeichen.
-     */
+    saveTimer =
+        setTimeout(
+            async () => {
 
-    return (
-        password.length >=
-        MIN_PASSWORD_LENGTH
-    );
+                try {
 
+                    datenAusFormularenSpeichern();
+
+                    const daten = {
+
+                        version:
+                            APP_VERSION,
+
+                        gespeichert:
+                            new Date().toISOString(),
+
+                        personen:
+                            alleDaten
+
+                    };
+
+                    const text =
+                        JSON.stringify(daten);
+
+                    /*
+                     * masterKey ist bereits
+                     * PBKDF2 + Gerätebindung.
+                     */
+
+                    const salt =
+                        crypto.getRandomValues(
+                            new Uint8Array(16)
+                        );
+
+                    const iv =
+                        crypto.getRandomValues(
+                            new Uint8Array(12)
+                        );
+
+                    const encrypted =
+                        await crypto.subtle.encrypt(
+
+                            {
+                                name: "AES-GCM",
+                                iv: iv
+                            },
+
+                            masterKey,
+
+                            textEncoder()
+                                .encode(text)
+                        );
+
+                    /*
+                     * Die KDF-Parameter werden
+                     * ebenfalls gespeichert.
+                     * Der eigentliche Schlüssel
+                     * wird NICHT gespeichert.
+                     */
+
+                    const saved = {
+
+                        version:
+                            APP_VERSION,
+
+                        algorithm:
+                            "AES-256-GCM",
+
+                        kdf:
+                            "PBKDF2-SHA-256",
+
+                        iterations:
+                            PBKDF2_ITERATIONS,
+
+                        salt:
+                            arrayToBase64(salt),
+
+                        iv:
+                            arrayToBase64(iv),
+
+                        data:
+                            arrayToBase64(
+                                new Uint8Array(
+                                    encrypted
+                                )
+                            )
+
+                    };
+
+                    localStorage.setItem(
+                        STORAGE_KEY,
+                        JSON.stringify(saved)
+                    );
+
+                    status(
+                        "🔐 Automatisch verschlüsselt gespeichert.",
+                        "ok"
+                    );
+
+                }
+                catch (error) {
+
+                    console.error(error);
+
+                    status(
+                        "❌ Automatisches Speichern fehlgeschlagen.",
+                        "error"
+                    );
+
+                }
+
+            },
+            500
+        );
 }
 
 
 /* =========================================================
-   SETUP
+   MASTER KEY ERSTELLEN
 ========================================================= */
 
-function zeigeSetup() {
-
-    document
-        .getElementById("setupScreen")
-        .classList.remove("hidden");
-
-    document
-        .getElementById("setupPassword")
-        .focus();
-
-}
-
-
-function versteckeSetup() {
-
-    document
-        .getElementById("setupScreen")
-        .classList.add("hidden");
-
-}
-
-
-async function initialisiereSetup(
-    password
+async function createMasterKey(
+    password,
+    salt
 ) {
 
-    const deviceKey =
-        await ladeGeraeteSchluessel();
-
-
-    /*
-     * Es wird zunächst ein leerer verschlüsselter
-     * Datensatz erzeugt.
-     */
-
-    const initialData = {
-
-        version:
-            APP_VERSION,
-
-        personen:
-            [],
-
-        erstellt:
-            new Date().toISOString(),
-
-        geaendert:
-            new Date().toISOString()
-
-    };
-
-
-    const encrypted =
-        await encryptData(
-            JSON.stringify(
-                initialData
-            ),
-            password,
-            deviceKey
-        );
-
-
-    await dbPut(
-        DATA_STORE,
-        DATA_ID,
-        encrypted
+    return passwordKey(
+        password,
+        salt
     );
-
-
-    datenSchluessel =
-        await createEncryptionKey(
-            password,
-            base64ToArray(
-                encrypted.salt
-            ),
-            deviceKey
-        );
-
-
-    alleDaten = [];
-
-    entsperrt = true;
-
-    setupAbgeschlossen = true;
-
-    versteckeSetup();
-
-    starteAutoLock();
-
-    formularAusDatenAufbauen();
-
-    status(
-        "🔐 Sicherheitscode eingerichtet. App ist geschützt.",
-        "ok"
-    );
-
 }
 
 
 /* =========================================================
-   AUTOMATISCHE SPEICHERUNG
+   DATEN ENTSCHLÜSSELN
 ========================================================= */
 
-async function automatischSpeichern() {
+async function entschluesselnMitMasterKey(
+    obj,
+    key
+) {
 
-    if (
-        !entsperrt ||
-        !datenSchluessel
-    ) {
+    const iv =
+        base64ToArray(obj.iv);
+
+    const data =
+        base64ToArray(obj.data);
+
+    const decrypted =
+        await crypto.subtle.decrypt(
+
+            {
+                name: "AES-GCM",
+                iv: iv
+            },
+
+            key,
+
+            data
+        );
+
+    return textDecoder()
+        .decode(decrypted);
+}
+
+
+/* =========================================================
+   CODE VALIDIEREN
+========================================================= */
+
+function gueltigerCode(password) {
+
+    return (
+        typeof password === "string" &&
+        password.length >= 8
+    );
+}
+
+
+/* =========================================================
+   CODE EINRICHTEN
+========================================================= */
+
+async function codeEinrichten() {
+
+    const password =
+        $("#masterPassword").value;
+
+    if (!gueltigerCode(password)) {
+
+        $("#lockError").textContent =
+            "Der Code muss mindestens 8 Zeichen lang sein.";
 
         return;
-
     }
-
 
     try {
 
-        const deviceKey =
-            await ladeGeraeteSchluessel();
-
-
         const salt =
             crypto.getRandomValues(
-                new Uint8Array(32)
+                new Uint8Array(16)
             );
 
+        masterKey =
+            await createMasterKey(
+                password,
+                salt
+            );
 
         /*
-         * Wir erzeugen für jede Speicherung
-         * einen neuen temporären Schlüssel aus dem
-         * aktuellen Sicherheitscode.
-         *
-         * Der eigentliche Entschlüsselungsschlüssel
-         * bleibt während der Sitzung im Speicher.
+         * Ein Testdatensatz wird gespeichert.
+         * Dadurch kann später geprüft werden,
+         * ob der eingegebene Code korrekt ist.
          */
 
-        const daten = {
-
-            version:
-                APP_VERSION,
-
-            gespeichert:
-                new Date().toISOString(),
-
-            personen:
-                alleDaten
-
-        };
-
-
-        /*
-         * Der bestehende Sitzungsschlüssel wird direkt
-         * für AES-GCM verwendet.
-         */
+        const testText =
+            JSON.stringify({
+                version: APP_VERSION,
+                test: "V11.1"
+            });
 
         const iv =
             crypto.getRandomValues(
                 new Uint8Array(12)
             );
 
-
         const encrypted =
             await crypto.subtle.encrypt(
 
                 {
                     name: "AES-GCM",
-                    iv
+                    iv: iv
                 },
 
-                datenSchluessel,
+                masterKey,
 
-                encoder().encode(
-                    JSON.stringify(daten)
-                )
-
+                textEncoder()
+                    .encode(testText)
             );
 
+        const obj = {
 
-        /*
-         * Für die spätere Wiederherstellung brauchen wir
-         * zusätzlich den Salt des PIN-/Geräteschlüssels.
-         *
-         * Der Salt stammt aus der bestehenden Sitzung.
-         */
+            version: APP_VERSION,
 
-        const existing =
-            await dbGet(
-                DATA_STORE,
-                DATA_ID
-            );
+            algorithm: "AES-256-GCM",
 
-
-        const record = {
-
-            version:
-                APP_VERSION,
-
-            algorithm:
-                "AES-256-GCM",
-
-            kdf:
-                "PBKDF2-SHA-256",
+            kdf: "PBKDF2-SHA-256",
 
             iterations:
                 PBKDF2_ITERATIONS,
 
-            deviceBound:
-                true,
-
             salt:
-                existing.salt,
+                arrayToBase64(salt),
 
             iv:
                 arrayToBase64(iv),
@@ -2001,476 +1240,325 @@ async function automatischSpeichern() {
                     new Uint8Array(
                         encrypted
                     )
-                ),
-
-            gespeichert:
-                new Date().toISOString()
+                )
 
         };
 
+        /*
+         * Der Datensatz ist zunächst
+         * nur ein leerer Startdatensatz.
+         */
 
-        await dbPut(
-            DATA_STORE,
-            DATA_ID,
-            record
+        localStorage.setItem(
+            STORAGE_KEY,
+            JSON.stringify(obj)
         );
 
+        isUnlocked = true;
+
+        $("#masterPassword").value = "";
+
+        $("#lockOverlay")
+            .classList.add("hidden");
+
+        $("#appContent")
+            .classList.remove(
+                "locked-content"
+            );
 
         status(
-            "🔐 Automatisch verschlüsselt gespeichert.",
+            "🔐 Schutz eingerichtet. Automatische Speicherung aktiv.",
             "ok"
         );
+
+        starteAutoLock();
+
+        neuesFormular();
+
+        /*
+         * Jetzt wird sofort der tatsächliche
+         * Formularinhalt gespeichert.
+         */
+
+        automatischesSpeichern();
 
     }
     catch (error) {
 
-        console.error(
-            "Automatische Speicherung:",
-            error
-        );
+        console.error(error);
 
-        status(
-            "❌ Automatische Speicherung fehlgeschlagen.",
-            "error"
-        );
+        $("#lockError").textContent =
+            "Der Sicherheitscode konnte nicht eingerichtet werden.";
 
     }
-
 }
 
 
 /* =========================================================
-   DATEN LADEN
+   BESTEHENDEN CODE PRÜFEN
 ========================================================= */
 
-async function ladeDatenMitCode(
-    password
-) {
-
-    const record =
-        await dbGet(
-            DATA_STORE,
-            DATA_ID
-        );
-
-
-    if (!record) {
-
-        throw new Error(
-            "Keine verschlüsselten Daten vorhanden."
-        );
-
-    }
-
-
-    const deviceKey =
-        await ladeGeraeteSchluessel();
-
-
-    /*
-     * Sitzungsschlüssel aus Code + Geräteschlüssel
-     * erzeugen.
-     */
-
-    const key =
-        await createEncryptionKey(
-            password,
-            base64ToArray(
-                record.salt
-            ),
-            deviceKey
-        );
-
-
-    const decrypted =
-        await crypto.subtle.decrypt(
-
-            {
-                name: "AES-GCM",
-
-                iv:
-                    base64ToArray(
-                        record.iv
-                    )
-
-            },
-
-            key,
-
-            base64ToArray(
-                record.data
-            )
-
-        );
-
-
-    const text =
-        decoder().decode(
-            decrypted
-        );
-
-
-    const data =
-        JSON.parse(
-            text
-        );
-
-
-    if (
-        !data ||
-        !Array.isArray(
-            data.personen
-        )
-    ) {
-
-        throw new Error(
-            "Ungültige Datenstruktur."
-        );
-
-    }
-
-
-    datenSchluessel =
-        key;
-
-    alleDaten =
-        data.personen;
-
-    entsperrt =
-        true;
-
-    setupAbgeschlossen =
-        true;
-
-
-    formularAusDatenAufbauen();
-
-    starteAutoLock();
-
-
-    status(
-        "🔓 Daten wurden automatisch wiederhergestellt.",
-        "ok"
-    );
-
-}
-
-
-/* =========================================================
-   SPERREN
-========================================================= */
-
-function sperreApp() {
-
-    if (!entsperrt) {
-
-        return;
-
-    }
-
-
-    /*
-     * Schlüssel aus dem Arbeitsspeicher entfernen.
-     */
-
-    datenSchluessel = null;
-
-    entsperrt = false;
-
-
-    /*
-     * Personenobjekte aus dem normalen JavaScript-
-     * Speicher entfernen.
-     */
-
-    alleDaten = [];
-
-
-    /*
-     * Formularinhalt entfernen.
-     */
-
-    const container =
-        document.getElementById(
-            "formContainer"
-        );
-
-    container.replaceChildren();
-
-
-    formIndex = 0;
-
-
-    stoppeAutoLock();
-
-
-    document.body
-        .classList
-        .add("gesperrt");
-
-
-    document
-        .getElementById("lockScreen")
-        .classList
-        .remove("hidden");
-
-
-    document
-        .getElementById("unlockPassword")
-        .value = "";
-
-
-    document
-        .getElementById("unlockError")
-        .textContent = "";
-
-
-    status(
-        "🔒 App wurde automatisch gesperrt.",
-        "warn"
-    );
-
-
-    setTimeout(
-        () => {
-
-            document
-                .getElementById("unlockPassword")
-                .focus();
-
-        },
-        100
-    );
-
-}
-
-
-/* =========================================================
-   ENTSPERREN
-========================================================= */
-
-async function entsperreApp() {
+async function entsperren() {
 
     const password =
-        document
-            .getElementById(
-                "unlockPassword"
-            )
-            .value;
+        $("#masterPassword").value;
 
+    if (!gueltigerCode(password)) {
 
-    const error =
-        document
-            .getElementById(
-                "unlockError"
-            );
-
-
-    error.textContent = "";
-
-
-    if (
-        !validiereCode(password)
-    ) {
-
-        error.textContent =
-            "Der Sicherheitscode muss mindestens 8 Zeichen haben.";
+        $("#lockError").textContent =
+            "Der Code muss mindestens 8 Zeichen lang sein.";
 
         return;
-
     }
-
 
     try {
 
-        await ladeDatenMitCode(
-            password
-        );
+        const stored =
+            localStorage.getItem(
+                STORAGE_KEY
+            );
 
+        if (!stored) {
 
-        document
-            .getElementById("lockScreen")
-            .classList
-            .add("hidden");
+            $("#lockError").textContent =
+                "Es sind noch keine verschlüsselten Daten vorhanden.";
 
+            return;
 
-        document.body
-            .classList
-            .remove("gesperrt");
+        }
 
+        const obj =
+            JSON.parse(stored);
 
-        error.textContent = "";
+        const key =
+            await passwordKey(
+                password,
+                base64ToArray(obj.salt)
+            );
 
+        const text =
+            await entschluesselnMitMasterKey(
+                obj,
+                key
+            );
+
+        const daten =
+            JSON.parse(text);
+
+        masterKey = key;
+
+        isUnlocked = true;
+
+        $("#masterPassword").value = "";
+
+        $("#lockError").textContent = "";
+
+        $("#lockOverlay")
+            .classList.add("hidden");
+
+        $("#appContent")
+            .classList.remove(
+                "locked-content"
+            );
+
+        /*
+         * Testdatensatz oder normale Daten.
+         */
+
+        if (
+            daten &&
+            Array.isArray(daten.personen)
+        ) {
+
+            alleDaten =
+                daten.personen;
+
+            formularAusDatenAufbauen();
+
+        }
+        else {
+
+            neuesFormular();
+
+        }
 
         status(
-            "🔓 App erfolgreich entsperrt.",
+            "🔓 App entsperrt. Automatische Speicherung aktiv.",
             "ok"
         );
 
-
-        resetAutoLock();
-
-    }
-    catch (e) {
-
-        console.error(e);
-
-        error.textContent =
-            "❌ Falscher Sicherheitscode oder beschädigte Daten.";
+        starteAutoLock();
 
     }
+    catch (error) {
 
+        console.error(error);
+
+        $("#lockError").textContent =
+            "❌ Falscher Code oder beschädigte Daten.";
+
+        masterKey = null;
+        isUnlocked = false;
+
+    }
 }
 
 
 /* =========================================================
-   AUTO LOCK
+   DATEN AUS FORMULAREN
 ========================================================= */
 
-function stoppeAutoLock() {
+function datenAusFormularenSpeichern() {
 
-    if (autoLockTimer) {
+    alleDaten = [];
 
-        clearTimeout(
-            autoLockTimer
+    const forms =
+        document.querySelectorAll(
+            ".person-form"
         );
 
-        autoLockTimer = null;
+    forms.forEach(form => {
 
-    }
+        const finanz =
+            $(".finanzfelder", form);
 
-}
+        let finanzDaten = null;
 
+        if (
+            finanz &&
+            getComputedStyle(finanz).display !== "none"
+        ) {
 
-function starteAutoLock() {
+            finanzDaten = {
 
-    stoppeAutoLock();
+                selbstaendig:
+                    $('input[name="selbstaendig"]', form).checked,
 
+                angestellt:
+                    $('input[name="angestellt"]', form).checked,
 
-    if (!entsperrt) {
+                anderes:
+                    $('input[name="anderes_einkommen"]', form).checked,
 
-        return;
+                anderes_text:
+                    $('input[name="anderes_einkommen_text"]', form).value,
 
-    }
+                netto_einkommen:
+                    $('input[name="netto_einkommen"]', form).value,
 
+                netto_partner:
+                    $('input[name="netto_partner"]', form).value,
 
-    autoLockTimer =
-        setTimeout(
-            () => {
+                liegenschaft:
+                    $('input[name="liegenschaft_check"]', form).checked,
 
-                /*
-                 * Vor dem Sperren automatisch speichern.
-                 */
+                liegenschaft_ort:
+                    $('input[name="liegenschaft_ort"]', form).value,
 
-                automatischSpeichern()
-                    .finally(
-                        () => {
+                steuerwert:
+                    $('input[name="steuerwert"]', form).value,
 
-                            sperreApp();
+                hypothek:
+                    $('input[name="hypothek"]', form).value,
 
-                        }
-                    );
+                anderes_vermoegen:
+                    $('input[name="anderes_vermoegen_check"]', form).checked,
 
-            },
+                anderes_vermoegen_what:
+                    $('input[name="anderes_vermoegen_what"]', form).value,
 
-            AUTO_LOCK_MS
-        );
+                anderes_vermoegen_chf:
+                    $('input[name="anderes_vermoegen_chf"]', form).value,
 
-}
+                unterhaltsbeitrag:
+                    $('input[name="unterhaltsbeitrag_check"]', form).checked,
 
+                unterhalt_total:
+                    $('input[name="unterhalt_total"]', form).value,
 
-function resetAutoLock() {
+                unterhalt_an:
+                    $('input[name="unterhalt_an"]', form).value,
 
-    if (!entsperrt) {
+                kinder:
+                    $('input[name="kinder_check"]', form).checked,
 
-        return;
+                kinder_anzahl:
+                    $('input[name="kinder_anzahl"]', form).value,
 
-    }
+                kinder_jahrgang:
+                    $('input[name="kinder_jahrgang"]', form).value
+            };
+        }
 
-    starteAutoLock();
+        alleDaten.push({
 
-}
+            ort_person:
+                $('input[name="ort_person"]', form).value,
 
+            vorname:
+                $('input[name="vorname"]', form).value,
 
-/* =========================================================
-   INAKTIVITÄT ERKENNEN
-========================================================= */
+            nachname:
+                $('input[name="nachname"]', form).value,
 
-[
-    "click",
-    "touchstart",
-    "keydown",
-    "pointerdown",
-    "mousemove",
-    "scroll"
-]
-.forEach(
-    eventName => {
+            geburtsdatum:
+                $('input[name="geburtsdatum"]', form).value,
 
-        document.addEventListener(
-            eventName,
-            () => {
+            telefonnummer:
+                $('input[name="telefonnummer"]', form).value,
 
-                if (entsperrt) {
+            hatZusatz:
+                $(".zusatzfelder", form)
+                    .style.display === "block",
 
-                    resetAutoLock();
+            strasse:
+                $('input[name="strasse"]', form).value,
 
-                }
+            plz:
+                $('input[name="plz"]', form).value,
 
-            },
-            {
-                passive: true
-            }
-        );
+            ort:
+                $('input[name="ort"]', form).value,
 
-    }
-);
+            vater_vorname:
+                $('input[name="vater_vorname"]', form).value,
 
+            vater_nachname:
+                $('input[name="vater_nachname"]', form).value,
 
-/* =========================================================
-   DATUM
-========================================================= */
+            mutter_vorname:
+                $('input[name="mutter_vorname"]', form).value,
 
-function formatDate(event) {
+            mutter_nachname:
+                $('input[name="mutter_nachname"]', form).value,
 
-    let value =
-        event.target.value
-            .replace(
-                /[^\d]/g,
-                ""
-            );
+            geburtsort:
+                $('input[name="geburtsort"]', form).value,
 
+            heimatort:
+                $('input[name="heimatort"]', form).value,
 
-    if (
-        value.length > 2
-    ) {
+            beruf:
+                $('input[name="beruf"]', form).value,
 
-        value =
-            value.slice(0,2)
-            + "."
-            + value.slice(2);
+            notizen:
+                $('textarea[name="notizen"]', form).value,
 
-    }
+            aussage_datum:
+                $('input[name="aussage_datum"]', form).value,
 
+            aussage_zeit:
+                $('input[name="aussage_zeit"]', form).value,
 
-    if (
-        value.length > 5
-    ) {
+            aussage_text:
+                $('textarea[name="aussage_text"]', form).value,
 
-        value =
-            value.slice(0,5)
-            + "."
-            + value.slice(5);
+            finanz:
+                finanzDaten
 
-    }
+        });
 
-
-    event.target.value =
-        value.slice(
-            0,
-            10
-        );
-
+    });
 }
 
 
@@ -2485,23 +1573,15 @@ function neuesFormular() {
             "formContainer"
         );
 
-
     const div =
-        document.createElement(
-            "div"
-        );
-
+        document.createElement("div");
 
     div.className =
         "person-form";
 
-
     div.innerHTML = `
 
-        <h3>
-            Person ${formIndex + 1}
-        </h3>
-
+        <h3>Person ${formIndex + 1}</h3>
 
         <label>
             Ort:
@@ -2511,7 +1591,6 @@ function neuesFormular() {
                 maxlength="150"
                 autocomplete="address-level2">
         </label>
-
 
         <label>
             Nachname:
@@ -2523,7 +1602,6 @@ function neuesFormular() {
                 required>
         </label>
 
-
         <label>
             Vorname:
             <input
@@ -2533,7 +1611,6 @@ function neuesFormular() {
                 autocomplete="given-name"
                 required>
         </label>
-
 
         <label>
             Geburtsdatum:
@@ -2547,7 +1624,6 @@ function neuesFormular() {
                 required>
         </label>
 
-
         <label>
             Telefonnummer:
             <input
@@ -2557,7 +1633,6 @@ function neuesFormular() {
                 autocomplete="tel">
         </label>
 
-
         <button
             type="button"
             class="btn-zusatz">
@@ -2566,101 +1641,59 @@ function neuesFormular() {
 
         </button>
 
-
         <div class="zusatzfelder">
 
             <label>
                 Strasse:
-                <input
-                    type="text"
-                    name="strasse"
-                    maxlength="150"
-                    autocomplete="street-address">
+                <input type="text" name="strasse" maxlength="150">
             </label>
-
 
             <label>
                 PLZ:
-                <input
-                    type="text"
-                    name="plz"
-                    maxlength="20">
+                <input type="text" name="plz" maxlength="20">
             </label>
-
 
             <label>
                 Ort:
-                <input
-                    type="text"
-                    name="ort"
-                    maxlength="150">
+                <input type="text" name="ort" maxlength="150">
             </label>
-
 
             <label>
                 Vorname Vater:
-                <input
-                    type="text"
-                    name="vater_vorname"
-                    maxlength="100">
+                <input type="text" name="vater_vorname" maxlength="100">
             </label>
-
 
             <label>
                 Nachname Vater:
-                <input
-                    type="text"
-                    name="vater_nachname"
-                    maxlength="100">
+                <input type="text" name="vater_nachname" maxlength="100">
             </label>
-
 
             <label>
                 Vorname Mutter:
-                <input
-                    type="text"
-                    name="mutter_vorname"
-                    maxlength="100">
+                <input type="text" name="mutter_vorname" maxlength="100">
             </label>
-
 
             <label>
                 Nachname Mutter:
-                <input
-                    type="text"
-                    name="mutter_nachname"
-                    maxlength="100">
+                <input type="text" name="mutter_nachname" maxlength="100">
             </label>
-
 
             <label>
                 Geburtsort:
-                <input
-                    type="text"
-                    name="geburtsort"
-                    maxlength="150">
+                <input type="text" name="geburtsort" maxlength="150">
             </label>
-
 
             <label>
                 Heimatort:
-                <input
-                    type="text"
-                    name="heimatort"
-                    maxlength="150">
+                <input type="text" name="heimatort" maxlength="150">
             </label>
-
 
             <label>
                 Beruf:
-                <input
-                    type="text"
-                    name="beruf"
-                    maxlength="150">
+                <input type="text" name="beruf" maxlength="150">
             </label>
 
         </div>
-
 
         <label>
 
@@ -2673,9 +1706,6 @@ function neuesFormular() {
 
         </label>
 
-
-        <!-- AUSSAGEN -->
-
         <button
             type="button"
             class="btn-aussage">
@@ -2684,12 +1714,9 @@ function neuesFormular() {
 
         </button>
 
-
         <div class="aussage-hinweis">
 
-            <strong>
-                Hinweis zur Aussage:
-            </strong>
+            <strong>Hinweis zur Aussage:</strong>
 
             <p>
                 Gegen Sie ist ein Vorverfahren wegen
@@ -2725,34 +1752,24 @@ function neuesFormular() {
 
         </div>
 
-
         <div class="aussagenfelder">
 
             <label>
-
                 Datum Aussage:
-
                 <input
                     type="text"
                     name="aussage_datum"
                     readonly>
-
             </label>
 
-
             <label>
-
                 Zeit Aussage:
-
                 <input
                     type="time"
                     name="aussage_zeit">
-
             </label>
 
-
             <label>
-
                 Aussage:
 
                 <textarea
@@ -2765,9 +1782,6 @@ function neuesFormular() {
 
         </div>
 
-
-        <!-- FINANZEN -->
-
         <button
             type="button"
             class="btn-finanz">
@@ -2776,52 +1790,24 @@ function neuesFormular() {
 
         </button>
 
-
         <div class="finanzfelder">
 
-            <h4>
-                Finanzielle Verhältnisse
-            </h4>
-
+            <h4>Finanzielle Verhältnisse</h4>
 
             <div class="checkbox-zeile">
-
-                <input
-                    type="checkbox"
-                    name="selbstaendig">
-
-                <span>
-                    Selbstständig
-                </span>
-
+                <input type="checkbox" name="selbstaendig">
+                <span>Selbstständig</span>
             </div>
-
 
             <div class="checkbox-zeile">
-
-                <input
-                    type="checkbox"
-                    name="angestellt">
-
-                <span>
-                    Angestellt
-                </span>
-
+                <input type="checkbox" name="angestellt">
+                <span>Angestellt</span>
             </div>
-
 
             <div class="checkbox-zeile">
-
-                <input
-                    type="checkbox"
-                    name="anderes_einkommen">
-
-                <span>
-                    Anderes Einkommen
-                </span>
-
+                <input type="checkbox" name="anderes_einkommen">
+                <span>Anderes Einkommen</span>
             </div>
-
 
             <input
                 type="text"
@@ -2830,94 +1816,47 @@ function neuesFormular() {
                 placeholder="Bitte spezifizieren"
                 style="display:none;">
 
-
             <label>
-
                 Netto-Einkünfte pro Monat:
-
-                <input
-                    type="text"
-                    name="netto_einkommen"
-                    maxlength="100">
-
+                <input type="text" name="netto_einkommen" maxlength="100">
             </label>
-
 
             <label>
-
-                Netto-Einkünfte Lebenspartner
-                pro Monat:
-
-                <input
-                    type="text"
-                    name="netto_partner"
-                    maxlength="100">
-
+                Netto-Einkünfte Lebenspartner pro Monat:
+                <input type="text" name="netto_partner" maxlength="100">
             </label>
-
 
             <hr>
 
-
             <div class="checkbox-zeile">
-
-                <input
-                    type="checkbox"
-                    name="liegenschaft_check">
+                <input type="checkbox" name="liegenschaft_check">
 
                 <span>
-
                     Liegenschaft:
-                    <strong
-                        class="ja-nein-liegenschaft">
+                    <strong class="ja-nein-liegenschaft">
                         Nein
                     </strong>
-
                 </span>
-
             </div>
 
-
-            <div
-                class="liegenschaft_details finanz-detail">
+            <div class="liegenschaft_details finanz-detail">
 
                 <label>
-
                     Ort:
-
-                    <input
-                        type="text"
-                        name="liegenschaft_ort"
-                        maxlength="150">
-
+                    <input type="text" name="liegenschaft_ort" maxlength="150">
                 </label>
 
-
                 <label>
-
                     Steuerwert:
-
-                    <input
-                        type="text"
-                        name="steuerwert"
-                        maxlength="100">
-
+                    <input type="text" name="steuerwert" maxlength="100">
                 </label>
 
-
                 <label>
-
                     Hypothekarschulden:
-
-                    <input
-                        type="text"
-                        name="hypothek"
-                        maxlength="100">
-
+                    <input type="text" name="hypothek" maxlength="100">
                 </label>
 
             </div>
-
 
             <div class="checkbox-zeile">
 
@@ -2926,46 +1865,31 @@ function neuesFormular() {
                     name="anderes_vermoegen_check">
 
                 <span>
-
                     Vermögen:
-                    <strong
-                        class="ja-nein-vermoegen">
+                    <strong class="ja-nein-vermoegen">
                         Nein
                     </strong>
-
                 </span>
 
             </div>
 
-
-            <div
-                class="anderes_vermoegen_details finanz-detail">
+            <div class="anderes_vermoegen_details finanz-detail">
 
                 <label>
-
                     Welches:
-
-                    <input
-                        type="text"
-                        name="anderes_vermoegen_what"
-                        maxlength="300">
-
+                    <input type="text"
+                           name="anderes_vermoegen_what"
+                           maxlength="300">
                 </label>
 
-
                 <label>
-
                     CHF:
-
-                    <input
-                        type="text"
-                        name="anderes_vermoegen_chf"
-                        maxlength="100">
-
+                    <input type="text"
+                           name="anderes_vermoegen_chf"
+                           maxlength="100">
                 </label>
 
             </div>
-
 
             <div class="checkbox-zeile">
 
@@ -2974,48 +1898,31 @@ function neuesFormular() {
                     name="unterhaltsbeitrag_check">
 
                 <span>
-
-                    Zu leistende
-                    Unterhaltsbeiträge:
-
-                    <strong
-                        class="ja-nein-unterhalt">
+                    Zu leistende Unterhaltsbeiträge:
+                    <strong class="ja-nein-unterhalt">
                         Nein
                     </strong>
-
                 </span>
 
             </div>
 
-
-            <div
-                class="unterhaltsbeitrag_details finanz-detail">
+            <div class="unterhaltsbeitrag_details finanz-detail">
 
                 <label>
-
                     Total pro Monat:
-
-                    <input
-                        type="text"
-                        name="unterhalt_total"
-                        maxlength="100">
-
+                    <input type="text"
+                           name="unterhalt_total"
+                           maxlength="100">
                 </label>
 
-
                 <label>
-
                     An:
-
-                    <input
-                        type="text"
-                        name="unterhalt_an"
-                        maxlength="200">
-
+                    <input type="text"
+                           name="unterhalt_an"
+                           maxlength="200">
                 </label>
 
             </div>
-
 
             <div class="checkbox-zeile">
 
@@ -3024,45 +1931,32 @@ function neuesFormular() {
                     name="kinder_check">
 
                 <span>
-
                     Kinder:
-                    <strong
-                        class="ja-nein-kinder">
+                    <strong class="ja-nein-kinder">
                         Nein
                     </strong>
-
                 </span>
 
             </div>
 
-
-            <div
-                class="kinder_details finanz-detail">
+            <div class="kinder_details finanz-detail">
 
                 <label>
-
                     Anzahl Kinder:
-
                     <input
                         type="number"
                         name="kinder_anzahl"
                         min="0"
-                        max="50"
-                        inputmode="numeric">
-
+                        max="50">
                 </label>
 
-
                 <label>
-
                     Jahrgang Kinder:
-
                     <input
                         type="text"
                         name="kinder_jahrgang"
                         maxlength="300"
                         placeholder="z.B. 2010, 2013, 2017">
-
                 </label>
 
             </div>
@@ -3070,23 +1964,18 @@ function neuesFormular() {
         </div>
     `;
 
-
-    container.appendChild(
-        div
-    );
-
+    container.appendChild(div);
 
     formIndex++;
 
-    aktiviereFormular(
-        div
-    );
+    aktiviereFormular(div);
 
+    automatischesSpeichern();
 }
 
 
 /* =========================================================
-   FORMULAR-EVENTS
+   FORMULAR EVENTS
 ========================================================= */
 
 function aktiviereFormular(form) {
@@ -3094,125 +1983,92 @@ function aktiviereFormular(form) {
     const dateInput =
         $('input[name="geburtsdatum"]', form);
 
-
     dateInput.addEventListener(
         "input",
         formatDate
     );
 
+    $(".btn-zusatz", form)
+        .addEventListener(
+            "click",
+            () => {
 
-    const zusatzButton =
-        $(".btn-zusatz", form);
+                $(".zusatzfelder", form)
+                    .style.display = "block";
 
+                $(".btn-zusatz", form)
+                    .style.display = "none";
 
-    zusatzButton.addEventListener(
-        "click",
-        () => {
+                automatischesSpeichern();
+            }
+        );
 
-            $(".zusatzfelder", form)
-                .style.display =
-                "block";
+    $(".btn-aussage", form)
+        .addEventListener(
+            "click",
+            () => {
 
-            zusatzButton.style.display =
-                "none";
+                $(".aussage-hinweis", form)
+                    .style.display = "block";
 
-        }
-    );
+                $(".aussagenfelder", form)
+                    .style.display = "block";
 
+                const jetzt =
+                    new Date();
 
-    const aussageButton =
-        $(".btn-aussage", form);
+                $('input[name="aussage_datum"]', form)
+                    .value =
+                    jetzt.toLocaleDateString("de-CH");
 
+                $('input[name="aussage_zeit"]', form)
+                    .value =
+                    jetzt.toLocaleTimeString(
+                        "de-CH",
+                        {
+                            hour: "2-digit",
+                            minute: "2-digit"
+                        }
+                    );
 
-    aussageButton.addEventListener(
-        "click",
-        () => {
+                $(".btn-aussage", form)
+                    .style.display = "none";
 
-            $(".aussage-hinweis", form)
-                .style.display =
-                "block";
+                automatischesSpeichern();
+            }
+        );
 
+    $(".btn-finanz", form)
+        .addEventListener(
+            "click",
+            () => {
 
-            $(".aussagenfelder", form)
-                .style.display =
-                "block";
+                $(".finanzfelder", form)
+                    .style.display = "block";
 
+                $(".btn-finanz", form)
+                    .style.display = "none";
 
-            const jetzt =
-                new Date();
-
-
-            $('input[name="aussage_datum"]', form)
-                .value =
-                jetzt.toLocaleDateString(
-                    "de-CH"
-                );
-
-
-            $('input[name="aussage_zeit"]', form)
-                .value =
-                jetzt.toLocaleTimeString(
-                    "de-CH",
-                    {
-                        hour: "2-digit",
-                        minute: "2-digit"
-                    }
-                );
-
-
-            aussageButton.style.display =
-                "none";
-
-        }
-    );
-
-
-    const finanzButton =
-        $(".btn-finanz", form);
-
-
-    finanzButton.addEventListener(
-        "click",
-        () => {
-
-            $(".finanzfelder", form)
-                .style.display =
-                "block";
-
-
-            finanzButton.style.display =
-                "none";
-
-        }
-    );
-
+                automatischesSpeichern();
+            }
+        );
 
     const selbstaendig =
         $('input[name="selbstaendig"]', form);
 
-
     const angestellt =
         $('input[name="angestellt"]', form);
 
-
     const anderes =
         $('input[name="anderes_einkommen"]', form);
-
 
     selbstaendig.addEventListener(
         "change",
         () => {
 
-            if (
-                selbstaendig.checked
-            ) {
-
-                angestellt.checked =
-                    false;
-
-                anderes.checked =
-                    false;
-
+            if (selbstaendig.checked) {
+                angestellt.checked = false;
+                anderes.checked = false;
             }
 
             zeigeAnderesText(
@@ -3220,24 +2076,17 @@ function aktiviereFormular(form) {
                 form
             );
 
+            automatischesSpeichern();
         }
     );
-
 
     angestellt.addEventListener(
         "change",
         () => {
 
-            if (
-                angestellt.checked
-            ) {
-
-                selbstaendig.checked =
-                    false;
-
-                anderes.checked =
-                    false;
-
+            if (angestellt.checked) {
+                selbstaendig.checked = false;
+                anderes.checked = false;
             }
 
             zeigeAnderesText(
@@ -3245,24 +2094,17 @@ function aktiviereFormular(form) {
                 form
             );
 
+            automatischesSpeichern();
         }
     );
-
 
     anderes.addEventListener(
         "change",
         () => {
 
-            if (
-                anderes.checked
-            ) {
-
-                selbstaendig.checked =
-                    false;
-
-                angestellt.checked =
-                    false;
-
+            if (anderes.checked) {
+                selbstaendig.checked = false;
+                angestellt.checked = false;
             }
 
             zeigeAnderesText(
@@ -3270,9 +2112,9 @@ function aktiviereFormular(form) {
                 form
             );
 
+            automatischesSpeichern();
         }
     );
-
 
     const checkboxen = [
 
@@ -3302,7 +2144,6 @@ function aktiviereFormular(form) {
 
     ];
 
-
     checkboxen.forEach(
         ([checkboxName, detailName, labelName]) => {
 
@@ -3312,61 +2153,31 @@ function aktiviereFormular(form) {
                     form
                 );
 
-
             checkbox.addEventListener(
                 "change",
                 () => {
 
                     const detail =
-                        $(
-                            "." + detailName,
-                            form
-                        );
-
+                        $("." + detailName, form);
 
                     const label =
-                        $(
-                            "." + labelName,
-                            form
-                        );
-
+                        $("." + labelName, form);
 
                     detail.style.display =
                         checkbox.checked
                             ? "block"
                             : "none";
 
-
                     label.textContent =
                         checkbox.checked
                             ? "Ja"
                             : "Nein";
 
-
-                    automatischSpeichern();
-
+                    automatischesSpeichern();
                 }
             );
-
         }
     );
-
-
-    /*
-     * Automatische Speicherung bei Änderungen.
-     */
-
-    form.addEventListener(
-        "input",
-        debounceSpeichern
-    );
-
-
-    form.addEventListener(
-        "change",
-        debounceSpeichern
-    );
-
 }
 
 
@@ -3379,267 +2190,337 @@ function zeigeAnderesText(
     form
 ) {
 
-    const input =
+    const field =
         $('input[name="anderes_einkommen_text"]', form);
 
-
-    input.style.display =
+    field.style.display =
         checkbox.checked
             ? "block"
             : "none";
-
 }
 
 
 /* =========================================================
-   DEBOUNCE
+   DATUM
 ========================================================= */
 
-let saveTimer = null;
+function formatDate(event) {
 
+    let value =
+        event.target.value
+            .replace(/[^\d]/g, "");
 
-function debounceSpeichern() {
-
-    if (!entsperrt) {
-
-        return;
-
+    if (value.length > 2) {
+        value =
+            value.slice(0,2)
+            + "."
+            + value.slice(2);
     }
 
+    if (value.length > 5) {
+        value =
+            value.slice(0,5)
+            + "."
+            + value.slice(5);
+    }
 
-    clearTimeout(
-        saveTimer
-    );
+    event.target.value =
+        value.slice(0,10);
 
-
-    saveTimer =
-        setTimeout(
-            () => {
-
-                datenAusFormularenSpeichern();
-
-                automatischSpeichern();
-
-            },
-            700
-        );
-
+    automatischesSpeichern();
 }
 
 
 /* =========================================================
-   DATEN AUS FORMULAREN
+   AUTOMATISCHE ÄNDERUNGSERKENNUNG
 ========================================================= */
 
-function datenAusFormularenSpeichern() {
+document.addEventListener(
+    "input",
+    event => {
 
-    alleDaten = [];
+        if (
+            isUnlocked &&
+            event.target.matches(
+                "input, textarea, select"
+            )
+        ) {
+
+            automatischesSpeichern();
+            starteAutoLock();
+        }
+    }
+);
+
+document.addEventListener(
+    "change",
+    event => {
+
+        if (
+            isUnlocked &&
+            event.target.matches(
+                "input, textarea, select"
+            )
+        ) {
+
+            automatischesSpeichern();
+            starteAutoLock();
+        }
+    }
+);
 
 
-    const forms =
-        document.querySelectorAll(
-            ".person-form"
+/* =========================================================
+   ZUSATZMASKE
+========================================================= */
+
+function zeigeZusatzMaske() {
+
+    datenAusFormularenSpeichern();
+
+    if (!alleDaten.length) {
+
+        alert(
+            "Es sind keine Personen vorhanden."
         );
 
+        return;
+    }
 
-    forms.forEach(
-        form => {
+    const jetzt =
+        new Date();
 
-            const finanz =
-                $(".finanzfelder", form);
+    $("#datum").value =
+        jetzt.toLocaleDateString("de-CH");
+
+    $("#zeit").value =
+        jetzt.toLocaleTimeString(
+            "de-CH",
+            {
+                hour: "2-digit",
+                minute: "2-digit"
+            }
+        );
+
+    $("#zusatzMaske")
+        .classList.remove("hidden");
+
+    window.scrollTo(
+        0,
+        document.body.scrollHeight
+    );
+}
 
 
-            let finanzDaten =
-                null;
+function versteckeZusatzMaske() {
+
+    $("#zusatzMaske")
+        .classList.add("hidden");
+}
 
 
-            if (
-                finanz &&
-                getComputedStyle(
-                    finanz
-                ).display !==
-                "none"
-            ) {
+/* =========================================================
+   E-MAIL
+========================================================= */
 
-                finanzDaten = {
+function finaleMailAbschicken() {
 
-                    selbstaendig:
-                        $('input[name="selbstaendig"]', form)
-                            .checked,
+    datenAusFormularenSpeichern();
 
-                    angestellt:
-                        $('input[name="angestellt"]', form)
-                            .checked,
+    const datum =
+        $("#datum").value;
 
-                    anderes:
-                        $('input[name="anderes_einkommen"]', form)
-                            .checked,
+    const zeit =
+        $("#zeit").value;
 
-                    anderes_text:
-                        $('input[name="anderes_einkommen_text"]', form)
-                            .value,
+    const ereignis =
+        $("#ereignis").value;
 
-                    netto_einkommen:
-                        $('input[name="netto_einkommen"]', form)
-                            .value,
+    let betreff =
+        `Personendaten ${datum}`;
 
-                    netto_partner:
-                        $('input[name="netto_partner"]', form)
-                            .value,
+    if (ereignis.trim()) {
+        betreff +=
+            ` - ${ereignis.trim()}`;
+    }
 
-                    liegenschaft:
-                        $('input[name="liegenschaft_check"]', form)
-                            .checked,
+    let mailBody =
+        `Datum: ${datum}\n` +
+        `Zeit: ${zeit}\n` +
+        `Ereignis: ${ereignis}\n\n` +
+        `Erfasste Personen:\n\n`;
 
-                    liegenschaft_ort:
-                        $('input[name="liegenschaft_ort"]', form)
-                            .value,
+    alleDaten.forEach(
+        (p, i) => {
 
-                    steuerwert:
-                        $('input[name="steuerwert"]', form)
-                            .value,
+            mailBody +=
+                `==============================\n` +
+                `PERSON ${i + 1}\n` +
+                `==============================\n\n`;
 
-                    hypothek:
-                        $('input[name="hypothek"]', form)
-                            .value,
+            mailBody +=
+                `Vorname: ${p.vorname}\n` +
+                `Nachname: ${p.nachname}\n` +
+                `Geburtsdatum: ${p.geburtsdatum}\n` +
+                `Telefonnummer: ${p.telefonnummer}\n` +
+                `Ort: ${p.ort_person || "Keine Angabe"}\n\n`;
 
-                    anderes_vermoegen:
-                        $('input[name="anderes_vermoegen_check"]', form)
-                            .checked,
+            if (p.hatZusatz) {
 
-                    anderes_vermoegen_what:
-                        $('input[name="anderes_vermoegen_what"]', form)
-                            .value,
-
-                    anderes_vermoegen_chf:
-                        $('input[name="anderes_vermoegen_chf"]', form)
-                            .value,
-
-                    unterhaltsbeitrag:
-                        $('input[name="unterhaltsbeitrag_check"]', form)
-                            .checked,
-
-                    unterhalt_total:
-                        $('input[name="unterhalt_total"]', form)
-                            .value,
-
-                    unterhalt_an:
-                        $('input[name="unterhalt_an"]', form)
-                            .value,
-
-                    kinder:
-                        $('input[name="kinder_check"]', form)
-                            .checked,
-
-                    kinder_anzahl:
-                        $('input[name="kinder_anzahl"]', form)
-                            .value,
-
-                    kinder_jahrgang:
-                        $('input[name="kinder_jahrgang"]', form)
-                            .value
-
-                };
-
+                mailBody +=
+                    `--- Weitere Angaben ---\n` +
+                    `Strasse: ${p.strasse}\n` +
+                    `PLZ: ${p.plz}\n` +
+                    `Ort: ${p.ort}\n` +
+                    `Vater: ${p.vater_vorname} ${p.vater_nachname}\n` +
+                    `Mutter: ${p.mutter_vorname} ${p.mutter_nachname}\n` +
+                    `Geburtsort: ${p.geburtsort}\n` +
+                    `Heimatort: ${p.heimatort}\n` +
+                    `Beruf: ${p.beruf}\n\n`;
             }
 
+            if (
+                p.aussage_text &&
+                p.aussage_text.trim()
+            ) {
 
-            alleDaten.push({
+                mailBody +=
+                    `--- Aussagen ---\n` +
+                    `Aussage-Datum: ${p.aussage_datum}\n` +
+                    `Aussage-Zeit: ${p.aussage_zeit}\n` +
+                    `Aussage:\n${p.aussage_text}\n\n`;
+            }
 
-                ort_person:
-                    $('input[name="ort_person"]', form)
-                        .value,
+            if (p.finanz) {
 
-                vorname:
-                    $('input[name="vorname"]', form)
-                        .value,
+                const f =
+                    p.finanz;
 
-                nachname:
-                    $('input[name="nachname"]', form)
-                        .value,
+                if (f.angestellt) {
 
-                geburtsdatum:
-                    $('input[name="geburtsdatum"]', form)
-                        .value,
+                    mailBody +=
+                        `Erwerbsstatus: Angestellt\n`;
 
-                telefonnummer:
-                    $('input[name="telefonnummer"]', form)
-                        .value,
+                }
+                else if (f.selbstaendig) {
 
-                hatZusatz:
-                    $(".zusatzfelder", form)
-                        .style.display ===
-                        "block",
+                    mailBody +=
+                        `Erwerbsstatus: Selbstständig\n`;
 
-                strasse:
-                    $('input[name="strasse"]', form)
-                        .value,
+                }
+                else if (f.anderes) {
 
-                plz:
-                    $('input[name="plz"]', form)
-                        .value,
+                    mailBody +=
+                        `Erwerbsstatus: ${
+                            f.anderes_text || "Anderes"
+                        }\n`;
 
-                ort:
-                    $('input[name="ort"]', form)
-                        .value,
+                }
+                else {
 
-                vater_vorname:
-                    $('input[name="vater_vorname"]', form)
-                        .value,
+                    mailBody +=
+                        `Erwerbsstatus: Keine Angabe\n`;
+                }
 
-                vater_nachname:
-                    $('input[name="vater_nachname"]', form)
-                        .value,
+                mailBody +=
+                    `Netto-Einkünfte pro Monat: ${
+                        f.netto_einkommen || "Keine Angabe"
+                    }\n` +
 
-                mutter_vorname:
-                    $('input[name="mutter_vorname"]', form)
-                        .value,
+                    `Netto-Einkünfte Lebenspartner pro Monat: ${
+                        f.netto_partner || "Keine Angabe"
+                    }\n`;
 
-                mutter_nachname:
-                    $('input[name="mutter_nachname"]', form)
-                        .value,
+                mailBody +=
+                    `Liegenschaft: ${
+                        f.liegenschaft ? "Ja" : "Nein"
+                    }\n`;
 
-                geburtsort:
-                    $('input[name="geburtsort"]', form)
-                        .value,
+                if (f.liegenschaft) {
 
-                heimatort:
-                    $('input[name="heimatort"]', form)
-                        .value,
+                    mailBody +=
+                        `  Ort: ${f.liegenschaft_ort}\n` +
+                        `  Steuerwert: ${f.steuerwert}\n` +
+                        `  Hypothekarschulden: ${f.hypothek}\n`;
+                }
 
-                beruf:
-                    $('input[name="beruf"]', form)
-                        .value,
+                mailBody +=
+                    `Vermögen: ${
+                        f.anderes_vermoegen ? "Ja" : "Nein"
+                    }\n`;
 
-                notizen:
-                    $('textarea[name="notizen"]', form)
-                        .value,
+                if (f.anderes_vermoegen) {
 
-                aussage_datum:
-                    $('input[name="aussage_datum"]', form)
-                        .value,
+                    mailBody +=
+                        `  Welches: ${
+                            f.anderes_vermoegen_what
+                        }\n` +
 
-                aussage_zeit:
-                    $('input[name="aussage_zeit"]', form)
-                        .value,
+                        `  CHF: ${
+                            f.anderes_vermoegen_chf
+                        }\n`;
+                }
 
-                aussage_text:
-                    $('textarea[name="aussage_text"]', form)
-                        .value,
+                mailBody +=
+                    `Zu leistende Unterhaltsbeiträge: ${
+                        f.unterhaltsbeitrag ? "Ja" : "Nein"
+                    }\n`;
 
-                finanz:
-                    finanzDaten
+                if (f.unterhaltsbeitrag) {
 
-            });
+                    mailBody +=
+                        `  Total pro Monat: ${
+                            f.unterhalt_total
+                        }\n` +
 
+                        `  An: ${
+                            f.unterhalt_an
+                        }\n`;
+                }
+
+                mailBody +=
+                    `Kinder: ${
+                        f.kinder ? "Ja" : "Nein"
+                    }\n`;
+
+                if (f.kinder) {
+
+                    mailBody +=
+                        `  Anzahl Kinder: ${
+                            f.kinder_anzahl
+                        }\n` +
+
+                        `  Jahrgang Kinder: ${
+                            f.kinder_jahrgang
+                        }\n`;
+                }
+
+                mailBody += "\n";
+            }
+
+            mailBody +=
+                `--- Notizen ---\n` +
+                `${p.notizen}\n\n`;
         }
     );
 
+    const mailto =
+        `mailto:${MAIL_EMPFAENGER}` +
+        `?subject=${encodeURIComponent(betreff)}` +
+        `&body=${encodeURIComponent(mailBody)}`;
+
+    status(
+        "📧 E-Mail wird an die Mail-App übergeben …",
+        "warn"
+    );
+
+    window.location.href =
+        mailto;
 }
 
 
 /* =========================================================
-   FORMULARE AUS DATEN
+   DATEN IN FORMULARE ZURÜCKSCHREIBEN
 ========================================================= */
 
 function formularAusDatenAufbauen() {
@@ -3649,57 +2530,44 @@ function formularAusDatenAufbauen() {
             "formContainer"
         );
 
-
     container.replaceChildren();
 
     formIndex = 0;
-
 
     if (!alleDaten.length) {
 
         neuesFormular();
 
         return;
-
     }
-
 
     alleDaten.forEach(
         person => {
 
             neuesFormular();
 
-
             const forms =
                 document.querySelectorAll(
                     ".person-form"
                 );
 
-
             const form =
-                forms[
-                    forms.length - 1
-                ];
-
+                forms[forms.length - 1];
 
             const set =
                 (name, value) => {
 
-                    const input =
+                    const el =
                         $(
                             `[name="${name}"]`,
                             form
                         );
 
-                    if (input) {
-
-                        input.value =
+                    if (el) {
+                        el.value =
                             value || "";
-
                     }
-
                 };
-
 
             set(
                 "ort_person",
@@ -3786,35 +2654,24 @@ function formularAusDatenAufbauen() {
                 person.aussage_zeit
             );
 
+            set(
+                "aussage_text",
+                person.aussage_text
+            );
 
-            const notizen =
-                $('textarea[name="notizen"]', form);
+            set(
+                "notizen",
+                person.notizen
+            );
 
-            notizen.value =
-                person.notizen || "";
-
-
-            const aussage =
-                $('textarea[name="aussage_text"]', form);
-
-            aussage.value =
-                person.aussage_text || "";
-
-
-            if (
-                person.hatZusatz
-            ) {
+            if (person.hatZusatz) {
 
                 $(".zusatzfelder", form)
-                    .style.display =
-                    "block";
+                    .style.display = "block";
 
                 $(".btn-zusatz", form)
-                    .style.display =
-                    "none";
-
+                    .style.display = "none";
             }
-
 
             if (
                 person.aussage_text &&
@@ -3822,88 +2679,59 @@ function formularAusDatenAufbauen() {
             ) {
 
                 $(".aussage-hinweis", form)
-                    .style.display =
-                    "block";
+                    .style.display = "block";
 
                 $(".aussagenfelder", form)
-                    .style.display =
-                    "block";
+                    .style.display = "block";
 
                 $(".btn-aussage", form)
-                    .style.display =
-                    "none";
-
+                    .style.display = "none";
             }
 
-
-            if (
-                person.finanz
-            ) {
+            if (person.finanz) {
 
                 const f =
                     person.finanz;
 
-
                 $(".finanzfelder", form)
-                    .style.display =
-                    "block";
-
+                    .style.display = "block";
 
                 $(".btn-finanz", form)
-                    .style.display =
-                    "none";
+                    .style.display = "none";
 
-
-                const setCheck =
+                const bool =
                     (name, value) => {
 
-                        const input =
+                        const el =
                             $(
-                                `[name="${name}"]`,
+                                `input[name="${name}"]`,
                                 form
                             );
 
-                        if (input) {
-
-                            input.checked =
-                                !!value;
-
+                        if (el) {
+                            el.checked = !!value;
                         }
-
                     };
 
-
-                setCheck(
+                bool(
                     "selbstaendig",
                     f.selbstaendig
                 );
 
-                setCheck(
+                bool(
                     "angestellt",
                     f.angestellt
                 );
 
-                setCheck(
+                bool(
                     "anderes_einkommen",
                     f.anderes
                 );
-
 
                 set(
                     "anderes_einkommen_text",
                     f.anderes_text
                 );
-
-
-                const anderesText =
-                    $('input[name="anderes_einkommen_text"]', form);
-
-
-                anderesText.style.display =
-                    f.anderes
-                        ? "block"
-                        : "none";
-
 
                 set(
                     "netto_einkommen",
@@ -3915,8 +2743,7 @@ function formularAusDatenAufbauen() {
                     f.netto_partner
                 );
 
-
-                const checkboxen = [
+                const boxes = [
 
                     [
                         "liegenschaft_check",
@@ -3948,49 +2775,35 @@ function formularAusDatenAufbauen() {
 
                 ];
 
-
-                checkboxen.forEach(
-                    item => {
+                boxes.forEach(
+                    ([check, detail, label, value]) => {
 
                         const checkbox =
                             $(
-                                `[name="${item[0]}"]`,
+                                `input[name="${check}"]`,
                                 form
                             );
 
+                        const detailEl =
+                            $("." + detail, form);
 
-                        const detail =
-                            $(
-                                "." + item[1],
-                                form
-                            );
-
-
-                        const label =
-                            $(
-                                "." + item[2],
-                                form
-                            );
-
+                        const labelEl =
+                            $("." + label, form);
 
                         checkbox.checked =
-                            !!item[3];
+                            !!value;
 
-
-                        detail.style.display =
-                            item[3]
+                        detailEl.style.display =
+                            value
                                 ? "block"
                                 : "none";
 
-
-                        label.textContent =
-                            item[3]
+                        labelEl.textContent =
+                            value
                                 ? "Ja"
                                 : "Nein";
-
                     }
                 );
-
 
                 set(
                     "liegenschaft_ort",
@@ -4037,349 +2850,13 @@ function formularAusDatenAufbauen() {
                     f.kinder_jahrgang
                 );
 
+                zeigeAnderesText(
+                    $('input[name="anderes_einkommen"]', form),
+                    form
+                );
             }
-
         }
     );
-
-}
-
-
-/* =========================================================
-   ZUSATZMASKE
-========================================================= */
-
-function zeigeZusatzMaske() {
-
-    datenAusFormularenSpeichern();
-
-
-    if (!alleDaten.length) {
-
-        alert(
-            "Es sind keine Personen vorhanden."
-        );
-
-        return;
-
-    }
-
-
-    const jetzt =
-        new Date();
-
-
-    $("#datum").value =
-        jetzt.toLocaleDateString(
-            "de-CH"
-        );
-
-
-    $("#zeit").value =
-        jetzt.toLocaleTimeString(
-            "de-CH",
-            {
-                hour: "2-digit",
-                minute: "2-digit"
-            }
-        );
-
-
-    $("#zusatzMaske")
-        .classList
-        .remove("hidden");
-
-
-    window.scrollTo(
-        0,
-        document.body.scrollHeight
-    );
-
-}
-
-
-function versteckeZusatzMaske() {
-
-    $("#zusatzMaske")
-        .classList
-        .add("hidden");
-
-}
-
-
-/* =========================================================
-   E-MAIL
-========================================================= */
-
-function finaleMailAbschicken() {
-
-    datenAusFormularenSpeichern();
-
-
-    const datum =
-        $("#datum").value;
-
-    const zeit =
-        $("#zeit").value;
-
-    const ereignis =
-        $("#ereignis").value;
-
-
-    let betreff =
-        `Personendaten ${datum}`;
-
-
-    if (
-        ereignis.trim()
-    ) {
-
-        betreff +=
-            ` - ${ereignis.trim()}`;
-
-    }
-
-
-    let mailBody =
-        `Datum: ${datum}\n` +
-        `Zeit: ${zeit}\n` +
-        `Ereignis: ${ereignis}\n\n` +
-        `Erfasste Personen:\n\n`;
-
-
-    alleDaten.forEach(
-        (p, i) => {
-
-            mailBody +=
-                `==============================\n` +
-                `PERSON ${i + 1}\n` +
-                `==============================\n\n`;
-
-
-            mailBody +=
-                `Vorname: ${p.vorname}\n` +
-                `Nachname: ${p.nachname}\n` +
-                `Geburtsdatum: ${p.geburtsdatum}\n` +
-                `Telefonnummer: ${p.telefonnummer}\n` +
-                `Ort: ${p.ort_person || "Keine Angabe"}\n\n`;
-
-
-            if (
-                p.hatZusatz
-            ) {
-
-                mailBody +=
-                    `--- Weitere Angaben ---\n` +
-                    `Strasse: ${p.strasse}\n` +
-                    `PLZ: ${p.plz}\n` +
-                    `Ort: ${p.ort}\n` +
-                    `Vater: ${p.vater_vorname} ${p.vater_nachname}\n` +
-                    `Mutter: ${p.mutter_vorname} ${p.mutter_nachname}\n` +
-                    `Geburtsort: ${p.geburtsort}\n` +
-                    `Heimatort: ${p.heimatort}\n` +
-                    `Beruf: ${p.beruf}\n\n`;
-
-            }
-
-
-            if (
-                p.aussage_text &&
-                p.aussage_text.trim()
-            ) {
-
-                mailBody +=
-                    `--- Aussagen ---\n` +
-                    `Aussage-Datum: ${p.aussage_datum}\n` +
-                    `Aussage-Zeit: ${p.aussage_zeit}\n` +
-                    `Aussage:\n${p.aussage_text}\n\n`;
-
-            }
-
-
-            if (
-                p.finanz
-            ) {
-
-                const f =
-                    p.finanz;
-
-
-                if (
-                    f.angestellt
-                ) {
-
-                    mailBody +=
-                        `Erwerbsstatus: Angestellt\n`;
-
-                }
-                else if (
-                    f.selbstaendig
-                ) {
-
-                    mailBody +=
-                        `Erwerbsstatus: Selbstständig\n`;
-
-                }
-                else if (
-                    f.anderes
-                ) {
-
-                    mailBody +=
-                        `Erwerbsstatus: ${
-                            f.anderes_text ||
-                            "Anderes"
-                        }\n`;
-
-                }
-                else {
-
-                    mailBody +=
-                        `Erwerbsstatus: Keine Angabe\n`;
-
-                }
-
-
-                mailBody +=
-                    `Netto-Einkünfte pro Monat: ${
-                        f.netto_einkommen ||
-                        "Keine Angabe"
-                    }\n` +
-
-                    `Netto-Einkünfte Lebenspartner pro Monat: ${
-                        f.netto_partner ||
-                        "Keine Angabe"
-                    }\n`;
-
-
-                mailBody +=
-                    `Liegenschaft: ${
-                        f.liegenschaft
-                            ? "Ja"
-                            : "Nein"
-                    }\n`;
-
-
-                if (
-                    f.liegenschaft
-                ) {
-
-                    mailBody +=
-                        `  Ort: ${f.liegenschaft_ort}\n` +
-                        `  Steuerwert: ${f.steuerwert}\n` +
-                        `  Hypothekarschulden: ${f.hypothek}\n`;
-
-                }
-
-
-                mailBody +=
-                    `Vermögen: ${
-                        f.anderes_vermoegen
-                            ? "Ja"
-                            : "Nein"
-                    }\n`;
-
-
-                if (
-                    f.anderes_vermoegen
-                ) {
-
-                    mailBody +=
-                        `  Welches: ${
-                            f.anderes_vermoegen_what
-                        }\n` +
-
-                        `  CHF: ${
-                            f.anderes_vermoegen_chf
-                        }\n`;
-
-                }
-
-
-                mailBody +=
-                    `Zu leistende Unterhaltsbeiträge: ${
-                        f.unterhaltsbeitrag
-                            ? "Ja"
-                            : "Nein"
-                    }\n`;
-
-
-                if (
-                    f.unterhaltsbeitrag
-                ) {
-
-                    mailBody +=
-                        `  Total pro Monat: ${
-                            f.unterhalt_total
-                        }\n` +
-
-                        `  An: ${
-                            f.unterhalt_an
-                        }\n`;
-
-                }
-
-
-                mailBody +=
-                    `Kinder: ${
-                        f.kinder
-                            ? "Ja"
-                            : "Nein"
-                    }\n`;
-
-
-                if (
-                    f.kinder
-                ) {
-
-                    mailBody +=
-                        `  Anzahl Kinder: ${
-                            f.kinder_anzahl
-                        }\n` +
-
-                        `  Jahrgang Kinder: ${
-                            f.kinder_jahrgang
-                        }\n`;
-
-                }
-
-
-                mailBody +=
-                    "\n";
-
-            }
-
-
-            mailBody +=
-                `--- Notizen ---\n` +
-                `${p.notizen}\n\n`;
-
-        }
-    );
-
-
-    const mailto =
-        `mailto:${MAIL_EMPFAENGER}` +
-        `?subject=${
-            encodeURIComponent(
-                betreff
-            )
-        }` +
-        `&body=${
-            encodeURIComponent(
-                mailBody
-            )
-        }`;
-
-
-    status(
-        "📧 E-Mail wird an die Mail-App übergeben …",
-        "warn"
-    );
-
-
-    window.location.href =
-        mailto;
-
 }
 
 
@@ -4387,111 +2864,173 @@ function finaleMailAbschicken() {
    ALLES LÖSCHEN
 ========================================================= */
 
-async function allesLoeschen() {
+function allesLoeschen() {
 
     const bestaetigung =
         window.confirm(
 
             "ACHTUNG!\n\n" +
 
-            "Damit werden ALLE Personendaten, " +
-            "der verschlüsselte Datensatz UND " +
-            "der Geräteschlüssel gelöscht.\n\n" +
+            "Sollen wirklich alle eingegebenen " +
+            "Personendaten, die verschlüsselte " +
+            "Speicherung und der Geräteschlüssel " +
+            "gelöscht werden?\n\n" +
 
-            "Die Daten können danach nicht mehr " +
-            "mit diesem Sicherheitscode wiederhergestellt " +
-            "werden.\n\n" +
-
-            "Wirklich alles löschen?"
+            "Diese Aktion kann nicht rückgängig " +
+            "gemacht werden."
 
         );
 
-
     if (!bestaetigung) {
-
         return;
-
     }
-
 
     try {
 
-        stoppeAutoLock();
-
-
-        await dbClear(
-            DATA_STORE
+        localStorage.removeItem(
+            STORAGE_KEY
         );
 
-
-        await dbClear(
-            KEY_STORE
+        localStorage.removeItem(
+            DEVICE_KEY_NAME
         );
-
-
-        datenSchluessel =
-            null;
-
-        alleDaten =
-            [];
-
-        entsperrt =
-            false;
-
-        setupAbgeschlossen =
-            false;
-
-
-        document
-            .getElementById(
-                "formContainer"
-            )
-            .replaceChildren();
-
-
-        formIndex = 0;
-
-
-        versteckeZusatzMaske();
-
-
-        document
-            .getElementById(
-                "ereignis"
-            )
-            .value = "";
-
-
-        document.body
-            .classList
-            .add("gesperrt");
-
-
-        status(
-            "🗑️ Alle Daten und Sicherheitsdaten wurden gelöscht.",
-            "ok"
-        );
-
-
-        /*
-         * Neuer Geräteschlüssel wird erst beim
-         * nächsten Setup erzeugt.
-         */
-
-        zeigeSetup();
 
     }
     catch (error) {
 
         console.error(error);
+    }
 
-        alert(
-            "Die Daten konnten nicht vollständig gelöscht werden."
+    alleDaten = [];
+
+    formIndex = 0;
+
+    masterKey = null;
+
+    deviceKeyBytes = null;
+
+    isUnlocked = false;
+
+    clearTimeout(lockTimer);
+
+    document
+        .getElementById("formContainer")
+        .replaceChildren();
+
+    $("#ereignis").value = "";
+
+    versteckeZusatzMaske();
+
+    /*
+     * Danach wird die App neu geladen.
+     * Dadurch wird auch der Sicherheitsstatus
+     * sauber zurückgesetzt.
+     */
+
+    location.reload();
+}
+
+
+/* =========================================================
+   AUTOMATISCHE SPERRE
+========================================================= */
+
+function starteAutoLock() {
+
+    if (!isUnlocked) {
+        return;
+    }
+
+    clearTimeout(lockTimer);
+
+    lockTimer =
+        setTimeout(
+            () => {
+
+                sperren();
+
+            },
+            AUTO_LOCK_MS
+        );
+}
+
+
+function sperren() {
+
+    if (!isUnlocked) {
+        return;
+    }
+
+    /*
+     * Formulardaten werden vor dem Sperren
+     * nochmals verschlüsselt gespeichert.
+     */
+
+    automatischesSpeichern();
+
+    isUnlocked = false;
+
+    masterKey = null;
+
+    $("#appContent")
+        .classList.add(
+            "locked-content"
+        );
+
+    $("#lockOverlay")
+        .classList.remove("hidden");
+
+    $("#lockText").textContent =
+        "Die Anwendung wurde wegen Inaktivität automatisch gesperrt.";
+
+    $("#masterPassword").value = "";
+
+    $("#lockError").textContent = "";
+
+    $("#btnSetup")
+        .classList.add("hidden");
+
+    $("#btnUnlock")
+        .classList.remove("hidden");
+
+    $("#btnDeleteAll")
+        .classList.remove("hidden");
+
+    status(
+        "🔒 Anwendung automatisch gesperrt.",
+        "warn"
+    );
+}
+
+
+/* =========================================================
+   BENUTZERAKTIVITÄT
+========================================================= */
+
+[
+    "click",
+    "keydown",
+    "touchstart",
+    "pointerdown"
+].forEach(
+    eventName => {
+
+        document.addEventListener(
+            eventName,
+            () => {
+
+                if (isUnlocked) {
+                    starteAutoLock();
+                }
+
+            },
+            {
+                passive: true
+            }
         );
 
     }
-
-}
+);
 
 
 /* =========================================================
@@ -4500,9 +3039,7 @@ async function allesLoeschen() {
 
 function sicherheitsCheck() {
 
-    if (
-        !window.isSecureContext
-    ) {
+    if (!window.isSecureContext) {
 
         status(
             "⚠️ Keine sichere HTTPS-Verbindung.",
@@ -4510,9 +3047,7 @@ function sicherheitsCheck() {
         );
 
         return false;
-
     }
-
 
     if (
         !window.crypto ||
@@ -4520,46 +3055,189 @@ function sicherheitsCheck() {
     ) {
 
         status(
-            "❌ Web Crypto API nicht verfügbar.",
+            "❌ Web Crypto wird nicht unterstützt.",
             "error"
         );
 
         return false;
+    }
+
+    return true;
+}
+
+
+/* =========================================================
+   INITIALISIERUNG
+========================================================= */
+
+async function initialisieren() {
+
+    if (!sicherheitsCheck()) {
+        return;
+    }
+
+    try {
+
+        deviceKeyBytes =
+            getDeviceKey();
+
+    }
+    catch (error) {
+
+        console.error(error);
+
+        $("#lockError").textContent =
+            "Der Geräteschlüssel konnte nicht erstellt werden.";
+
+        return;
+    }
+
+    if (hatGespeicherteDaten()) {
+
+        $("#lockText").textContent =
+            "Die App enthält verschlüsselte Daten. " +
+            "Bitte geben Sie Ihren Code ein.";
+
+        $("#passwordLabel")
+            .classList.remove("hidden");
+
+        $("#btnUnlock")
+            .classList.remove("hidden");
+
+        $("#btnSetup")
+            .classList.add("hidden");
+
+        $("#btnDeleteAll")
+            .classList.remove("hidden");
+
+    }
+    else {
+
+        $("#lockText").textContent =
+            "Bitte richten Sie einen persönlichen " +
+            "Code ein. Der Code muss mindestens " +
+            "8 Zeichen lang sein und darf beliebig " +
+            "lang sein.";
+
+        $("#passwordLabel")
+            .classList.remove("hidden");
+
+        $("#btnUnlock")
+            .classList.add("hidden");
+
+        $("#btnSetup")
+            .classList.remove("hidden");
+
+        $("#btnDeleteAll")
+            .classList.add("hidden");
 
     }
 
-
-    if (
-        !window.indexedDB
-    ) {
-
-        status(
-            "❌ IndexedDB nicht verfügbar.",
-            "error"
-        );
-
-        return false;
-
-    }
+    $("#masterPassword")
+        .focus();
+}
 
 
-    sicherheitsStatus(
-        "🔐 V11 aktiv – AES-256-GCM / PBKDF2 / Geräteschlüssel / automatische Sperre"
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+$("#btnUnlock")
+    .addEventListener(
+        "click",
+        entsperren
     );
 
 
-    return true;
+$("#btnSetup")
+    .addEventListener(
+        "click",
+        codeEinrichten
+    );
 
-}
+
+$("#btnDeleteAll")
+    .addEventListener(
+        "click",
+        allesLoeschen
+    );
+
+
+$("#btnNeuePerson")
+    .addEventListener(
+        "click",
+        neuesFormular
+    );
+
+
+$("#btnMail")
+    .addEventListener(
+        "click",
+        zeigeZusatzMaske
+    );
+
+
+$("#btnLoeschen")
+    .addEventListener(
+        "click",
+        allesLoeschen
+    );
+
+
+$("#btnEmailErstellen")
+    .addEventListener(
+        "click",
+        finaleMailAbschicken
+    );
+
+
+$("#btnZusatzZurueck")
+    .addEventListener(
+        "click",
+        versteckeZusatzMaske
+    );
+
+
+$("#btnJetztSperren")
+    .addEventListener(
+        "click",
+        sperren
+    );
+
+
+$("#masterPassword")
+    .addEventListener(
+        "keydown",
+        event => {
+
+            if (
+                event.key === "Enter"
+            ) {
+
+                if (
+                    hatGespeicherteDaten()
+                ) {
+
+                    entsperren();
+
+                }
+                else {
+
+                    codeEinrichten();
+
+                }
+
+            }
+
+        }
+    );
 
 
 /* =========================================================
    SERVICE WORKER
 ========================================================= */
 
-if (
-    "serviceWorker" in navigator
-) {
+if ("serviceWorker" in navigator) {
 
     window.addEventListener(
         "load",
@@ -4573,10 +3251,11 @@ if (
                     }
                 )
                 .then(
-                    () => {
+                    registration => {
 
                         console.log(
-                            "V11 Service Worker registriert."
+                            "Service Worker registriert:",
+                            registration.scope
                         );
 
                     }
@@ -4585,7 +3264,7 @@ if (
                     error => {
 
                         console.warn(
-                            "Service Worker:",
+                            "Service Worker Fehler:",
                             error
                         );
 
@@ -4594,267 +3273,7 @@ if (
 
         }
     );
-
 }
-
-
-/* =========================================================
-   SETUP BUTTON
-========================================================= */
-
-document
-    .getElementById(
-        "btnSetup"
-    )
-    .addEventListener(
-        "click",
-        async () => {
-
-            const password =
-                document
-                    .getElementById(
-                        "setupPassword"
-                    )
-                    .value;
-
-
-            const password2 =
-                document
-                    .getElementById(
-                        "setupPassword2"
-                    )
-                    .value;
-
-
-            const error =
-                document
-                    .getElementById(
-                        "setupError"
-                    );
-
-
-            error.textContent = "";
-
-
-            if (
-                !validiereCode(
-                    password
-                )
-            ) {
-
-                error.textContent =
-                    "Der Sicherheitscode muss mindestens 8 Zeichen lang sein.";
-
-                return;
-
-            }
-
-
-            if (
-                password !== password2
-            ) {
-
-                error.textContent =
-                    "Die beiden Sicherheitscodes stimmen nicht überein.";
-
-                return;
-
-            }
-
-
-            try {
-
-                await initialisiereSetup(
-                    password
-                );
-
-
-                document
-                    .getElementById(
-                        "setupPassword"
-                    )
-                    .value = "";
-
-
-                document
-                    .getElementById(
-                        "setupPassword2"
-                    )
-                    .value = "";
-
-            }
-            catch (e) {
-
-                console.error(e);
-
-                error.textContent =
-                    "Die Sicherheitskonfiguration konnte nicht erstellt werden.";
-
-            }
-
-        }
-    );
-
-
-/* =========================================================
-   ENTSPERREN BUTTON
-========================================================= */
-
-document
-    .getElementById(
-        "btnEntsperren"
-    )
-    .addEventListener(
-        "click",
-        entsperreApp
-    );
-
-
-document
-    .getElementById(
-        "unlockPassword"
-    )
-    .addEventListener(
-        "keydown",
-        event => {
-
-            if (
-                event.key ===
-                "Enter"
-            ) {
-
-                entsperreApp();
-
-            }
-
-        }
-    );
-
-
-/* =========================================================
-   BUTTONS
-========================================================= */
-
-document
-    .getElementById(
-        "btnNeuePerson"
-    )
-    .addEventListener(
-        "click",
-        () => {
-
-            if (!entsperrt) {
-
-                return;
-
-            }
-
-            neuesFormular();
-
-            datenAusFormularenSpeichern();
-
-            automatischSpeichern();
-
-        }
-    );
-
-
-document
-    .getElementById(
-        "btnMail"
-    )
-    .addEventListener(
-        "click",
-        () => {
-
-            if (!entsperrt) {
-
-                return;
-
-            }
-
-            zeigeZusatzMaske();
-
-        }
-    );
-
-
-document
-    .getElementById(
-        "btnSperren"
-    )
-    .addEventListener(
-        "click",
-        async () => {
-
-            datenAusFormularenSpeichern();
-
-            await automatischSpeichern();
-
-            sperreApp();
-
-        }
-    );
-
-
-document
-    .getElementById(
-        "btnLoeschen"
-    )
-    .addEventListener(
-        "click",
-        allesLoeschen
-    );
-
-
-document
-    .getElementById(
-        "btnEmailErstellen"
-    )
-    .addEventListener(
-        "click",
-        finaleMailAbschicken
-    );
-
-
-document
-    .getElementById(
-        "btnZusatzZurueck"
-    )
-    .addEventListener(
-        "click",
-        versteckeZusatzMaske
-    );
-
-
-/* =========================================================
-   PAGE VISIBILITY
-========================================================= */
-
-/*
- * Wenn die App in den Hintergrund geht, wird die
- * automatische Sperrzeit neu gestartet.
- *
- * Zusätzlich speichern wir vorher.
- */
-
-document.addEventListener(
-    "visibilitychange",
-    () => {
-
-        if (
-            document.hidden &&
-            entsperrt
-        ) {
-
-            datenAusFormularenSpeichern();
-
-            automatischSpeichern();
-
-        }
-
-    }
-);
 
 
 /* =========================================================
@@ -4863,126 +3282,7 @@ document.addEventListener(
 
 window.addEventListener(
     "load",
-    async () => {
-
-        try {
-
-            if (
-                !sicherheitsCheck()
-            ) {
-
-                return;
-
-            }
-
-
-            db =
-                await openDatabase();
-
-
-            const deviceKey =
-                await dbGet(
-                    KEY_STORE,
-                    DEVICE_KEY_ID
-                );
-
-
-            const storedData =
-                await dbGet(
-                    DATA_STORE,
-                    DATA_ID
-                );
-
-
-            /*
-             * Noch kein Geräteschlüssel und keine Daten:
-             * Ersteinrichtung.
-             */
-
-            if (
-                !deviceKey &&
-                !storedData
-            ) {
-
-                document.body
-                    .classList
-                    .add("gesperrt");
-
-                zeigeSetup();
-
-                return;
-
-            }
-
-
-            /*
-             * Falls der Geräteschlüssel fehlt,
-             * aber Daten existieren, sind die Daten
-             * auf diesem Gerät nicht mehr verwendbar.
-             */
-
-            if (
-                !deviceKey &&
-                storedData
-            ) {
-
-                status(
-                    "❌ Der Geräteschlüssel fehlt. Die verschlüsselten Daten können auf diesem Gerät nicht entschlüsselt werden.",
-                    "error"
-                );
-
-                document.body
-                    .classList
-                    .add("gesperrt");
-
-                return;
-
-            }
-
-
-            /*
-             * Normaler Start:
-             * App bleibt gesperrt.
-             */
-
-            document.body
-                .classList
-                .add("gesperrt");
-
-
-            document
-                .getElementById(
-                    "lockScreen"
-                )
-                .classList
-                .remove("hidden");
-
-
-            document
-                .getElementById(
-                    "unlockPassword"
-                )
-                .focus();
-
-
-            status(
-                "🔒 App ist gesperrt. Sicherheitscode erforderlich.",
-                "warn"
-            );
-
-        }
-        catch (error) {
-
-            console.error(error);
-
-            status(
-                "❌ Sicherheitsinitialisierung fehlgeschlagen.",
-                "error"
-            );
-
-        }
-
-    }
+    initialisieren
 );
 
 </script>
