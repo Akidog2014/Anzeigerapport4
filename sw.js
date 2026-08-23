@@ -1,42 +1,33 @@
 "use strict";
 
-
 /*
  * =========================================================
- * PERSONENERFASSUNG V11
+ * PERSONENERFASSUNG
  * SERVICE WORKER
+ * VERSION 11.1
  * =========================================================
  *
- * Der Service Worker speichert ausschließlich
- * die Anwendung selbst.
+ * WICHTIG:
  *
- * PERSONENDATEN WERDEN NICHT DURCH DEN
- * SERVICE WORKER GESPEICHERT.
+ * Dieser Service Worker speichert KEINE Personendaten.
  *
- * Personendaten befinden sich:
+ * Er cached ausschließlich die Dateien der Anwendung.
  *
- * 1. während der Bearbeitung im Arbeitsspeicher
- *
- * 2. verschlüsselt in IndexedDB
- *
- * Der Service Worker hat keinen Zugriff auf
- * den Entschlüsselungsschlüssel.
- *
+ * Die eigentlichen Personendaten liegen verschlüsselt
+ * im Browser-Speicher der Anwendung.
  * =========================================================
  */
 
 
 const CACHE_NAME =
-    "personenerfassung-v11";
+    "personenerfassung-v11-1";
 
 
 const APP_FILES = [
 
     "./",
     "./index.html",
-    "./manifest.json",
-    "./icon-192.png",
-    "./icon-512.png"
+    "./manifest.json"
 
 ];
 
@@ -52,9 +43,7 @@ self.addEventListener(
         event.waitUntil(
 
             caches
-                .open(
-                    CACHE_NAME
-                )
+                .open(CACHE_NAME)
                 .then(
                     cache => {
 
@@ -67,9 +56,8 @@ self.addEventListener(
 
         );
 
-
         /*
-         * Neue Version sofort aktivieren.
+         * Neue Version darf sofort aktiv werden.
          */
 
         self.skipWaiting();
@@ -121,7 +109,6 @@ self.addEventListener(
 
         );
 
-
         self.clients.claim();
 
     }
@@ -137,16 +124,14 @@ self.addEventListener(
     event => {
 
         /*
-         * Nur GET behandeln.
+         * Nur GET-Anfragen behandeln.
          */
 
         if (
-            event.request.method !==
-            "GET"
+            event.request.method !== "GET"
         ) {
 
             return;
-
         }
 
 
@@ -157,45 +142,29 @@ self.addEventListener(
 
 
         /*
-         * Nur HTTP / HTTPS.
+         * Nur HTTP und HTTPS.
          */
 
         if (
-            url.protocol !==
-                "http:" &&
-            url.protocol !==
-                "https:"
+            url.protocol !== "http:" &&
+            url.protocol !== "https:"
         ) {
 
             return;
-
         }
 
 
         /*
-         * Nur Ressourcen der eigenen Anwendung
-         * aus dem Cache bedienen.
+         * Cache-First:
          *
-         * Fremde Ressourcen werden nicht
-         * dauerhaft gecacht.
+         * Dadurch funktioniert die PWA
+         * auch ohne Internet.
          */
-
-        if (
-            url.origin !==
-            self.location.origin
-        ) {
-
-            return;
-
-        }
-
 
         event.respondWith(
 
             caches
-                .match(
-                    event.request
-                )
+                .match(event.request)
                 .then(
                     cachedResponse => {
 
@@ -204,7 +173,6 @@ self.addEventListener(
                         ) {
 
                             return cachedResponse;
-
                         }
 
 
@@ -214,14 +182,22 @@ self.addEventListener(
                         .then(
                             networkResponse => {
 
+                                /*
+                                 * Nur erfolgreiche Antworten
+                                 * derselben Origin cachen.
+                                 */
+
                                 if (
                                     networkResponse &&
-                                    networkResponse.ok
+                                    networkResponse.ok &&
+                                    networkResponse.type ===
+                                        "basic" &&
+                                    url.origin ===
+                                        self.location.origin
                                 ) {
 
                                     const copy =
                                         networkResponse.clone();
-
 
                                     caches
                                         .open(
@@ -230,7 +206,7 @@ self.addEventListener(
                                         .then(
                                             cache => {
 
-                                                cache.put(
+                                                return cache.put(
                                                     event.request,
                                                     copy
                                                 );
@@ -239,7 +215,6 @@ self.addEventListener(
                                         );
 
                                 }
-
 
                                 return networkResponse;
 
@@ -254,12 +229,12 @@ self.addEventListener(
                                     "ist nicht verfügbar.",
 
                                     {
-                                        status:
-                                            503,
+                                        status: 503,
 
                                         headers: {
                                             "Content-Type":
-                                                "text/plain; charset=utf-8"
+                                                "text/plain; " +
+                                                "charset=utf-8"
                                         }
                                     }
 
@@ -272,27 +247,6 @@ self.addEventListener(
                 )
 
         );
-
-    }
-);
-
-
-/* =========================================================
-   MESSAGE
-========================================================= */
-
-self.addEventListener(
-    "message",
-    event => {
-
-        if (
-            event.data ===
-            "SKIP_WAITING"
-        ) {
-
-            self.skipWaiting();
-
-        }
 
     }
 );
