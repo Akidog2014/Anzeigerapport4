@@ -47,10 +47,14 @@ body {
 
     margin: 0;
     padding: 20px;
-    padding-bottom: 50px;
+    padding-bottom: 60px;
 
     background: #f4f6f8;
     color: #222;
+}
+
+body.gesperrt {
+    overflow: hidden;
 }
 
 h1 {
@@ -89,9 +93,7 @@ h4 {
 
 label {
     display: block;
-
     margin-top: 12px;
-
     font-size: 16px;
 }
 
@@ -241,15 +243,20 @@ button:focus-visible {
 .finanz-option {
 
     display: flex;
+
     align-items: center;
+
     gap: 8px;
+
     margin-top: 12px;
 }
 
 .finanz-option input[type="checkbox"] {
 
     width: auto;
+
     margin: 0;
+
     transform: scale(1.2);
 }
 
@@ -315,6 +322,7 @@ button:focus-visible {
 .small {
 
     font-size: 13px;
+
     color: #666;
 }
 
@@ -325,7 +333,9 @@ button:focus-visible {
 hr {
 
     border: 0;
+
     border-top: 1px solid #ddd;
+
     margin: 20px 0;
 }
 
@@ -356,16 +366,31 @@ hr {
     transform: scale(1.2);
 }
 
-.lock-box {
+.sicherheits-status {
+
+    max-width: 650px;
+
+    margin: 0 auto 20px auto;
+
+    text-align: center;
+
+    font-size: 13px;
+
+    color: #555;
+}
+
+
+/* =====================================================
+   SPERRBILDSCHIRM
+===================================================== */
+
+#lockScreen {
 
     position: fixed;
 
     inset: 0;
 
-    z-index: 9999;
-
-    background:
-        rgba(244,246,248,0.98);
+    z-index: 99999;
 
     display: flex;
 
@@ -374,67 +399,120 @@ hr {
     justify-content: center;
 
     padding: 20px;
+
+    background:
+        rgba(20,25,30,0.97);
 }
 
-.lock-card {
+.lock-box {
 
     width: 100%;
-    max-width: 420px;
+
+    max-width: 430px;
 
     background: white;
 
     border-radius: 14px;
 
-    padding: 24px;
+    padding: 25px;
 
     box-shadow:
-        0 10px 40px rgba(0,0,0,0.20);
+        0 10px 50px rgba(0,0,0,0.35);
 
     text-align: center;
 }
 
-.lock-card h2 {
+.lock-box h2 {
+
     margin-top: 0;
 }
 
-.pin-input {
+.lock-icon {
 
-    text-align: center;
+    font-size: 48px;
 
-    font-size: 24px;
-
-    letter-spacing: 5px;
-
-    font-weight: bold;
+    margin-bottom: 10px;
 }
 
 .lock-error {
 
+    min-height: 20px;
+
+    margin-top: 10px;
+
     color: #842029;
 
-    background: #f8d7da;
-
-    padding: 10px;
-
-    border-radius: 6px;
-
-    margin-top: 12px;
-
-    display: none;
+    font-size: 14px;
 }
 
-.save-indicator {
+.lock-hint {
+
+    font-size: 13px;
+
+    color: #666;
+
+    margin-top: 15px;
+}
+
+
+/* =====================================================
+   APP-SPERRBUTTON
+===================================================== */
+
+#btnSperren {
 
     max-width: 650px;
 
-    margin: -10px auto 20px auto;
+    margin-left: auto;
 
-    text-align: center;
-
-    font-size: 12px;
-
-    color: #666;
+    margin-right: auto;
 }
+
+
+/* =====================================================
+   SETUP
+===================================================== */
+
+#setupScreen {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 100000;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 20px;
+
+    background:
+        rgba(20,25,30,0.97);
+}
+
+.setup-box {
+
+    width: 100%;
+
+    max-width: 480px;
+
+    background: white;
+
+    border-radius: 14px;
+
+    padding: 25px;
+
+    box-shadow:
+        0 10px 50px rgba(0,0,0,0.35);
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
 
 @media (min-width: 600px) {
 
@@ -447,6 +525,7 @@ hr {
         max-width: 650px;
 
         margin-left: auto;
+
         margin-right: auto;
     }
 }
@@ -455,34 +534,120 @@ hr {
 
 </head>
 
+
 <body>
+
+
+<!-- =====================================================
+     SETUP-BILDSCHIRM
+===================================================== -->
+
+<div id="setupScreen"
+     class="hidden">
+
+    <div class="setup-box">
+
+        <h2>🔐 Sicherheitskonfiguration</h2>
+
+        <p>
+            Beim ersten Start wird ein persönlicher
+            Sicherheitscode eingerichtet.
+        </p>
+
+        <p>
+            Der Code muss mindestens
+            <strong>8 Zeichen</strong> lang sein.
+            Eine praktische Maximallänge gibt es nicht.
+        </p>
+
+        <label>
+
+            Sicherheitscode:
+
+            <input
+                type="password"
+                id="setupPassword"
+                autocomplete="new-password">
+
+        </label>
+
+        <label>
+
+            Sicherheitscode wiederholen:
+
+            <input
+                type="password"
+                id="setupPassword2"
+                autocomplete="new-password">
+
+        </label>
+
+        <div class="info-box">
+
+            <strong>Wichtig:</strong>
+
+            <p>
+                Der Sicherheitscode wird nicht gespeichert.
+                Wenn er vergessen wird, können die
+                verschlüsselten Daten nicht wiederhergestellt
+                werden.
+            </p>
+
+        </div>
+
+        <button
+            id="btnSetup"
+            class="btn-gruen"
+            type="button">
+
+            🔐 Sicherheitscode einrichten
+
+        </button>
+
+        <div
+            id="setupError"
+            class="lock-error">
+        </div>
+
+    </div>
+
+</div>
+
 
 <!-- =====================================================
      SPERRBILDSCHIRM
 ===================================================== -->
 
 <div id="lockScreen"
-     class="lock-box">
+     class="hidden">
 
-    <div class="lock-card">
+    <div class="lock-box">
 
-        <h2>🔐 Personenerfassung</h2>
+        <div class="lock-icon">
+            🔐
+        </div>
 
-        <p id="lockText">
-            PIN eingeben
+        <h2>
+            App gesperrt
+        </h2>
+
+        <p>
+            Bitte Sicherheitscode eingeben.
         </p>
 
-        <input
-            id="pinInput"
-            class="pin-input"
-            type="password"
-            inputmode="text"
-            autocomplete="off"
-            maxlength="8"
-            placeholder="PIN">
+        <label>
+
+            Sicherheitscode:
+
+            <input
+                type="password"
+                id="unlockPassword"
+                autocomplete="current-password">
+
+        </label>
 
         <button
-            id="btnUnlock"
+            id="btnEntsperren"
             class="btn-gruen"
             type="button">
 
@@ -491,96 +656,126 @@ hr {
         </button>
 
         <div
-            id="lockError"
+            id="unlockError"
             class="lock-error">
-
-            Falscher PIN oder beschädigte Daten.
-
         </div>
 
-        <p class="small">
-            Der PIN darf 4 bis 8 Zeichen enthalten.
-        </p>
+        <div class="lock-hint">
+
+            Die Daten befinden sich verschlüsselt
+            auf diesem Gerät.
+
+        </div>
 
     </div>
 
 </div>
 
 
-<h1>📋 Personalienblatt</h1>
+<!-- =====================================================
+     HAUPTAPP
+===================================================== -->
+
+<main id="app">
+
+<h1>
+    📋 Personalienblatt
+</h1>
+
 
 <div id="status"
      class="status">
 
-    🔐 Sicherheitsprüfung …
+    App wird gestartet …
 
 </div>
 
-<div class="save-indicator"
-     id="saveIndicator">
 
-    Noch nicht gespeichert
+<div
+    id="securityStatus"
+    class="sicherheits-status">
+
+    🔐 Sicherheitsarchitektur V11 wird initialisiert …
 
 </div>
+
 
 <div class="sicherheits-box">
 
-    <strong>🔐 Datenschutz V11</strong>
+    <strong>
+        🔐 Datenschutz / V11
+    </strong>
 
     <p>
-        Die lokal gespeicherten Personendaten werden
-        automatisch verschlüsselt.
+        Die Personendaten werden automatisch
+        verschlüsselt gespeichert.
     </p>
 
     <p>
-        Die Verschlüsselung verwendet einen persönlichen
-        PIN und einen zufällig erzeugten Geräteschlüssel.
+        Die Verschlüsselung verwendet AES-256-GCM
+        in Verbindung mit einem persönlichen
+        Sicherheitscode und einem gerätegebundenen
+        Schlüssel.
     </p>
 
     <p class="small">
-        Die App sperrt sich nach längerer Inaktivität
-        automatisch.
+
+        Der Sicherheitscode wird nicht gespeichert.
+        Bei Inaktivität wird die Anwendung automatisch
+        gesperrt.
+
     </p>
 
     <p class="small">
+
         Die E-Mail-Funktion verwendet weiterhin
-        mailto:. Beim Erstellen der E-Mail werden
-        die Daten an die installierte Mail-App
-        übergeben.
+        mailto:. Beim Erstellen einer E-Mail werden
+        die Daten als Klartext an die installierte
+        Mail-App übergeben.
+
     </p>
 
 </div>
 
+
 <div id="formContainer"></div>
 
-<button id="btnNeuePerson"
-        class="btn-gruen"
-        type="button">
+
+<button
+    id="btnNeuePerson"
+    class="btn-gruen"
+    type="button">
 
     ➕ Neue Person hinzufügen
 
 </button>
 
-<button id="btnMail"
-        type="button">
+
+<button
+    id="btnMail"
+    type="button">
 
     📤 Abschicken / E-Mail erstellen
 
 </button>
 
-<button id="btnSperren"
-        class="btn-orange"
-        type="button">
 
-    🔒 Jetzt sperren
+<button
+    id="btnSperren"
+    class="btn-orange"
+    type="button">
+
+    🔒 App jetzt sperren
 
 </button>
 
-<button id="btnLoeschen"
-        class="btn-rot"
-        type="button">
 
-    🗑️ Alle Daten endgültig löschen
+<button
+    id="btnLoeschen"
+    class="btn-rot"
+    type="button">
+
+    🗑️ Alle Daten und Sicherheitsdaten löschen
 
 </button>
 
@@ -589,10 +784,13 @@ hr {
      ZUSATZMASKE
 ===================================================== -->
 
-<div id="zusatzMaske"
-     class="zusatz-maske hidden">
+<div
+    id="zusatzMaske"
+    class="zusatz-maske hidden">
 
-    <h3>📤 Zusätzliche Informationen</h3>
+    <h3>
+        📤 Zusätzliche Informationen
+    </h3>
 
     <label>
 
@@ -632,22 +830,25 @@ hr {
 
         <p>
             Beim Erstellen der E-Mail werden die
-            Personendaten an die Mail-App übergeben.
+            eingegebenen Personendaten an die
+            installierte Mail-App übergeben.
         </p>
 
     </div>
 
-    <button id="btnEmailErstellen"
-            class="btn-gruen"
-            type="button">
+    <button
+        id="btnEmailErstellen"
+        class="btn-gruen"
+        type="button">
 
         ✅ E-Mail erstellen
 
     </button>
 
-    <button id="btnZusatzZurueck"
-            class="btn-grau"
-            type="button">
+    <button
+        id="btnZusatzZurueck"
+        class="btn-grau"
+        type="button">
 
         Zurück
 
@@ -655,56 +856,77 @@ hr {
 
 </div>
 
+</main>
+
 
 <script>
 
 "use strict";
 
+
 /* =========================================================
    V11 KONFIGURATION
 ========================================================= */
 
-const STORAGE_KEY =
-    "personenerfassung_secure_v11";
+const APP_VERSION = "11.0";
 
-const DEVICE_KEY_DB =
-    "personenerfassung_device_v11";
+const DB_NAME =
+    "PersonenerfassungV11";
 
-const DEVICE_KEY_STORE =
+const DB_VERSION = 1;
+
+const DATA_STORE =
+    "secureData";
+
+const KEY_STORE =
     "deviceKeys";
 
-const DEVICE_KEY_ID =
-    "primary";
+const DATA_ID =
+    "main";
 
-const APP_VERSION =
-    "11.0";
+const DEVICE_KEY_ID =
+    "device";
 
 const PBKDF2_ITERATIONS =
     600000;
 
+const MIN_PASSWORD_LENGTH =
+    8;
+
+/*
+ * Automatische Sperre:
+ * 10 Minuten Inaktivität.
+ *
+ * Kann hier geändert werden.
+ */
+
 const AUTO_LOCK_MINUTES =
     10;
 
-const AUTO_SAVE_DELAY =
-    1000;
+const AUTO_LOCK_MS =
+    AUTO_LOCK_MINUTES * 60 * 1000;
 
 const MAIL_EMPFAENGER =
     "marco.wueest@lu.ch";
 
 
+/* =========================================================
+   GLOBALE VARIABLEN
+========================================================= */
+
 let formIndex = 0;
 
 let alleDaten = [];
 
-let sessionKey = null;
+let datenSchluessel = null;
 
-let deviceSecret = null;
+let entsperrt = false;
 
-let unlocked = false;
+let setupAbgeschlossen = false;
 
-let saveTimer = null;
+let autoLockTimer = null;
 
-let lockTimer = null;
+let db = null;
 
 
 /* =========================================================
@@ -728,411 +950,40 @@ function status(text, typ = "") {
     el.className = "status";
 
     if (typ) {
+
         el.classList.add(typ);
+
     }
 
 }
 
 
-function textEncoder() {
+function sicherheitsStatus(text) {
+
+    const el =
+        document.getElementById(
+            "securityStatus"
+        );
+
+    el.textContent = text;
+
+}
+
+
+/* =========================================================
+   TEXTENCODER
+========================================================= */
+
+function encoder() {
+
     return new TextEncoder();
+
 }
 
 
-function textDecoder() {
+function decoder() {
+
     return new TextDecoder();
-}
-
-
-/* =========================================================
-   DATUM
-========================================================= */
-
-function formatDate(event) {
-
-    let value =
-        event.target.value
-            .replace(/[^\d]/g, "");
-
-    if (value.length > 2) {
-
-        value =
-            value.slice(0, 2) +
-            "." +
-            value.slice(2);
-
-    }
-
-    if (value.length > 5) {
-
-        value =
-            value.slice(0, 5) +
-            "." +
-            value.slice(5);
-
-    }
-
-    event.target.value =
-        value.slice(0, 10);
-
-}
-
-
-/* =========================================================
-   DEVICE KEY / INDEXEDDB
-========================================================= */
-
-function openDeviceDB() {
-
-    return new Promise(
-        (resolve, reject) => {
-
-            const request =
-                indexedDB.open(
-                    DEVICE_KEY_DB,
-                    1
-                );
-
-            request.onupgradeneeded =
-                event => {
-
-                    const db =
-                        event.target.result;
-
-                    if (
-                        !db.objectStoreNames
-                            .contains(
-                                DEVICE_KEY_STORE
-                            )
-                    ) {
-
-                        db.createObjectStore(
-                            DEVICE_KEY_STORE
-                        );
-
-                    }
-
-                };
-
-            request.onsuccess =
-                () => resolve(
-                    request.result
-                );
-
-            request.onerror =
-                () => reject(
-                    request.error
-                );
-
-        }
-    );
-
-}
-
-
-async function getDeviceSecret() {
-
-    const db =
-        await openDeviceDB();
-
-    return new Promise(
-        (resolve, reject) => {
-
-            const transaction =
-                db.transaction(
-                    DEVICE_KEY_STORE,
-                    "readonly"
-                );
-
-            const store =
-                transaction.objectStore(
-                    DEVICE_KEY_STORE
-                );
-
-            const request =
-                store.get(
-                    DEVICE_KEY_ID
-                );
-
-            request.onsuccess =
-                async () => {
-
-                    if (request.result) {
-
-                        resolve(
-                            new Uint8Array(
-                                request.result
-                            )
-                        );
-
-                        return;
-
-                    }
-
-                    const secret =
-                        crypto.getRandomValues(
-                            new Uint8Array(32)
-                        );
-
-                    await saveDeviceSecret(
-                        secret
-                    );
-
-                    resolve(secret);
-
-                };
-
-            request.onerror =
-                () => reject(
-                    request.error
-                );
-
-        }
-    );
-
-}
-
-
-async function saveDeviceSecret(secret) {
-
-    const db =
-        await openDeviceDB();
-
-    return new Promise(
-        (resolve, reject) => {
-
-            const transaction =
-                db.transaction(
-                    DEVICE_KEY_STORE,
-                    "readwrite"
-                );
-
-            const store =
-                transaction.objectStore(
-                    DEVICE_KEY_STORE
-                );
-
-            const request =
-                store.put(
-                    secret,
-                    DEVICE_KEY_ID
-                );
-
-            request.onsuccess =
-                () => resolve();
-
-            request.onerror =
-                () => reject(
-                    request.error
-                );
-
-        }
-    );
-
-}
-
-
-/* =========================================================
-   KEY DERIVATION
-========================================================= */
-
-async function deriveSessionKey(
-    pin,
-    salt
-) {
-
-    const combined =
-        new Uint8Array(
-            textEncoder()
-                .encode(pin)
-                .length +
-            deviceSecret.length
-        );
-
-    const pinBytes =
-        textEncoder().encode(pin);
-
-    combined.set(
-        pinBytes,
-        0
-    );
-
-    combined.set(
-        deviceSecret,
-        pinBytes.length
-    );
-
-    const baseKey =
-        await crypto.subtle.importKey(
-            "raw",
-            combined,
-            {
-                name: "PBKDF2"
-            },
-            false,
-            ["deriveKey"]
-        );
-
-    return crypto.subtle.deriveKey(
-
-        {
-            name: "PBKDF2",
-
-            salt,
-
-            iterations:
-                PBKDF2_ITERATIONS,
-
-            hash:
-                "SHA-256"
-        },
-
-        baseKey,
-
-        {
-            name: "AES-GCM",
-            length: 256
-        },
-
-        false,
-
-        [
-            "encrypt",
-            "decrypt"
-        ]
-
-    );
-
-}
-
-
-/* =========================================================
-   ENCRYPTION
-========================================================= */
-
-async function encryptData(
-    text,
-    pin
-) {
-
-    const salt =
-        crypto.getRandomValues(
-            new Uint8Array(16)
-        );
-
-    const iv =
-        crypto.getRandomValues(
-            new Uint8Array(12)
-        );
-
-    const key =
-        await deriveSessionKey(
-            pin,
-            salt
-        );
-
-    const encrypted =
-        await crypto.subtle.encrypt(
-
-            {
-                name: "AES-GCM",
-                iv
-            },
-
-            key,
-
-            textEncoder()
-                .encode(text)
-
-        );
-
-    return {
-
-        version: 11,
-
-        algorithm:
-            "AES-256-GCM",
-
-        kdf:
-            "PBKDF2-SHA-256",
-
-        iterations:
-            PBKDF2_ITERATIONS,
-
-        salt:
-            arrayToBase64(salt),
-
-        iv:
-            arrayToBase64(iv),
-
-        data:
-            arrayToBase64(
-                new Uint8Array(
-                    encrypted
-                )
-            )
-
-    };
-
-}
-
-
-async function decryptData(
-    obj,
-    pin
-) {
-
-    if (
-        !obj ||
-        obj.algorithm !==
-            "AES-256-GCM" ||
-        obj.kdf !==
-            "PBKDF2-SHA-256"
-    ) {
-
-        throw new Error(
-            "Ungültiges V11-Verschlüsselungsformat."
-        );
-
-    }
-
-    const salt =
-        base64ToArray(
-            obj.salt
-        );
-
-    const iv =
-        base64ToArray(
-            obj.iv
-        );
-
-    const data =
-        base64ToArray(
-            obj.data
-        );
-
-    const key =
-        await deriveSessionKey(
-            pin,
-            salt
-        );
-
-    const decrypted =
-        await crypto.subtle.decrypt(
-
-            {
-                name: "AES-GCM",
-                iv
-            },
-
-            key,
-
-            data
-
-        );
-
-    return textDecoder()
-        .decode(decrypted);
 
 }
 
@@ -1190,41 +1041,1435 @@ function base64ToArray(base64) {
 
 
 /* =========================================================
-   PIN
+   INDEXEDDB
 ========================================================= */
 
-function validPin(pin) {
+function openDatabase() {
 
-    return (
-        typeof pin === "string" &&
-        pin.length >= 4 &&
-        pin.length <= 8
+    return new Promise(
+        (resolve, reject) => {
+
+            const request =
+                indexedDB.open(
+                    DB_NAME,
+                    DB_VERSION
+                );
+
+
+            request.onerror =
+                () => {
+
+                    reject(
+                        request.error
+                    );
+
+                };
+
+
+            request.onupgradeneeded =
+                event => {
+
+                    const database =
+                        event.target.result;
+
+
+                    if (
+                        !database.objectStoreNames
+                            .contains(DATA_STORE)
+                    ) {
+
+                        database.createObjectStore(
+                            DATA_STORE
+                        );
+
+                    }
+
+
+                    if (
+                        !database.objectStoreNames
+                            .contains(KEY_STORE)
+                    ) {
+
+                        database.createObjectStore(
+                            KEY_STORE
+                        );
+
+                    }
+
+                };
+
+
+            request.onsuccess =
+                () => {
+
+                    resolve(
+                        request.result
+                    );
+
+                };
+
+        }
     );
 
 }
 
 
-function askPin(text) {
+function dbGet(storeName, key) {
 
-    const pin =
-        window.prompt(text);
+    return new Promise(
+        (resolve, reject) => {
 
-    if (pin === null) {
-        return null;
-    }
+            const transaction =
+                db.transaction(
+                    storeName,
+                    "readonly"
+                );
 
-    if (!validPin(pin)) {
+            const store =
+                transaction.objectStore(
+                    storeName
+                );
 
-        alert(
-            "Der PIN muss zwischen 4 und 8 " +
-            "Zeichen lang sein."
+            const request =
+                store.get(key);
+
+
+            request.onsuccess =
+                () => {
+
+                    resolve(
+                        request.result
+                    );
+
+                };
+
+
+            request.onerror =
+                () => {
+
+                    reject(
+                        request.error
+                    );
+
+                };
+
+        }
+    );
+
+}
+
+
+function dbPut(
+    storeName,
+    key,
+    value
+) {
+
+    return new Promise(
+        (resolve, reject) => {
+
+            const transaction =
+                db.transaction(
+                    storeName,
+                    "readwrite"
+                );
+
+            const store =
+                transaction.objectStore(
+                    storeName
+                );
+
+            const request =
+                store.put(
+                    value,
+                    key
+                );
+
+
+            request.onsuccess =
+                () => {
+
+                    resolve();
+
+                };
+
+
+            request.onerror =
+                () => {
+
+                    reject(
+                        request.error
+                    );
+
+                };
+
+        }
+    );
+
+}
+
+
+function dbDelete(
+    storeName,
+    key
+) {
+
+    return new Promise(
+        (resolve, reject) => {
+
+            const transaction =
+                db.transaction(
+                    storeName,
+                    "readwrite"
+                );
+
+            const store =
+                transaction.objectStore(
+                    storeName
+                );
+
+            const request =
+                store.delete(key);
+
+
+            request.onsuccess =
+                () => {
+
+                    resolve();
+
+                };
+
+
+            request.onerror =
+                () => {
+
+                    reject(
+                        request.error
+                    );
+
+                };
+
+        }
+    );
+
+}
+
+
+function dbClear(storeName) {
+
+    return new Promise(
+        (resolve, reject) => {
+
+            const transaction =
+                db.transaction(
+                    storeName,
+                    "readwrite"
+                );
+
+            const store =
+                transaction.objectStore(
+                    storeName
+                );
+
+            const request =
+                store.clear();
+
+
+            request.onsuccess =
+                () => {
+
+                    resolve();
+
+                };
+
+
+            request.onerror =
+                () => {
+
+                    reject(
+                        request.error
+                    );
+
+                };
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   GERÄTESCHLÜSSEL
+========================================================= */
+
+/*
+ * Der Geräteschlüssel wird als nicht exportierbarer
+ * AES-GCM-Schlüssel erzeugt.
+ *
+ * Dadurch kann JavaScript ihn nicht einfach als
+ * Klartext auslesen.
+ */
+
+async function erzeugeGeraeteSchluessel() {
+
+    const key =
+        await crypto.subtle.generateKey(
+
+            {
+                name: "AES-GCM",
+                length: 256
+            },
+
+            false,
+
+            [
+                "encrypt",
+                "decrypt"
+            ]
+
         );
 
-        return null;
+    await dbPut(
+        KEY_STORE,
+        DEVICE_KEY_ID,
+        key
+    );
+
+    return key;
+
+}
+
+
+async function ladeGeraeteSchluessel() {
+
+    let key =
+        await dbGet(
+            KEY_STORE,
+            DEVICE_KEY_ID
+        );
+
+
+    if (!key) {
+
+        key =
+            await erzeugeGeraeteSchluessel();
 
     }
 
-    return pin;
+
+    return key;
+
+}
+
+
+/* =========================================================
+   GERÄTESCHLÜSSEL → KEY MATERIAL
+========================================================= */
+
+async function geraeteKeyMaterial(
+    deviceKey,
+    salt
+) {
+
+    /*
+     * Der Geräteschlüssel wird nicht exportiert.
+     *
+     * Stattdessen wird mit ihm ein HMAC-artiger
+     * Gerätebeweis erzeugt.
+     *
+     * Dafür wird ein separater nicht exportierbarer
+     * HMAC-Schlüssel verwendet.
+     *
+     * Falls bereits ein AES-Geräteschlüssel existiert,
+     * erzeugen wir daraus einen Geräte-gebundenen
+     * Verschlüsselungsbeweis über AES-GCM.
+     */
+
+    const iv =
+        new Uint8Array(12);
+
+    const encrypted =
+        await crypto.subtle.encrypt(
+
+            {
+                name: "AES-GCM",
+                iv: iv
+            },
+
+            deviceKey,
+
+            salt
+
+        );
+
+    return new Uint8Array(
+        encrypted
+    );
+
+}
+
+
+/* =========================================================
+   PASSWORT KEY
+========================================================= */
+
+async function passwordKey(
+    password,
+    salt
+) {
+
+    const baseKey =
+        await crypto.subtle.importKey(
+
+            "raw",
+
+            encoder().encode(
+                password
+            ),
+
+            {
+                name: "PBKDF2"
+            },
+
+            false,
+
+            [
+                "deriveKey"
+            ]
+
+        );
+
+
+    return crypto.subtle.deriveKey(
+
+        {
+            name: "PBKDF2",
+
+            salt,
+
+            iterations:
+                PBKDF2_ITERATIONS,
+
+            hash:
+                "SHA-256"
+
+        },
+
+        baseKey,
+
+        {
+            name: "AES-GCM",
+            length: 256
+        },
+
+        false,
+
+        [
+            "encrypt",
+            "decrypt"
+        ]
+
+    );
+
+}
+
+
+/* =========================================================
+   V11 KEY DERIVATION
+========================================================= */
+
+/*
+ * Der endgültige Schlüssel entsteht aus:
+ *
+ * 1. Sicherheitscode
+ * 2. PBKDF2
+ * 3. gerätegebundenem Schlüsselmaterial
+ *
+ * Das Passwort allein reicht somit nicht.
+ */
+
+async function createEncryptionKey(
+    password,
+    salt,
+    deviceKey
+) {
+
+    const pinKey =
+        await passwordKey(
+            password,
+            salt
+        );
+
+
+    /*
+     * Wir erzeugen aus dem PIN-Schlüssel einen
+     * 32-Byte-Wert über AES-GCM.
+     */
+
+    const zeroIv =
+        new Uint8Array(12);
+
+    const pinMaterial =
+        new Uint8Array(
+            await crypto.subtle.encrypt(
+
+                {
+                    name: "AES-GCM",
+                    iv: zeroIv
+                },
+
+                pinKey,
+
+                encoder().encode(
+                    "Personenerfassung-V11"
+                )
+
+            )
+        );
+
+
+    /*
+     * Gerätespezifisches Material.
+     */
+
+    const deviceMaterial =
+        await geraeteKeyMaterial(
+            deviceKey,
+            salt
+        );
+
+
+    /*
+     * Beide Materialien werden kombiniert.
+     */
+
+    const combined =
+        new Uint8Array(
+            32
+        );
+
+
+    for (
+        let i = 0;
+        i < combined.length;
+        i++
+    ) {
+
+        combined[i] =
+            pinMaterial[
+                i % pinMaterial.length
+            ]
+            ^
+            deviceMaterial[
+                i % deviceMaterial.length
+            ];
+
+    }
+
+
+    return crypto.subtle.importKey(
+
+        "raw",
+
+        combined,
+
+        {
+            name: "AES-GCM"
+        },
+
+        false,
+
+        [
+            "encrypt",
+            "decrypt"
+        ]
+
+    );
+
+}
+
+
+/* =========================================================
+   VERSCHLÜSSELN
+========================================================= */
+
+async function encryptData(
+    text,
+    password,
+    deviceKey
+) {
+
+    const salt =
+        crypto.getRandomValues(
+            new Uint8Array(32)
+        );
+
+
+    const iv =
+        crypto.getRandomValues(
+            new Uint8Array(12)
+        );
+
+
+    const key =
+        await createEncryptionKey(
+            password,
+            salt,
+            deviceKey
+        );
+
+
+    const encrypted =
+        await crypto.subtle.encrypt(
+
+            {
+                name: "AES-GCM",
+                iv
+            },
+
+            key,
+
+            encoder().encode(
+                text
+            )
+
+        );
+
+
+    return {
+
+        version:
+            APP_VERSION,
+
+        algorithm:
+            "AES-256-GCM",
+
+        kdf:
+            "PBKDF2-SHA-256",
+
+        iterations:
+            PBKDF2_ITERATIONS,
+
+        deviceBound:
+            true,
+
+        created:
+            new Date().toISOString(),
+
+        salt:
+            arrayToBase64(salt),
+
+        iv:
+            arrayToBase64(iv),
+
+        data:
+            arrayToBase64(
+                new Uint8Array(
+                    encrypted
+                )
+            )
+
+    };
+
+}
+
+
+/* =========================================================
+   ENTSCHLÜSSELN
+========================================================= */
+
+async function decryptData(
+    obj,
+    password,
+    deviceKey
+) {
+
+    if (
+        !obj ||
+        obj.algorithm !==
+            "AES-256-GCM" ||
+        obj.kdf !==
+            "PBKDF2-SHA-256" ||
+        obj.deviceBound !== true
+    ) {
+
+        throw new Error(
+            "Ungültiges V11-Datenformat."
+        );
+
+    }
+
+
+    const salt =
+        base64ToArray(
+            obj.salt
+        );
+
+
+    const iv =
+        base64ToArray(
+            obj.iv
+        );
+
+
+    const data =
+        base64ToArray(
+            obj.data
+        );
+
+
+    const key =
+        await createEncryptionKey(
+            password,
+            salt,
+            deviceKey
+        );
+
+
+    const decrypted =
+        await crypto.subtle.decrypt(
+
+            {
+                name: "AES-GCM",
+                iv
+            },
+
+            key,
+
+            data
+
+        );
+
+
+    return decoder().decode(
+        decrypted
+    );
+
+}
+
+
+/* =========================================================
+   CODE-PRÜFUNG
+========================================================= */
+
+function validiereCode(password) {
+
+    if (
+        typeof password !== "string"
+    ) {
+
+        return false;
+
+    }
+
+
+    /*
+     * Keine Maximallänge.
+     *
+     * Mindestlänge: 8 Zeichen.
+     */
+
+    return (
+        password.length >=
+        MIN_PASSWORD_LENGTH
+    );
+
+}
+
+
+/* =========================================================
+   SETUP
+========================================================= */
+
+function zeigeSetup() {
+
+    document
+        .getElementById("setupScreen")
+        .classList.remove("hidden");
+
+    document
+        .getElementById("setupPassword")
+        .focus();
+
+}
+
+
+function versteckeSetup() {
+
+    document
+        .getElementById("setupScreen")
+        .classList.add("hidden");
+
+}
+
+
+async function initialisiereSetup(
+    password
+) {
+
+    const deviceKey =
+        await ladeGeraeteSchluessel();
+
+
+    /*
+     * Es wird zunächst ein leerer verschlüsselter
+     * Datensatz erzeugt.
+     */
+
+    const initialData = {
+
+        version:
+            APP_VERSION,
+
+        personen:
+            [],
+
+        erstellt:
+            new Date().toISOString(),
+
+        geaendert:
+            new Date().toISOString()
+
+    };
+
+
+    const encrypted =
+        await encryptData(
+            JSON.stringify(
+                initialData
+            ),
+            password,
+            deviceKey
+        );
+
+
+    await dbPut(
+        DATA_STORE,
+        DATA_ID,
+        encrypted
+    );
+
+
+    datenSchluessel =
+        await createEncryptionKey(
+            password,
+            base64ToArray(
+                encrypted.salt
+            ),
+            deviceKey
+        );
+
+
+    alleDaten = [];
+
+    entsperrt = true;
+
+    setupAbgeschlossen = true;
+
+    versteckeSetup();
+
+    starteAutoLock();
+
+    formularAusDatenAufbauen();
+
+    status(
+        "🔐 Sicherheitscode eingerichtet. App ist geschützt.",
+        "ok"
+    );
+
+}
+
+
+/* =========================================================
+   AUTOMATISCHE SPEICHERUNG
+========================================================= */
+
+async function automatischSpeichern() {
+
+    if (
+        !entsperrt ||
+        !datenSchluessel
+    ) {
+
+        return;
+
+    }
+
+
+    try {
+
+        const deviceKey =
+            await ladeGeraeteSchluessel();
+
+
+        const salt =
+            crypto.getRandomValues(
+                new Uint8Array(32)
+            );
+
+
+        /*
+         * Wir erzeugen für jede Speicherung
+         * einen neuen temporären Schlüssel aus dem
+         * aktuellen Sicherheitscode.
+         *
+         * Der eigentliche Entschlüsselungsschlüssel
+         * bleibt während der Sitzung im Speicher.
+         */
+
+        const daten = {
+
+            version:
+                APP_VERSION,
+
+            gespeichert:
+                new Date().toISOString(),
+
+            personen:
+                alleDaten
+
+        };
+
+
+        /*
+         * Der bestehende Sitzungsschlüssel wird direkt
+         * für AES-GCM verwendet.
+         */
+
+        const iv =
+            crypto.getRandomValues(
+                new Uint8Array(12)
+            );
+
+
+        const encrypted =
+            await crypto.subtle.encrypt(
+
+                {
+                    name: "AES-GCM",
+                    iv
+                },
+
+                datenSchluessel,
+
+                encoder().encode(
+                    JSON.stringify(daten)
+                )
+
+            );
+
+
+        /*
+         * Für die spätere Wiederherstellung brauchen wir
+         * zusätzlich den Salt des PIN-/Geräteschlüssels.
+         *
+         * Der Salt stammt aus der bestehenden Sitzung.
+         */
+
+        const existing =
+            await dbGet(
+                DATA_STORE,
+                DATA_ID
+            );
+
+
+        const record = {
+
+            version:
+                APP_VERSION,
+
+            algorithm:
+                "AES-256-GCM",
+
+            kdf:
+                "PBKDF2-SHA-256",
+
+            iterations:
+                PBKDF2_ITERATIONS,
+
+            deviceBound:
+                true,
+
+            salt:
+                existing.salt,
+
+            iv:
+                arrayToBase64(iv),
+
+            data:
+                arrayToBase64(
+                    new Uint8Array(
+                        encrypted
+                    )
+                ),
+
+            gespeichert:
+                new Date().toISOString()
+
+        };
+
+
+        await dbPut(
+            DATA_STORE,
+            DATA_ID,
+            record
+        );
+
+
+        status(
+            "🔐 Automatisch verschlüsselt gespeichert.",
+            "ok"
+        );
+
+    }
+    catch (error) {
+
+        console.error(
+            "Automatische Speicherung:",
+            error
+        );
+
+        status(
+            "❌ Automatische Speicherung fehlgeschlagen.",
+            "error"
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   DATEN LADEN
+========================================================= */
+
+async function ladeDatenMitCode(
+    password
+) {
+
+    const record =
+        await dbGet(
+            DATA_STORE,
+            DATA_ID
+        );
+
+
+    if (!record) {
+
+        throw new Error(
+            "Keine verschlüsselten Daten vorhanden."
+        );
+
+    }
+
+
+    const deviceKey =
+        await ladeGeraeteSchluessel();
+
+
+    /*
+     * Sitzungsschlüssel aus Code + Geräteschlüssel
+     * erzeugen.
+     */
+
+    const key =
+        await createEncryptionKey(
+            password,
+            base64ToArray(
+                record.salt
+            ),
+            deviceKey
+        );
+
+
+    const decrypted =
+        await crypto.subtle.decrypt(
+
+            {
+                name: "AES-GCM",
+
+                iv:
+                    base64ToArray(
+                        record.iv
+                    )
+
+            },
+
+            key,
+
+            base64ToArray(
+                record.data
+            )
+
+        );
+
+
+    const text =
+        decoder().decode(
+            decrypted
+        );
+
+
+    const data =
+        JSON.parse(
+            text
+        );
+
+
+    if (
+        !data ||
+        !Array.isArray(
+            data.personen
+        )
+    ) {
+
+        throw new Error(
+            "Ungültige Datenstruktur."
+        );
+
+    }
+
+
+    datenSchluessel =
+        key;
+
+    alleDaten =
+        data.personen;
+
+    entsperrt =
+        true;
+
+    setupAbgeschlossen =
+        true;
+
+
+    formularAusDatenAufbauen();
+
+    starteAutoLock();
+
+
+    status(
+        "🔓 Daten wurden automatisch wiederhergestellt.",
+        "ok"
+    );
+
+}
+
+
+/* =========================================================
+   SPERREN
+========================================================= */
+
+function sperreApp() {
+
+    if (!entsperrt) {
+
+        return;
+
+    }
+
+
+    /*
+     * Schlüssel aus dem Arbeitsspeicher entfernen.
+     */
+
+    datenSchluessel = null;
+
+    entsperrt = false;
+
+
+    /*
+     * Personenobjekte aus dem normalen JavaScript-
+     * Speicher entfernen.
+     */
+
+    alleDaten = [];
+
+
+    /*
+     * Formularinhalt entfernen.
+     */
+
+    const container =
+        document.getElementById(
+            "formContainer"
+        );
+
+    container.replaceChildren();
+
+
+    formIndex = 0;
+
+
+    stoppeAutoLock();
+
+
+    document.body
+        .classList
+        .add("gesperrt");
+
+
+    document
+        .getElementById("lockScreen")
+        .classList
+        .remove("hidden");
+
+
+    document
+        .getElementById("unlockPassword")
+        .value = "";
+
+
+    document
+        .getElementById("unlockError")
+        .textContent = "";
+
+
+    status(
+        "🔒 App wurde automatisch gesperrt.",
+        "warn"
+    );
+
+
+    setTimeout(
+        () => {
+
+            document
+                .getElementById("unlockPassword")
+                .focus();
+
+        },
+        100
+    );
+
+}
+
+
+/* =========================================================
+   ENTSPERREN
+========================================================= */
+
+async function entsperreApp() {
+
+    const password =
+        document
+            .getElementById(
+                "unlockPassword"
+            )
+            .value;
+
+
+    const error =
+        document
+            .getElementById(
+                "unlockError"
+            );
+
+
+    error.textContent = "";
+
+
+    if (
+        !validiereCode(password)
+    ) {
+
+        error.textContent =
+            "Der Sicherheitscode muss mindestens 8 Zeichen haben.";
+
+        return;
+
+    }
+
+
+    try {
+
+        await ladeDatenMitCode(
+            password
+        );
+
+
+        document
+            .getElementById("lockScreen")
+            .classList
+            .add("hidden");
+
+
+        document.body
+            .classList
+            .remove("gesperrt");
+
+
+        error.textContent = "";
+
+
+        status(
+            "🔓 App erfolgreich entsperrt.",
+            "ok"
+        );
+
+
+        resetAutoLock();
+
+    }
+    catch (e) {
+
+        console.error(e);
+
+        error.textContent =
+            "❌ Falscher Sicherheitscode oder beschädigte Daten.";
+
+    }
+
+}
+
+
+/* =========================================================
+   AUTO LOCK
+========================================================= */
+
+function stoppeAutoLock() {
+
+    if (autoLockTimer) {
+
+        clearTimeout(
+            autoLockTimer
+        );
+
+        autoLockTimer = null;
+
+    }
+
+}
+
+
+function starteAutoLock() {
+
+    stoppeAutoLock();
+
+
+    if (!entsperrt) {
+
+        return;
+
+    }
+
+
+    autoLockTimer =
+        setTimeout(
+            () => {
+
+                /*
+                 * Vor dem Sperren automatisch speichern.
+                 */
+
+                automatischSpeichern()
+                    .finally(
+                        () => {
+
+                            sperreApp();
+
+                        }
+                    );
+
+            },
+
+            AUTO_LOCK_MS
+        );
+
+}
+
+
+function resetAutoLock() {
+
+    if (!entsperrt) {
+
+        return;
+
+    }
+
+    starteAutoLock();
+
+}
+
+
+/* =========================================================
+   INAKTIVITÄT ERKENNEN
+========================================================= */
+
+[
+    "click",
+    "touchstart",
+    "keydown",
+    "pointerdown",
+    "mousemove",
+    "scroll"
+]
+.forEach(
+    eventName => {
+
+        document.addEventListener(
+            eventName,
+            () => {
+
+                if (entsperrt) {
+
+                    resetAutoLock();
+
+                }
+
+            },
+            {
+                passive: true
+            }
+        );
+
+    }
+);
+
+
+/* =========================================================
+   DATUM
+========================================================= */
+
+function formatDate(event) {
+
+    let value =
+        event.target.value
+            .replace(
+                /[^\d]/g,
+                ""
+            );
+
+
+    if (
+        value.length > 2
+    ) {
+
+        value =
+            value.slice(0,2)
+            + "."
+            + value.slice(2);
+
+    }
+
+
+    if (
+        value.length > 5
+    ) {
+
+        value =
+            value.slice(0,5)
+            + "."
+            + value.slice(5);
+
+    }
+
+
+    event.target.value =
+        value.slice(
+            0,
+            10
+        );
 
 }
 
@@ -1240,155 +2485,205 @@ function neuesFormular() {
             "formContainer"
         );
 
+
     const div =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
+
 
     div.className =
         "person-form";
 
+
     div.innerHTML = `
 
-        <h3>Person ${formIndex + 1}</h3>
+        <h3>
+            Person ${formIndex + 1}
+        </h3>
+
 
         <label>
             Ort:
-            <input type="text"
-                   name="ort_person"
-                   maxlength="150">
+            <input
+                type="text"
+                name="ort_person"
+                maxlength="150"
+                autocomplete="address-level2">
         </label>
+
 
         <label>
             Nachname:
-            <input type="text"
-                   name="nachname"
-                   maxlength="100"
-                   autocomplete="family-name"
-                   required>
+            <input
+                type="text"
+                name="nachname"
+                maxlength="100"
+                autocomplete="family-name"
+                required>
         </label>
+
 
         <label>
             Vorname:
-            <input type="text"
-                   name="vorname"
-                   maxlength="100"
-                   autocomplete="given-name"
-                   required>
+            <input
+                type="text"
+                name="vorname"
+                maxlength="100"
+                autocomplete="given-name"
+                required>
         </label>
+
 
         <label>
             Geburtsdatum:
-            <input type="text"
-                   name="geburtsdatum"
-                   placeholder="DD.MM.JJJJ"
-                   inputmode="numeric"
-                   maxlength="10"
-                   required>
+            <input
+                type="text"
+                name="geburtsdatum"
+                placeholder="DD.MM.JJJJ"
+                inputmode="numeric"
+                maxlength="10"
+                autocomplete="bday"
+                required>
         </label>
+
 
         <label>
             Telefonnummer:
-            <input type="tel"
-                   name="telefonnummer"
-                   maxlength="50"
-                   autocomplete="tel">
+            <input
+                type="tel"
+                name="telefonnummer"
+                maxlength="50"
+                autocomplete="tel">
         </label>
 
-        <button type="button"
-                class="btn-zusatz">
+
+        <button
+            type="button"
+            class="btn-zusatz">
 
             ➕ Noch nicht erfasst im myAbi
 
         </button>
 
+
         <div class="zusatzfelder">
 
             <label>
                 Strasse:
-                <input type="text"
-                       name="strasse"
-                       maxlength="150">
+                <input
+                    type="text"
+                    name="strasse"
+                    maxlength="150"
+                    autocomplete="street-address">
             </label>
+
 
             <label>
                 PLZ:
-                <input type="text"
-                       name="plz"
-                       maxlength="20">
+                <input
+                    type="text"
+                    name="plz"
+                    maxlength="20">
             </label>
+
 
             <label>
                 Ort:
-                <input type="text"
-                       name="ort"
-                       maxlength="150">
+                <input
+                    type="text"
+                    name="ort"
+                    maxlength="150">
             </label>
+
 
             <label>
                 Vorname Vater:
-                <input type="text"
-                       name="vater_vorname"
-                       maxlength="100">
+                <input
+                    type="text"
+                    name="vater_vorname"
+                    maxlength="100">
             </label>
+
 
             <label>
                 Nachname Vater:
-                <input type="text"
-                       name="vater_nachname"
-                       maxlength="100">
+                <input
+                    type="text"
+                    name="vater_nachname"
+                    maxlength="100">
             </label>
+
 
             <label>
                 Vorname Mutter:
-                <input type="text"
-                       name="mutter_vorname"
-                       maxlength="100">
+                <input
+                    type="text"
+                    name="mutter_vorname"
+                    maxlength="100">
             </label>
+
 
             <label>
                 Nachname Mutter:
-                <input type="text"
-                       name="mutter_nachname"
-                       maxlength="100">
+                <input
+                    type="text"
+                    name="mutter_nachname"
+                    maxlength="100">
             </label>
+
 
             <label>
                 Geburtsort:
-                <input type="text"
-                       name="geburtsort"
-                       maxlength="150">
+                <input
+                    type="text"
+                    name="geburtsort"
+                    maxlength="150">
             </label>
+
 
             <label>
                 Heimatort:
-                <input type="text"
-                       name="heimatort"
-                       maxlength="150">
+                <input
+                    type="text"
+                    name="heimatort"
+                    maxlength="150">
             </label>
+
 
             <label>
                 Beruf:
-                <input type="text"
-                       name="beruf"
-                       maxlength="150">
+                <input
+                    type="text"
+                    name="beruf"
+                    maxlength="150">
             </label>
 
         </div>
 
+
         <label>
+
             Notizen:
 
-            <textarea name="notizen"
-                      rows="4"
-                      maxlength="5000"></textarea>
+            <textarea
+                name="notizen"
+                rows="4"
+                maxlength="5000"></textarea>
+
         </label>
 
 
-        <button type="button"
-                class="btn-aussage">
+        <!-- AUSSAGEN -->
+
+        <button
+            type="button"
+            class="btn-aussage">
 
             🗣️ Aussagen erfassen
 
         </button>
+
 
         <div class="aussage-hinweis">
 
@@ -1430,40 +2725,57 @@ function neuesFormular() {
 
         </div>
 
+
         <div class="aussagenfelder">
 
             <label>
+
                 Datum Aussage:
-                <input type="text"
-                       name="aussage_datum"
-                       readonly>
+
+                <input
+                    type="text"
+                    name="aussage_datum"
+                    readonly>
+
             </label>
 
+
             <label>
+
                 Zeit Aussage:
-                <input type="time"
-                       name="aussage_zeit">
+
+                <input
+                    type="time"
+                    name="aussage_zeit">
+
             </label>
 
+
             <label>
+
                 Aussage:
 
-                <textarea name="aussage_text"
-                          rows="5"
-                          maxlength="10000"
-                          placeholder="Aussage hier einfügen"></textarea>
+                <textarea
+                    name="aussage_text"
+                    rows="5"
+                    maxlength="10000"
+                    placeholder="Aussage hier einfügen"></textarea>
 
             </label>
 
         </div>
 
 
-        <button type="button"
-                class="btn-finanz">
+        <!-- FINANZEN -->
+
+        <button
+            type="button"
+            class="btn-finanz">
 
             💰 Finanzielle Verhältnisse
 
         </button>
+
 
         <div class="finanzfelder">
 
@@ -1471,10 +2783,12 @@ function neuesFormular() {
                 Finanzielle Verhältnisse
             </h4>
 
+
             <div class="checkbox-zeile">
 
-                <input type="checkbox"
-                       name="selbstaendig">
+                <input
+                    type="checkbox"
+                    name="selbstaendig">
 
                 <span>
                     Selbstständig
@@ -1482,10 +2796,12 @@ function neuesFormular() {
 
             </div>
 
+
             <div class="checkbox-zeile">
 
-                <input type="checkbox"
-                       name="angestellt">
+                <input
+                    type="checkbox"
+                    name="angestellt">
 
                 <span>
                     Angestellt
@@ -1493,10 +2809,12 @@ function neuesFormular() {
 
             </div>
 
+
             <div class="checkbox-zeile">
 
-                <input type="checkbox"
-                       name="anderes_einkommen">
+                <input
+                    type="checkbox"
+                    name="anderes_einkommen">
 
                 <span>
                     Anderes Einkommen
@@ -1504,171 +2822,247 @@ function neuesFormular() {
 
             </div>
 
-            <input type="text"
-                   name="anderes_einkommen_text"
-                   maxlength="300"
-                   placeholder="Bitte spezifizieren"
-                   style="display:none;">
+
+            <input
+                type="text"
+                name="anderes_einkommen_text"
+                maxlength="300"
+                placeholder="Bitte spezifizieren"
+                style="display:none;">
+
 
             <label>
+
                 Netto-Einkünfte pro Monat:
 
-                <input type="text"
-                       name="netto_einkommen"
-                       maxlength="100">
+                <input
+                    type="text"
+                    name="netto_einkommen"
+                    maxlength="100">
+
             </label>
 
+
             <label>
+
                 Netto-Einkünfte Lebenspartner
                 pro Monat:
 
-                <input type="text"
-                       name="netto_partner"
-                       maxlength="100">
+                <input
+                    type="text"
+                    name="netto_partner"
+                    maxlength="100">
+
             </label>
+
 
             <hr>
 
+
             <div class="checkbox-zeile">
 
-                <input type="checkbox"
-                       name="liegenschaft_check">
+                <input
+                    type="checkbox"
+                    name="liegenschaft_check">
 
                 <span>
+
                     Liegenschaft:
-                    <strong class="ja-nein-liegenschaft">
+                    <strong
+                        class="ja-nein-liegenschaft">
                         Nein
                     </strong>
+
                 </span>
 
             </div>
 
-            <div class="liegenschaft_details finanz-detail">
+
+            <div
+                class="liegenschaft_details finanz-detail">
 
                 <label>
+
                     Ort:
-                    <input type="text"
-                           name="liegenschaft_ort"
-                           maxlength="150">
+
+                    <input
+                        type="text"
+                        name="liegenschaft_ort"
+                        maxlength="150">
+
                 </label>
 
+
                 <label>
+
                     Steuerwert:
-                    <input type="text"
-                           name="steuerwert"
-                           maxlength="100">
+
+                    <input
+                        type="text"
+                        name="steuerwert"
+                        maxlength="100">
+
                 </label>
 
+
                 <label>
+
                     Hypothekarschulden:
-                    <input type="text"
-                           name="hypothek"
-                           maxlength="100">
+
+                    <input
+                        type="text"
+                        name="hypothek"
+                        maxlength="100">
+
                 </label>
 
             </div>
 
+
             <div class="checkbox-zeile">
 
-                <input type="checkbox"
-                       name="anderes_vermoegen_check">
+                <input
+                    type="checkbox"
+                    name="anderes_vermoegen_check">
 
                 <span>
+
                     Vermögen:
-                    <strong class="ja-nein-vermoegen">
+                    <strong
+                        class="ja-nein-vermoegen">
                         Nein
                     </strong>
+
                 </span>
 
             </div>
 
-            <div class="anderes_vermoegen_details finanz-detail">
+
+            <div
+                class="anderes_vermoegen_details finanz-detail">
 
                 <label>
+
                     Welches:
-                    <input type="text"
-                           name="anderes_vermoegen_what"
-                           maxlength="300">
+
+                    <input
+                        type="text"
+                        name="anderes_vermoegen_what"
+                        maxlength="300">
+
                 </label>
 
+
                 <label>
+
                     CHF:
-                    <input type="text"
-                           name="anderes_vermoegen_chf"
-                           maxlength="100">
+
+                    <input
+                        type="text"
+                        name="anderes_vermoegen_chf"
+                        maxlength="100">
+
                 </label>
 
             </div>
 
+
             <div class="checkbox-zeile">
 
-                <input type="checkbox"
-                       name="unterhaltsbeitrag_check">
+                <input
+                    type="checkbox"
+                    name="unterhaltsbeitrag_check">
 
                 <span>
+
                     Zu leistende
                     Unterhaltsbeiträge:
 
-                    <strong class="ja-nein-unterhalt">
+                    <strong
+                        class="ja-nein-unterhalt">
                         Nein
                     </strong>
+
                 </span>
 
             </div>
 
-            <div class="unterhaltsbeitrag_details finanz-detail">
+
+            <div
+                class="unterhaltsbeitrag_details finanz-detail">
 
                 <label>
+
                     Total pro Monat:
 
-                    <input type="text"
-                           name="unterhalt_total"
-                           maxlength="100">
+                    <input
+                        type="text"
+                        name="unterhalt_total"
+                        maxlength="100">
+
                 </label>
 
+
                 <label>
+
                     An:
 
-                    <input type="text"
-                           name="unterhalt_an"
-                           maxlength="200">
+                    <input
+                        type="text"
+                        name="unterhalt_an"
+                        maxlength="200">
+
                 </label>
 
             </div>
+
 
             <div class="checkbox-zeile">
 
-                <input type="checkbox"
-                       name="kinder_check">
+                <input
+                    type="checkbox"
+                    name="kinder_check">
 
                 <span>
+
                     Kinder:
-                    <strong class="ja-nein-kinder">
+                    <strong
+                        class="ja-nein-kinder">
                         Nein
                     </strong>
+
                 </span>
 
             </div>
 
-            <div class="kinder_details finanz-detail">
+
+            <div
+                class="kinder_details finanz-detail">
 
                 <label>
+
                     Anzahl Kinder:
 
-                    <input type="number"
-                           name="kinder_anzahl"
-                           min="0"
-                           max="50"
-                           inputmode="numeric">
+                    <input
+                        type="number"
+                        name="kinder_anzahl"
+                        min="0"
+                        max="50"
+                        inputmode="numeric">
+
                 </label>
 
+
                 <label>
+
                     Jahrgang Kinder:
 
-                    <input type="text"
-                           name="kinder_jahrgang"
-                           maxlength="300"
-                           placeholder="z.B. 2010, 2013, 2017">
+                    <input
+                        type="text"
+                        name="kinder_jahrgang"
+                        maxlength="300"
+                        placeholder="z.B. 2010, 2013, 2017">
+
                 </label>
 
             </div>
@@ -1676,19 +3070,23 @@ function neuesFormular() {
         </div>
     `;
 
-    container.appendChild(div);
+
+    container.appendChild(
+        div
+    );
+
 
     formIndex++;
 
-    aktiviereFormular(div);
-
-    attachAutoSave(div);
+    aktiviereFormular(
+        div
+    );
 
 }
 
 
 /* =========================================================
-   FORMULAR EVENTS
+   FORMULAR-EVENTS
 ========================================================= */
 
 function aktiviereFormular(form) {
@@ -1696,97 +3094,106 @@ function aktiviereFormular(form) {
     const dateInput =
         $('input[name="geburtsdatum"]', form);
 
+
     dateInput.addEventListener(
         "input",
         formatDate
     );
 
 
-    $(".btn-zusatz", form)
-        .addEventListener(
-            "click",
-            () => {
-
-                $(".zusatzfelder", form)
-                    .style.display =
-                    "block";
-
-                $(".btn-zusatz", form)
-                    .style.display =
-                    "none";
-
-                scheduleSave();
-
-            }
-        );
+    const zusatzButton =
+        $(".btn-zusatz", form);
 
 
-    $(".btn-aussage", form)
-        .addEventListener(
-            "click",
-            () => {
+    zusatzButton.addEventListener(
+        "click",
+        () => {
 
-                $(".aussage-hinweis", form)
-                    .style.display =
-                    "block";
+            $(".zusatzfelder", form)
+                .style.display =
+                "block";
 
-                $(".aussagenfelder", form)
-                    .style.display =
-                    "block";
+            zusatzButton.style.display =
+                "none";
 
-                const jetzt =
-                    new Date();
-
-                $('input[name="aussage_datum"]', form)
-                    .value =
-                    jetzt.toLocaleDateString(
-                        "de-CH"
-                    );
-
-                $('input[name="aussage_zeit"]', form)
-                    .value =
-                    jetzt.toLocaleTimeString(
-                        "de-CH",
-                        {
-                            hour: "2-digit",
-                            minute: "2-digit"
-                        }
-                    );
-
-                $(".btn-aussage", form)
-                    .style.display =
-                    "none";
-
-                scheduleSave();
-
-            }
-        );
+        }
+    );
 
 
-    $(".btn-finanz", form)
-        .addEventListener(
-            "click",
-            () => {
+    const aussageButton =
+        $(".btn-aussage", form);
 
-                $(".finanzfelder", form)
-                    .style.display =
-                    "block";
 
-                $(".btn-finanz", form)
-                    .style.display =
-                    "none";
+    aussageButton.addEventListener(
+        "click",
+        () => {
 
-                scheduleSave();
+            $(".aussage-hinweis", form)
+                .style.display =
+                "block";
 
-            }
-        );
+
+            $(".aussagenfelder", form)
+                .style.display =
+                "block";
+
+
+            const jetzt =
+                new Date();
+
+
+            $('input[name="aussage_datum"]', form)
+                .value =
+                jetzt.toLocaleDateString(
+                    "de-CH"
+                );
+
+
+            $('input[name="aussage_zeit"]', form)
+                .value =
+                jetzt.toLocaleTimeString(
+                    "de-CH",
+                    {
+                        hour: "2-digit",
+                        minute: "2-digit"
+                    }
+                );
+
+
+            aussageButton.style.display =
+                "none";
+
+        }
+    );
+
+
+    const finanzButton =
+        $(".btn-finanz", form);
+
+
+    finanzButton.addEventListener(
+        "click",
+        () => {
+
+            $(".finanzfelder", form)
+                .style.display =
+                "block";
+
+
+            finanzButton.style.display =
+                "none";
+
+        }
+    );
 
 
     const selbstaendig =
         $('input[name="selbstaendig"]', form);
 
+
     const angestellt =
         $('input[name="angestellt"]', form);
+
 
     const anderes =
         $('input[name="anderes_einkommen"]', form);
@@ -1796,10 +3203,15 @@ function aktiviereFormular(form) {
         "change",
         () => {
 
-            if (selbstaendig.checked) {
+            if (
+                selbstaendig.checked
+            ) {
 
-                angestellt.checked = false;
-                anderes.checked = false;
+                angestellt.checked =
+                    false;
+
+                anderes.checked =
+                    false;
 
             }
 
@@ -1807,8 +3219,6 @@ function aktiviereFormular(form) {
                 anderes,
                 form
             );
-
-            scheduleSave();
 
         }
     );
@@ -1818,10 +3228,15 @@ function aktiviereFormular(form) {
         "change",
         () => {
 
-            if (angestellt.checked) {
+            if (
+                angestellt.checked
+            ) {
 
-                selbstaendig.checked = false;
-                anderes.checked = false;
+                selbstaendig.checked =
+                    false;
+
+                anderes.checked =
+                    false;
 
             }
 
@@ -1829,8 +3244,6 @@ function aktiviereFormular(form) {
                 anderes,
                 form
             );
-
-            scheduleSave();
 
         }
     );
@@ -1840,10 +3253,15 @@ function aktiviereFormular(form) {
         "change",
         () => {
 
-            if (anderes.checked) {
+            if (
+                anderes.checked
+            ) {
 
-                selbstaendig.checked = false;
-                angestellt.checked = false;
+                selbstaendig.checked =
+                    false;
+
+                angestellt.checked =
+                    false;
 
             }
 
@@ -1851,8 +3269,6 @@ function aktiviereFormular(form) {
                 anderes,
                 form
             );
-
-            scheduleSave();
 
         }
     );
@@ -1896,32 +3312,59 @@ function aktiviereFormular(form) {
                     form
                 );
 
+
             checkbox.addEventListener(
                 "change",
                 () => {
 
                     const detail =
-                        $("." + detailName, form);
+                        $(
+                            "." + detailName,
+                            form
+                        );
+
 
                     const label =
-                        $("." + labelName, form);
+                        $(
+                            "." + labelName,
+                            form
+                        );
+
 
                     detail.style.display =
                         checkbox.checked
                             ? "block"
                             : "none";
 
+
                     label.textContent =
                         checkbox.checked
                             ? "Ja"
                             : "Nein";
 
-                    scheduleSave();
+
+                    automatischSpeichern();
 
                 }
             );
 
         }
+    );
+
+
+    /*
+     * Automatische Speicherung bei Änderungen.
+     */
+
+    form.addEventListener(
+        "input",
+        debounceSpeichern
+    );
+
+
+    form.addEventListener(
+        "change",
+        debounceSpeichern
     );
 
 }
@@ -1939,6 +3382,7 @@ function zeigeAnderesText(
     const input =
         $('input[name="anderes_einkommen_text"]', form);
 
+
     input.style.display =
         checkbox.checked
             ? "block"
@@ -1948,30 +3392,37 @@ function zeigeAnderesText(
 
 
 /* =========================================================
-   AUTO SAVE EVENT
+   DEBOUNCE
 ========================================================= */
 
-function attachAutoSave(form) {
+let saveTimer = null;
 
-    form.addEventListener(
-        "input",
-        () => {
 
-            scheduleSave();
-            resetLockTimer();
+function debounceSpeichern() {
 
-        }
+    if (!entsperrt) {
+
+        return;
+
+    }
+
+
+    clearTimeout(
+        saveTimer
     );
 
-    form.addEventListener(
-        "change",
-        () => {
 
-            scheduleSave();
-            resetLockTimer();
+    saveTimer =
+        setTimeout(
+            () => {
 
-        }
-    );
+                datenAusFormularenSpeichern();
+
+                automatischSpeichern();
+
+            },
+            700
+        );
 
 }
 
@@ -1984,78 +3435,109 @@ function datenAusFormularenSpeichern() {
 
     alleDaten = [];
 
-    document
-        .querySelectorAll(".person-form")
-        .forEach(form => {
 
-            let finanzDaten = null;
+    const forms =
+        document.querySelectorAll(
+            ".person-form"
+        );
+
+
+    forms.forEach(
+        form => {
 
             const finanz =
                 $(".finanzfelder", form);
 
+
+            let finanzDaten =
+                null;
+
+
             if (
                 finanz &&
-                getComputedStyle(finanz).display !== "none"
+                getComputedStyle(
+                    finanz
+                ).display !==
+                "none"
             ) {
 
                 finanzDaten = {
 
                     selbstaendig:
-                        $('input[name="selbstaendig"]', form).checked,
+                        $('input[name="selbstaendig"]', form)
+                            .checked,
 
                     angestellt:
-                        $('input[name="angestellt"]', form).checked,
+                        $('input[name="angestellt"]', form)
+                            .checked,
 
                     anderes:
-                        $('input[name="anderes_einkommen"]', form).checked,
+                        $('input[name="anderes_einkommen"]', form)
+                            .checked,
 
                     anderes_text:
-                        $('input[name="anderes_einkommen_text"]', form).value,
+                        $('input[name="anderes_einkommen_text"]', form)
+                            .value,
 
                     netto_einkommen:
-                        $('input[name="netto_einkommen"]', form).value,
+                        $('input[name="netto_einkommen"]', form)
+                            .value,
 
                     netto_partner:
-                        $('input[name="netto_partner"]', form).value,
+                        $('input[name="netto_partner"]', form)
+                            .value,
 
                     liegenschaft:
-                        $('input[name="liegenschaft_check"]', form).checked,
+                        $('input[name="liegenschaft_check"]', form)
+                            .checked,
 
                     liegenschaft_ort:
-                        $('input[name="liegenschaft_ort"]', form).value,
+                        $('input[name="liegenschaft_ort"]', form)
+                            .value,
 
                     steuerwert:
-                        $('input[name="steuerwert"]', form).value,
+                        $('input[name="steuerwert"]', form)
+                            .value,
 
                     hypothek:
-                        $('input[name="hypothek"]', form).value,
+                        $('input[name="hypothek"]', form)
+                            .value,
 
                     anderes_vermoegen:
-                        $('input[name="anderes_vermoegen_check"]', form).checked,
+                        $('input[name="anderes_vermoegen_check"]', form)
+                            .checked,
 
                     anderes_vermoegen_what:
-                        $('input[name="anderes_vermoegen_what"]', form).value,
+                        $('input[name="anderes_vermoegen_what"]', form)
+                            .value,
 
                     anderes_vermoegen_chf:
-                        $('input[name="anderes_vermoegen_chf"]', form).value,
+                        $('input[name="anderes_vermoegen_chf"]', form)
+                            .value,
 
                     unterhaltsbeitrag:
-                        $('input[name="unterhaltsbeitrag_check"]', form).checked,
+                        $('input[name="unterhaltsbeitrag_check"]', form)
+                            .checked,
 
                     unterhalt_total:
-                        $('input[name="unterhalt_total"]', form).value,
+                        $('input[name="unterhalt_total"]', form)
+                            .value,
 
                     unterhalt_an:
-                        $('input[name="unterhalt_an"]', form).value,
+                        $('input[name="unterhalt_an"]', form)
+                            .value,
 
                     kinder:
-                        $('input[name="kinder_check"]', form).checked,
+                        $('input[name="kinder_check"]', form)
+                            .checked,
 
                     kinder_anzahl:
-                        $('input[name="kinder_anzahl"]', form).value,
+                        $('input[name="kinder_anzahl"]', form)
+                            .value,
 
                     kinder_jahrgang:
-                        $('input[name="kinder_jahrgang"]', form).value
+                        $('input[name="kinder_jahrgang"]', form)
+                            .value
 
                 };
 
@@ -2065,617 +3547,99 @@ function datenAusFormularenSpeichern() {
             alleDaten.push({
 
                 ort_person:
-                    $('input[name="ort_person"]', form).value,
+                    $('input[name="ort_person"]', form)
+                        .value,
 
                 vorname:
-                    $('input[name="vorname"]', form).value,
+                    $('input[name="vorname"]', form)
+                        .value,
 
                 nachname:
-                    $('input[name="nachname"]', form).value,
+                    $('input[name="nachname"]', form)
+                        .value,
 
                 geburtsdatum:
-                    $('input[name="geburtsdatum"]', form).value,
+                    $('input[name="geburtsdatum"]', form)
+                        .value,
 
                 telefonnummer:
-                    $('input[name="telefonnummer"]', form).value,
+                    $('input[name="telefonnummer"]', form)
+                        .value,
 
                 hatZusatz:
                     $(".zusatzfelder", form)
-                        .style.display === "block",
+                        .style.display ===
+                        "block",
 
                 strasse:
-                    $('input[name="strasse"]', form).value,
+                    $('input[name="strasse"]', form)
+                        .value,
 
                 plz:
-                    $('input[name="plz"]', form).value,
+                    $('input[name="plz"]', form)
+                        .value,
 
                 ort:
-                    $('input[name="ort"]', form).value,
+                    $('input[name="ort"]', form)
+                        .value,
 
                 vater_vorname:
-                    $('input[name="vater_vorname"]', form).value,
+                    $('input[name="vater_vorname"]', form)
+                        .value,
 
                 vater_nachname:
-                    $('input[name="vater_nachname"]', form).value,
+                    $('input[name="vater_nachname"]', form)
+                        .value,
 
                 mutter_vorname:
-                    $('input[name="mutter_vorname"]', form).value,
+                    $('input[name="mutter_vorname"]', form)
+                        .value,
 
                 mutter_nachname:
-                    $('input[name="mutter_nachname"]', form).value,
+                    $('input[name="mutter_nachname"]', form)
+                        .value,
 
                 geburtsort:
-                    $('input[name="geburtsort"]', form).value,
+                    $('input[name="geburtsort"]', form)
+                        .value,
 
                 heimatort:
-                    $('input[name="heimatort"]', form).value,
+                    $('input[name="heimatort"]', form)
+                        .value,
 
                 beruf:
-                    $('input[name="beruf"]', form).value,
+                    $('input[name="beruf"]', form)
+                        .value,
 
                 notizen:
-                    $('textarea[name="notizen"]', form).value,
+                    $('textarea[name="notizen"]', form)
+                        .value,
 
                 aussage_datum:
-                    $('input[name="aussage_datum"]', form).value,
+                    $('input[name="aussage_datum"]', form)
+                        .value,
 
                 aussage_zeit:
-                    $('input[name="aussage_zeit"]', form).value,
+                    $('input[name="aussage_zeit"]', form)
+                        .value,
 
                 aussage_text:
-                    $('textarea[name="aussage_text"]', form).value,
+                    $('textarea[name="aussage_text"]', form)
+                        .value,
 
                 finanz:
                     finanzDaten
 
             });
 
-        });
-
-}
-
-
-/* =========================================================
-   AUTOMATISCH SPEICHERN
-========================================================= */
-
-function scheduleSave() {
-
-    if (!unlocked || !sessionKey) {
-        return;
-    }
-
-    clearTimeout(saveTimer);
-
-    saveTimer =
-        setTimeout(
-            saveAutomatically,
-            AUTO_SAVE_DELAY
-        );
-
-}
-
-
-async function saveAutomatically() {
-
-    if (!unlocked || !sessionKey) {
-        return;
-    }
-
-    try {
-
-        datenAusFormularenSpeichern();
-
-        const daten = {
-
-            version:
-                APP_VERSION,
-
-            gespeichert:
-                new Date().toISOString(),
-
-            personen:
-                alleDaten
-
-        };
-
-        const encrypted =
-            await encryptWithSessionKey(
-                JSON.stringify(daten)
-            );
-
-        localStorage.setItem(
-            STORAGE_KEY,
-            JSON.stringify(encrypted)
-        );
-
-        const indicator =
-            document.getElementById(
-                "saveIndicator"
-            );
-
-        indicator.textContent =
-            "🔐 Automatisch verschlüsselt gespeichert – " +
-            new Date().toLocaleTimeString(
-                "de-CH"
-            );
-
-        status(
-            "🔐 Änderungen automatisch verschlüsselt gespeichert.",
-            "ok"
-        );
-
-    }
-    catch (error) {
-
-        console.error(error);
-
-        status(
-            "❌ Automatische Speicherung fehlgeschlagen.",
-            "error"
-        );
-
-    }
-
-}
-
-
-/* =========================================================
-   SESSION KEY ENCRYPTION
-========================================================= */
-
-async function encryptWithSessionKey(text) {
-
-    const iv =
-        crypto.getRandomValues(
-            new Uint8Array(12)
-        );
-
-    const encrypted =
-        await crypto.subtle.encrypt(
-
-            {
-                name: "AES-GCM",
-                iv
-            },
-
-            sessionKey,
-
-            textEncoder().encode(text)
-
-        );
-
-    return {
-
-        version: 11,
-
-        algorithm:
-            "AES-256-GCM-SESSION",
-
-        iv:
-            arrayToBase64(iv),
-
-        data:
-            arrayToBase64(
-                new Uint8Array(
-                    encrypted
-                )
-            )
-
-    };
-
-}
-
-
-async function decryptWithSessionKey(obj) {
-
-    const iv =
-        base64ToArray(
-            obj.iv
-        );
-
-    const data =
-        base64ToArray(
-            obj.data
-        );
-
-    const decrypted =
-        await crypto.subtle.decrypt(
-
-            {
-                name: "AES-GCM",
-                iv
-            },
-
-            sessionKey,
-
-            data
-
-        );
-
-    return textDecoder()
-        .decode(decrypted);
-
-}
-
-
-/* =========================================================
-   ERSTEINRICHTUNG
-========================================================= */
-
-async function initialSetup() {
-
-    const existing =
-        localStorage.getItem(
-            STORAGE_KEY
-        );
-
-    if (existing) {
-        return;
-    }
-
-    const pin =
-        askPin(
-            "Willkommen.\n\n" +
-            "Bitte einen PIN mit 4 bis 8 Zeichen " +
-            "für diese App festlegen."
-        );
-
-    if (!pin) {
-
-        alert(
-            "Ohne PIN kann die geschützte App " +
-            "nicht eingerichtet werden."
-        );
-
-        return;
-
-    }
-
-    const confirmPin =
-        askPin(
-            "PIN bitte nochmals eingeben:"
-        );
-
-    if (
-        !confirmPin ||
-        pin !== confirmPin
-    ) {
-
-        alert(
-            "Die PINs stimmen nicht überein."
-        );
-
-        return;
-
-    }
-
-    const salt =
-        crypto.getRandomValues(
-            new Uint8Array(16)
-        );
-
-    sessionKey =
-        await deriveSessionKey(
-            pin,
-            salt
-        );
-
-    unlocked = true;
-
-    neuesFormular();
-
-    await saveInitialData(
-        salt
-    );
-
-    status(
-        "🔐 App eingerichtet und geschützt.",
-        "ok"
-    );
-
-}
-
-
-/* =========================================================
-   INITIAL DATA
-========================================================= */
-
-async function saveInitialData(salt) {
-
-    const daten = {
-
-        version:
-            APP_VERSION,
-
-        gespeichert:
-            new Date().toISOString(),
-
-        personen:
-            []
-
-    };
-
-    const encrypted =
-        await encryptWithSessionKey(
-            JSON.stringify(daten)
-        );
-
-    encrypted.kdf =
-        "PBKDF2-SHA-256";
-
-    encrypted.iterations =
-        PBKDF2_ITERATIONS;
-
-    encrypted.salt =
-        arrayToBase64(salt);
-
-    /*
-     * Session-Key basiert bereits auf diesem Salt.
-     * Der Session-Datensatz nutzt denselben Schlüssel.
-     */
-
-    localStorage.setItem(
-        STORAGE_KEY,
-        JSON.stringify(encrypted)
-    );
-
-}
-
-
-/* =========================================================
-   ENTSPERREN
-========================================================= */
-
-async function unlockApp() {
-
-    const input =
-        document.getElementById(
-            "pinInput"
-        );
-
-    const pin =
-        input.value;
-
-    if (!validPin(pin)) {
-
-        showLockError(
-            "PIN muss 4 bis 8 Zeichen enthalten."
-        );
-
-        return;
-
-    }
-
-    const stored =
-        localStorage.getItem(
-            STORAGE_KEY
-        );
-
-    if (!stored) {
-
-        showLockError(
-            "Keine geschützten Daten vorhanden."
-        );
-
-        return;
-
-    }
-
-    try {
-
-        const obj =
-            JSON.parse(stored);
-
-        if (
-            !obj.salt
-        ) {
-
-            throw new Error(
-                "Kein Salt vorhanden."
-            );
-
         }
-
-        const salt =
-            base64ToArray(
-                obj.salt
-            );
-
-        sessionKey =
-            await deriveSessionKey(
-                pin,
-                salt
-            );
-
-        const text =
-            await decryptWithSessionKey(
-                obj
-            );
-
-        const daten =
-            JSON.parse(text);
-
-        if (
-            !daten ||
-            !Array.isArray(
-                daten.personen
-            )
-        ) {
-
-            throw new Error(
-                "Ungültige Datenstruktur."
-            );
-
-        }
-
-        alleDaten =
-            daten.personen;
-
-        unlocked = true;
-
-        document
-            .getElementById("lockScreen")
-            .classList.add("hidden");
-
-        document
-            .getElementById("pinInput")
-            .value = "";
-
-        hideLockError();
-
-        formularAusDatenAufbauen();
-
-        resetLockTimer();
-
-        status(
-            "🔓 App entsperrt. Daten wurden wiederhergestellt.",
-            "ok"
-        );
-
-    }
-    catch (error) {
-
-        console.error(error);
-
-        sessionKey = null;
-        unlocked = false;
-
-        showLockError(
-            "Falscher PIN oder beschädigte Daten."
-        );
-
-    }
-
-}
-
-
-/* =========================================================
-   LOCK
-========================================================= */
-
-function lockApp() {
-
-    clearTimeout(lockTimer);
-
-    clearTimeout(saveTimer);
-
-    /*
-     * Noch offene Änderungen werden vor dem Sperren
-     * gespeichert.
-     */
-
-    if (unlocked && sessionKey) {
-
-        saveAutomatically()
-            .finally(
-                () => {
-
-                    performLock();
-
-                }
-            );
-
-        return;
-
-    }
-
-    performLock();
-
-}
-
-
-function performLock() {
-
-    unlocked = false;
-
-    sessionKey = null;
-
-    alleDaten = [];
-
-    formIndex = 0;
-
-    document
-        .getElementById("formContainer")
-        .replaceChildren();
-
-    document
-        .getElementById("zusatzMaske")
-        .classList.add("hidden");
-
-    document
-        .getElementById("lockScreen")
-        .classList.remove("hidden");
-
-    document
-        .getElementById("pinInput")
-        .value = "";
-
-    document
-        .getElementById("pinInput")
-        .focus();
-
-    status(
-        "🔒 App ist gesperrt.",
-        "warn"
     );
 
 }
 
 
-function resetLockTimer() {
-
-    if (!unlocked) {
-        return;
-    }
-
-    clearTimeout(lockTimer);
-
-    lockTimer =
-        setTimeout(
-            () => {
-
-                lockApp();
-
-            },
-            AUTO_LOCK_MINUTES * 60 * 1000
-        );
-
-}
-
-
 /* =========================================================
-   LOCK FEHLER
-========================================================= */
-
-function showLockError(text) {
-
-    const error =
-        document.getElementById(
-            "lockError"
-        );
-
-    error.textContent =
-        text;
-
-    error.style.display =
-        "block";
-
-}
-
-
-function hideLockError() {
-
-    document
-        .getElementById("lockError")
-        .style.display =
-        "none";
-
-}
-
-
-/* =========================================================
-   FORMULARE AUS DATEN AUFBAUEN
+   FORMULARE AUS DATEN
 ========================================================= */
 
 function formularAusDatenAufbauen() {
@@ -2685,9 +3649,11 @@ function formularAusDatenAufbauen() {
             "formContainer"
         );
 
+
     container.replaceChildren();
 
     formIndex = 0;
+
 
     if (!alleDaten.length) {
 
@@ -2697,137 +3663,147 @@ function formularAusDatenAufbauen() {
 
     }
 
+
     alleDaten.forEach(
         person => {
 
             neuesFormular();
+
 
             const forms =
                 document.querySelectorAll(
                     ".person-form"
                 );
 
+
             const form =
                 forms[
                     forms.length - 1
                 ];
 
-            setValue(
-                form,
+
+            const set =
+                (name, value) => {
+
+                    const input =
+                        $(
+                            `[name="${name}"]`,
+                            form
+                        );
+
+                    if (input) {
+
+                        input.value =
+                            value || "";
+
+                    }
+
+                };
+
+
+            set(
                 "ort_person",
                 person.ort_person
             );
 
-            setValue(
-                form,
+            set(
                 "vorname",
                 person.vorname
             );
 
-            setValue(
-                form,
+            set(
                 "nachname",
                 person.nachname
             );
 
-            setValue(
-                form,
+            set(
                 "geburtsdatum",
                 person.geburtsdatum
             );
 
-            setValue(
-                form,
+            set(
                 "telefonnummer",
                 person.telefonnummer
             );
 
-            setValue(
-                form,
+            set(
                 "strasse",
                 person.strasse
             );
 
-            setValue(
-                form,
+            set(
                 "plz",
                 person.plz
             );
 
-            setValue(
-                form,
+            set(
                 "ort",
                 person.ort
             );
 
-            setValue(
-                form,
+            set(
                 "vater_vorname",
                 person.vater_vorname
             );
 
-            setValue(
-                form,
+            set(
                 "vater_nachname",
                 person.vater_nachname
             );
 
-            setValue(
-                form,
+            set(
                 "mutter_vorname",
                 person.mutter_vorname
             );
 
-            setValue(
-                form,
+            set(
                 "mutter_nachname",
                 person.mutter_nachname
             );
 
-            setValue(
-                form,
+            set(
                 "geburtsort",
                 person.geburtsort
             );
 
-            setValue(
-                form,
+            set(
                 "heimatort",
                 person.heimatort
             );
 
-            setValue(
-                form,
+            set(
                 "beruf",
                 person.beruf
             );
 
-            setValue(
-                form,
-                "notizen",
-                person.notizen
-            );
-
-            setValue(
-                form,
+            set(
                 "aussage_datum",
                 person.aussage_datum
             );
 
-            setValue(
-                form,
+            set(
                 "aussage_zeit",
                 person.aussage_zeit
             );
 
-            setValue(
-                form,
-                "aussage_text",
-                person.aussage_text
-            );
+
+            const notizen =
+                $('textarea[name="notizen"]', form);
+
+            notizen.value =
+                person.notizen || "";
 
 
-            if (person.hatZusatz) {
+            const aussage =
+                $('textarea[name="aussage_text"]', form);
+
+            aussage.value =
+                person.aussage_text || "";
+
+
+            if (
+                person.hatZusatz
+            ) {
 
                 $(".zusatzfelder", form)
                     .style.display =
@@ -2860,46 +3836,68 @@ function formularAusDatenAufbauen() {
             }
 
 
-            if (person.finanz) {
+            if (
+                person.finanz
+            ) {
 
                 const f =
                     person.finanz;
 
+
                 $(".finanzfelder", form)
                     .style.display =
                     "block";
+
 
                 $(".btn-finanz", form)
                     .style.display =
                     "none";
 
 
-                setChecked(
-                    form,
+                const setCheck =
+                    (name, value) => {
+
+                        const input =
+                            $(
+                                `[name="${name}"]`,
+                                form
+                            );
+
+                        if (input) {
+
+                            input.checked =
+                                !!value;
+
+                        }
+
+                    };
+
+
+                setCheck(
                     "selbstaendig",
                     f.selbstaendig
                 );
 
-                setChecked(
-                    form,
+                setCheck(
                     "angestellt",
                     f.angestellt
                 );
 
-                setChecked(
-                    form,
+                setCheck(
                     "anderes_einkommen",
                     f.anderes
                 );
 
-                setValue(
-                    form,
+
+                set(
                     "anderes_einkommen_text",
                     f.anderes_text
                 );
 
+
                 const anderesText =
                     $('input[name="anderes_einkommen_text"]', form);
+
 
                 anderesText.style.display =
                     f.anderes
@@ -2907,14 +3905,12 @@ function formularAusDatenAufbauen() {
                         : "none";
 
 
-                setValue(
-                    form,
+                set(
                     "netto_einkommen",
                     f.netto_einkommen
                 );
 
-                setValue(
-                    form,
+                set(
                     "netto_partner",
                     f.netto_partner
                 );
@@ -2958,9 +3954,10 @@ function formularAusDatenAufbauen() {
 
                         const checkbox =
                             $(
-                                `input[name="${item[0]}"]`,
+                                `[name="${item[0]}"]`,
                                 form
                             );
+
 
                         const detail =
                             $(
@@ -2968,19 +3965,23 @@ function formularAusDatenAufbauen() {
                                 form
                             );
 
+
                         const label =
                             $(
                                 "." + item[2],
                                 form
                             );
 
+
                         checkbox.checked =
                             !!item[3];
+
 
                         detail.style.display =
                             item[3]
                                 ? "block"
                                 : "none";
+
 
                         label.textContent =
                             item[3]
@@ -2991,56 +3992,47 @@ function formularAusDatenAufbauen() {
                 );
 
 
-                setValue(
-                    form,
+                set(
                     "liegenschaft_ort",
                     f.liegenschaft_ort
                 );
 
-                setValue(
-                    form,
+                set(
                     "steuerwert",
                     f.steuerwert
                 );
 
-                setValue(
-                    form,
+                set(
                     "hypothek",
                     f.hypothek
                 );
 
-                setValue(
-                    form,
+                set(
                     "anderes_vermoegen_what",
                     f.anderes_vermoegen_what
                 );
 
-                setValue(
-                    form,
+                set(
                     "anderes_vermoegen_chf",
                     f.anderes_vermoegen_chf
                 );
 
-                setValue(
-                    form,
+                set(
                     "unterhalt_total",
                     f.unterhalt_total
                 );
 
-                setValue(
-                    form,
+                set(
                     "unterhalt_an",
                     f.unterhalt_an
                 );
 
-                setValue(
-                    form,
+                set(
                     "kinder_anzahl",
                     f.kinder_anzahl
                 );
 
-                setValue(
-                    form,
+                set(
                     "kinder_jahrgang",
                     f.kinder_jahrgang
                 );
@@ -3053,50 +4045,6 @@ function formularAusDatenAufbauen() {
 }
 
 
-function setValue(
-    form,
-    name,
-    value
-) {
-
-    const input =
-        $(
-            `[name="${name}"]`,
-            form
-        );
-
-    if (input) {
-
-        input.value =
-            value || "";
-
-    }
-
-}
-
-
-function setChecked(
-    form,
-    name,
-    value
-) {
-
-    const input =
-        $(
-            `[name="${name}"]`,
-            form
-        );
-
-    if (input) {
-
-        input.checked =
-            !!value;
-
-    }
-
-}
-
-
 /* =========================================================
    ZUSATZMASKE
 ========================================================= */
@@ -3104,6 +4052,7 @@ function setChecked(
 function zeigeZusatzMaske() {
 
     datenAusFormularenSpeichern();
+
 
     if (!alleDaten.length) {
 
@@ -3115,13 +4064,16 @@ function zeigeZusatzMaske() {
 
     }
 
+
     const jetzt =
         new Date();
+
 
     $("#datum").value =
         jetzt.toLocaleDateString(
             "de-CH"
         );
+
 
     $("#zeit").value =
         jetzt.toLocaleTimeString(
@@ -3132,8 +4084,11 @@ function zeigeZusatzMaske() {
             }
         );
 
+
     $("#zusatzMaske")
-        .classList.remove("hidden");
+        .classList
+        .remove("hidden");
+
 
     window.scrollTo(
         0,
@@ -3146,7 +4101,8 @@ function zeigeZusatzMaske() {
 function versteckeZusatzMaske() {
 
     $("#zusatzMaske")
-        .classList.add("hidden");
+        .classList
+        .add("hidden");
 
 }
 
@@ -3158,6 +4114,7 @@ function versteckeZusatzMaske() {
 function finaleMailAbschicken() {
 
     datenAusFormularenSpeichern();
+
 
     const datum =
         $("#datum").value;
@@ -3172,7 +4129,10 @@ function finaleMailAbschicken() {
     let betreff =
         `Personendaten ${datum}`;
 
-    if (ereignis.trim()) {
+
+    if (
+        ereignis.trim()
+    ) {
 
         betreff +=
             ` - ${ereignis.trim()}`;
@@ -3195,6 +4155,7 @@ function finaleMailAbschicken() {
                 `PERSON ${i + 1}\n` +
                 `==============================\n\n`;
 
+
             mailBody +=
                 `Vorname: ${p.vorname}\n` +
                 `Nachname: ${p.nachname}\n` +
@@ -3203,7 +4164,9 @@ function finaleMailAbschicken() {
                 `Ort: ${p.ort_person || "Keine Angabe"}\n\n`;
 
 
-            if (p.hatZusatz) {
+            if (
+                p.hatZusatz
+            ) {
 
                 mailBody +=
                     `--- Weitere Angaben ---\n` +
@@ -3233,24 +4196,33 @@ function finaleMailAbschicken() {
             }
 
 
-            if (p.finanz) {
+            if (
+                p.finanz
+            ) {
 
                 const f =
                     p.finanz;
 
-                if (f.angestellt) {
+
+                if (
+                    f.angestellt
+                ) {
 
                     mailBody +=
                         `Erwerbsstatus: Angestellt\n`;
 
                 }
-                else if (f.selbstaendig) {
+                else if (
+                    f.selbstaendig
+                ) {
 
                     mailBody +=
                         `Erwerbsstatus: Selbstständig\n`;
 
                 }
-                else if (f.anderes) {
+                else if (
+                    f.anderes
+                ) {
 
                     mailBody +=
                         `Erwerbsstatus: ${
@@ -3271,13 +4243,13 @@ function finaleMailAbschicken() {
                     `Netto-Einkünfte pro Monat: ${
                         f.netto_einkommen ||
                         "Keine Angabe"
-                    }\n`;
+                    }\n` +
 
-                mailBody +=
                     `Netto-Einkünfte Lebenspartner pro Monat: ${
                         f.netto_partner ||
                         "Keine Angabe"
                     }\n`;
+
 
                 mailBody +=
                     `Liegenschaft: ${
@@ -3287,7 +4259,9 @@ function finaleMailAbschicken() {
                     }\n`;
 
 
-                if (f.liegenschaft) {
+                if (
+                    f.liegenschaft
+                ) {
 
                     mailBody +=
                         `  Ort: ${f.liegenschaft_ort}\n` +
@@ -3305,14 +4279,15 @@ function finaleMailAbschicken() {
                     }\n`;
 
 
-                if (f.anderes_vermoegen) {
+                if (
+                    f.anderes_vermoegen
+                ) {
 
                     mailBody +=
                         `  Welches: ${
                             f.anderes_vermoegen_what
-                        }\n`;
+                        }\n` +
 
-                    mailBody +=
                         `  CHF: ${
                             f.anderes_vermoegen_chf
                         }\n`;
@@ -3328,14 +4303,15 @@ function finaleMailAbschicken() {
                     }\n`;
 
 
-                if (f.unterhaltsbeitrag) {
+                if (
+                    f.unterhaltsbeitrag
+                ) {
 
                     mailBody +=
                         `  Total pro Monat: ${
                             f.unterhalt_total
-                        }\n`;
+                        }\n` +
 
-                    mailBody +=
                         `  An: ${
                             f.unterhalt_an
                         }\n`;
@@ -3351,14 +4327,15 @@ function finaleMailAbschicken() {
                     }\n`;
 
 
-                if (f.kinder) {
+                if (
+                    f.kinder
+                ) {
 
                     mailBody +=
                         `  Anzahl Kinder: ${
                             f.kinder_anzahl
-                        }\n`;
+                        }\n` +
 
-                    mailBody +=
                         `  Jahrgang Kinder: ${
                             f.kinder_jahrgang
                         }\n`;
@@ -3366,7 +4343,8 @@ function finaleMailAbschicken() {
                 }
 
 
-                mailBody += "\n";
+                mailBody +=
+                    "\n";
 
             }
 
@@ -3381,12 +4359,16 @@ function finaleMailAbschicken() {
 
     const mailto =
         `mailto:${MAIL_EMPFAENGER}` +
-        `?subject=${encodeURIComponent(
-            betreff
-        )}` +
-        `&body=${encodeURIComponent(
-            mailBody
-        )}`;
+        `?subject=${
+            encodeURIComponent(
+                betreff
+            )
+        }` +
+        `&body=${
+            encodeURIComponent(
+                mailBody
+            )
+        }`;
 
 
     status(
@@ -3412,85 +4394,91 @@ async function allesLoeschen() {
 
             "ACHTUNG!\n\n" +
 
-            "Alle lokal gespeicherten Personendaten " +
-            "werden endgültig gelöscht.\n\n" +
+            "Damit werden ALLE Personendaten, " +
+            "der verschlüsselte Datensatz UND " +
+            "der Geräteschlüssel gelöscht.\n\n" +
 
-            "Dieser Vorgang kann nicht rückgängig " +
-            "gemacht werden.\n\n" +
+            "Die Daten können danach nicht mehr " +
+            "mit diesem Sicherheitscode wiederhergestellt " +
+            "werden.\n\n" +
 
-            "Fortfahren?"
+            "Wirklich alles löschen?"
 
         );
 
 
     if (!bestaetigung) {
+
         return;
+
     }
 
 
     try {
 
-        localStorage.removeItem(
-            STORAGE_KEY
+        stoppeAutoLock();
+
+
+        await dbClear(
+            DATA_STORE
         );
 
-        /*
-         * Auch der Geräteschlüssel wird gelöscht.
-         */
 
-        const db =
-            await openDeviceDB();
-
-        await new Promise(
-            (resolve, reject) => {
-
-                const transaction =
-                    db.transaction(
-                        DEVICE_KEY_STORE,
-                        "readwrite"
-                    );
-
-                const store =
-                    transaction.objectStore(
-                        DEVICE_KEY_STORE
-                    );
-
-                const request =
-                    store.delete(
-                        DEVICE_KEY_ID
-                    );
-
-                request.onsuccess =
-                    () => resolve();
-
-                request.onerror =
-                    () => reject(
-                        request.error
-                    );
-
-            }
+        await dbClear(
+            KEY_STORE
         );
 
-        sessionKey = null;
-        deviceSecret = null;
-        unlocked = false;
 
-        alleDaten = [];
-        formIndex = 0;
+        datenSchluessel =
+            null;
+
+        alleDaten =
+            [];
+
+        entsperrt =
+            false;
+
+        setupAbgeschlossen =
+            false;
+
 
         document
-            .getElementById("formContainer")
+            .getElementById(
+                "formContainer"
+            )
             .replaceChildren();
 
-        $("#zusatzMaske")
-            .classList.add("hidden");
 
-        alert(
-            "Alle lokalen Daten und der " +
-            "Geräteschlüssel wurden gelöscht."
+        formIndex = 0;
+
+
+        versteckeZusatzMaske();
+
+
+        document
+            .getElementById(
+                "ereignis"
+            )
+            .value = "";
+
+
+        document.body
+            .classList
+            .add("gesperrt");
+
+
+        status(
+            "🗑️ Alle Daten und Sicherheitsdaten wurden gelöscht.",
+            "ok"
         );
 
-        location.reload();
+
+        /*
+         * Neuer Geräteschlüssel wird erst beim
+         * nächsten Setup erzeugt.
+         */
+
+        zeigeSetup();
 
     }
     catch (error) {
@@ -3498,8 +4486,7 @@ async function allesLoeschen() {
         console.error(error);
 
         alert(
-            "Die Daten konnten nicht vollständig " +
-            "gelöscht werden."
+            "Die Daten konnten nicht vollständig gelöscht werden."
         );
 
     }
@@ -3508,21 +4495,24 @@ async function allesLoeschen() {
 
 
 /* =========================================================
-   SECURITY CHECK
+   SICHERHEITSCHECK
 ========================================================= */
 
 function sicherheitsCheck() {
 
-    if (!window.isSecureContext) {
+    if (
+        !window.isSecureContext
+    ) {
 
         status(
-            "⚠️ Die App läuft nicht in einem sicheren Kontext.",
+            "⚠️ Keine sichere HTTPS-Verbindung.",
             "warn"
         );
 
         return false;
 
     }
+
 
     if (
         !window.crypto ||
@@ -3538,12 +4528,13 @@ function sicherheitsCheck() {
 
     }
 
+
     if (
         !window.indexedDB
     ) {
 
         status(
-            "❌ IndexedDB wird von diesem Gerät nicht unterstützt.",
+            "❌ IndexedDB nicht verfügbar.",
             "error"
         );
 
@@ -3551,37 +4542,15 @@ function sicherheitsCheck() {
 
     }
 
+
+    sicherheitsStatus(
+        "🔐 V11 aktiv – AES-256-GCM / PBKDF2 / Geräteschlüssel / automatische Sperre"
+    );
+
+
     return true;
 
 }
-
-
-/* =========================================================
-   AKTIVITÄT
-========================================================= */
-
-[
-    "click",
-    "keydown",
-    "touchstart",
-    "pointerdown"
-].forEach(
-    eventName => {
-
-        document.addEventListener(
-            eventName,
-            () => {
-
-                resetLockTimer();
-
-            },
-            {
-                passive: true
-            }
-        );
-
-    }
-);
 
 
 /* =========================================================
@@ -3603,6 +4572,15 @@ if (
                         scope: "./"
                     }
                 )
+                .then(
+                    () => {
+
+                        console.log(
+                            "V11 Service Worker registriert."
+                        );
+
+                    }
+                )
                 .catch(
                     error => {
 
@@ -3621,41 +4599,208 @@ if (
 
 
 /* =========================================================
+   SETUP BUTTON
+========================================================= */
+
+document
+    .getElementById(
+        "btnSetup"
+    )
+    .addEventListener(
+        "click",
+        async () => {
+
+            const password =
+                document
+                    .getElementById(
+                        "setupPassword"
+                    )
+                    .value;
+
+
+            const password2 =
+                document
+                    .getElementById(
+                        "setupPassword2"
+                    )
+                    .value;
+
+
+            const error =
+                document
+                    .getElementById(
+                        "setupError"
+                    );
+
+
+            error.textContent = "";
+
+
+            if (
+                !validiereCode(
+                    password
+                )
+            ) {
+
+                error.textContent =
+                    "Der Sicherheitscode muss mindestens 8 Zeichen lang sein.";
+
+                return;
+
+            }
+
+
+            if (
+                password !== password2
+            ) {
+
+                error.textContent =
+                    "Die beiden Sicherheitscodes stimmen nicht überein.";
+
+                return;
+
+            }
+
+
+            try {
+
+                await initialisiereSetup(
+                    password
+                );
+
+
+                document
+                    .getElementById(
+                        "setupPassword"
+                    )
+                    .value = "";
+
+
+                document
+                    .getElementById(
+                        "setupPassword2"
+                    )
+                    .value = "";
+
+            }
+            catch (e) {
+
+                console.error(e);
+
+                error.textContent =
+                    "Die Sicherheitskonfiguration konnte nicht erstellt werden.";
+
+            }
+
+        }
+    );
+
+
+/* =========================================================
+   ENTSPERREN BUTTON
+========================================================= */
+
+document
+    .getElementById(
+        "btnEntsperren"
+    )
+    .addEventListener(
+        "click",
+        entsperreApp
+    );
+
+
+document
+    .getElementById(
+        "unlockPassword"
+    )
+    .addEventListener(
+        "keydown",
+        event => {
+
+            if (
+                event.key ===
+                "Enter"
+            ) {
+
+                entsperreApp();
+
+            }
+
+        }
+    );
+
+
+/* =========================================================
    BUTTONS
 ========================================================= */
 
 document
-    .getElementById("btnNeuePerson")
+    .getElementById(
+        "btnNeuePerson"
+    )
     .addEventListener(
         "click",
         () => {
 
+            if (!entsperrt) {
+
+                return;
+
+            }
+
             neuesFormular();
-            resetLockTimer();
-            scheduleSave();
+
+            datenAusFormularenSpeichern();
+
+            automatischSpeichern();
 
         }
     );
 
 
 document
-    .getElementById("btnMail")
+    .getElementById(
+        "btnMail"
+    )
     .addEventListener(
         "click",
-        zeigeZusatzMaske
+        () => {
+
+            if (!entsperrt) {
+
+                return;
+
+            }
+
+            zeigeZusatzMaske();
+
+        }
     );
 
 
 document
-    .getElementById("btnSperren")
+    .getElementById(
+        "btnSperren"
+    )
     .addEventListener(
         "click",
-        lockApp
+        async () => {
+
+            datenAusFormularenSpeichern();
+
+            await automatischSpeichern();
+
+            sperreApp();
+
+        }
     );
 
 
 document
-    .getElementById("btnLoeschen")
+    .getElementById(
+        "btnLoeschen"
+    )
     .addEventListener(
         "click",
         allesLoeschen
@@ -3663,7 +4808,9 @@ document
 
 
 document
-    .getElementById("btnEmailErstellen")
+    .getElementById(
+        "btnEmailErstellen"
+    )
     .addEventListener(
         "click",
         finaleMailAbschicken
@@ -3671,37 +4818,43 @@ document
 
 
 document
-    .getElementById("btnZusatzZurueck")
+    .getElementById(
+        "btnZusatzZurueck"
+    )
     .addEventListener(
         "click",
         versteckeZusatzMaske
     );
 
 
-document
-    .getElementById("btnUnlock")
-    .addEventListener(
-        "click",
-        unlockApp
-    );
+/* =========================================================
+   PAGE VISIBILITY
+========================================================= */
 
+/*
+ * Wenn die App in den Hintergrund geht, wird die
+ * automatische Sperrzeit neu gestartet.
+ *
+ * Zusätzlich speichern wir vorher.
+ */
 
-document
-    .getElementById("pinInput")
-    .addEventListener(
-        "keydown",
-        event => {
+document.addEventListener(
+    "visibilitychange",
+    () => {
 
-            if (
-                event.key === "Enter"
-            ) {
+        if (
+            document.hidden &&
+            entsperrt
+        ) {
 
-                unlockApp();
+            datenAusFormularenSpeichern();
 
-            }
+            automatischSpeichern();
 
         }
-    );
+
+    }
+);
 
 
 /* =========================================================
@@ -3712,46 +4865,110 @@ window.addEventListener(
     "load",
     async () => {
 
-        if (!sicherheitsCheck()) {
-            return;
-        }
-
         try {
 
-            deviceSecret =
-                await getDeviceSecret();
+            if (
+                !sicherheitsCheck()
+            ) {
 
-            const stored =
-                localStorage.getItem(
-                    STORAGE_KEY
-                );
-
-            if (!stored) {
-
-                document
-                    .getElementById("lockScreen")
-                    .classList.add("hidden");
-
-                status(
-                    "🔐 Neue geschützte App – PIN wird eingerichtet.",
-                    "warn"
-                );
-
-                await initialSetup();
+                return;
 
             }
-            else {
 
-                status(
-                    "🔒 App gesperrt – PIN erforderlich.",
-                    "warn"
+
+            db =
+                await openDatabase();
+
+
+            const deviceKey =
+                await dbGet(
+                    KEY_STORE,
+                    DEVICE_KEY_ID
                 );
 
-                document
-                    .getElementById("pinInput")
-                    .focus();
+
+            const storedData =
+                await dbGet(
+                    DATA_STORE,
+                    DATA_ID
+                );
+
+
+            /*
+             * Noch kein Geräteschlüssel und keine Daten:
+             * Ersteinrichtung.
+             */
+
+            if (
+                !deviceKey &&
+                !storedData
+            ) {
+
+                document.body
+                    .classList
+                    .add("gesperrt");
+
+                zeigeSetup();
+
+                return;
 
             }
+
+
+            /*
+             * Falls der Geräteschlüssel fehlt,
+             * aber Daten existieren, sind die Daten
+             * auf diesem Gerät nicht mehr verwendbar.
+             */
+
+            if (
+                !deviceKey &&
+                storedData
+            ) {
+
+                status(
+                    "❌ Der Geräteschlüssel fehlt. Die verschlüsselten Daten können auf diesem Gerät nicht entschlüsselt werden.",
+                    "error"
+                );
+
+                document.body
+                    .classList
+                    .add("gesperrt");
+
+                return;
+
+            }
+
+
+            /*
+             * Normaler Start:
+             * App bleibt gesperrt.
+             */
+
+            document.body
+                .classList
+                .add("gesperrt");
+
+
+            document
+                .getElementById(
+                    "lockScreen"
+                )
+                .classList
+                .remove("hidden");
+
+
+            document
+                .getElementById(
+                    "unlockPassword"
+                )
+                .focus();
+
+
+            status(
+                "🔒 App ist gesperrt. Sicherheitscode erforderlich.",
+                "warn"
+            );
 
         }
         catch (error) {
